@@ -1,5 +1,9 @@
 @import 'normalize.css';
 
+:root{
+  --primary-color: #2f9499;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -11,5 +15,5 @@ html {
 }
 
 body{
-    font-size: 1.6rem;
+  font-size: 1.6rem;
 }
