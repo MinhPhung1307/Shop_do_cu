@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import styles from './HomePage.module.scss';
 import classNames from 'classnames/bind';
-import ProductItem from '../../components/CardComponent/ProductItem';
+import CardComponent  from '../../components/CardComponent/CardComponent.js';
 
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
-    const [Masp, setMasp] = useState(''); // Quản lý MaSP từ ProductItem
+    const [Masp, setMasp] = useState(''); // Quản lý MaSP từ CardComponent 
 
-    // Hàm nhận giá trị từ ProductItem
+    // Hàm nhận giá trị từ CardComponent 
     const [MaSP, setMaSP] = useState('DP');
     return (
         <div className={cx('wrapper')}>
@@ -18,7 +18,7 @@ const HomePage = () => {
                     <h2>Tài liệu</h2>
                 </div>
                 <div className={cx('list__products--item')}>
-                    {MaSP==='TL' && (<ProductItem />)}
+                    {MaSP==='TL' && (<CardComponent />)}
                 </div>
             </div>
             <div className={cx('list__products')}>
@@ -27,7 +27,7 @@ const HomePage = () => {
                     <h2>Dụng Cụ</h2>
                 </div>
                 <div className={cx('list__products--item')}>
-                    {MaSP==='DC' && (<ProductItem />)}
+                    {MaSP==='DC' && (<CardComponent />)}
                 </div>
             </div>
             <div className={cx('list__products')}>
@@ -36,7 +36,7 @@ const HomePage = () => {
                     <h2>Nội Thất</h2>
                 </div>
                 <div className={cx('list__products--item')}>
-                    {MaSP==='NT' && (<ProductItem />)}
+                    {MaSP==='NT' && (<CardComponent />)}
                 </div>
             </div>
             <div className={cx('list__products')}>
@@ -45,7 +45,7 @@ const HomePage = () => {
                     <h2>Đồ Điện Tử</h2>
                 </div>
                 <div className={cx('list__products--item')}>
-                    {MaSP==='DDT' && (<ProductItem />)}
+                    {MaSP==='DDT' && (<CardComponent />)}
                 </div>
             </div>
             <div className={cx('list__products')}>
@@ -54,7 +54,7 @@ const HomePage = () => {
                     <h2>Đồng Phục</h2>
                 </div>
                 <div className={cx('list__products--item')}>
-                    {MaSP==='DP' && (<ProductItem />)}
+                    {MaSP==='DP' && (<CardComponent />)}
                 </div>
             </div>
         </div>
