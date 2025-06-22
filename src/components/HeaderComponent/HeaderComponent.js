@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './HeaderComponent.module.scss'
+import axios from 'axios';
+import * as UserService from '../../services/UserService'
+import { useMutationHook } from '../../hooks/useMutationHook';
+import Loading from '../LoadingComponent/Loading';
+import ToastMessage from '../../components/Message/Message';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser, resetUser } from '../../redux/slides/userSlide';
+import { Popover } from 'antd';
 
 const cx = classNames.bind(styles);
 
@@ -8,6 +18,42 @@ const HeaderComponent = () => {
 
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [MSSV, setMSSV] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+
+    const mutation = useMutationHook(data => UserService.loginUser(data));
+    const { data, isPending, isSuccess, isError } = mutation;
+
+
+    const [toast, setToast] = useState(null);
+
+    const showToast = (type, title, message, duration = 3000) => {
+        setToast({ type, title, message, duration });
+    };
+
+
+    useEffect(() => {
+        if (isSuccess && data?.status === 'OK') {
+            setShowLogin(false);
+            showToast('success', 'Thành công', 'Đăng nhập thành công!');
+            setMSSV('');
+            setPassword('');
+            localStorage.setItem('access_token', JSON.stringify(data?.access_token));
+            if(data?.access_token) {
+                const decoded = jwtDecode(data?.access_token);
+                if(decoded?.id) {
+                    handleGetDetailsUser(decoded?.id, data?.access_token);
+                }
+            }
+        } else if (isError || data?.status === 'ERR') {
+            showToast('error', 'Thất bại', 'Sai tài khoản hoặc mật khẩu');
+    }
+    }, [isSuccess, isError, data]);
 
     const openLogin = () => {
         setShowLogin(true);
@@ -27,10 +73,42 @@ const HeaderComponent = () => {
             closeFn();
         }
     };
-    
+
+    const handleLogin = () => {
+        mutation.mutate({MSSV, password});
+    }
+
+    const handleGetDetailsUser = async (id, token) => {
+        const res = await UserService.getDetailsUser(id, token);
+        dispatch(updateUser({...res?.data, access_token: token }));
+    }
+
+    const handleLogout = async () => {
+        setLoading(true);
+        await UserService.logoutUser();
+        dispatch(resetUser());
+        setLoading(false);
+        localStorage.removeItem('access_token');
+    }
+
+    const content = (
+        <div className={cx('option-user')}>
+            <p onClick={handleLogout}>Đăng xuất</p>
+            <p>Thông tin người dùng</p>
+        </div>
+    )
 
     return (
         <div className={cx('header')}>
+            {toast && (
+                <ToastMessage
+                    type={toast.type}
+                    title={toast.title}
+                    message={toast.message}
+                    duration={toast.duration}
+                    onClose={() => setToast(null)}
+                />
+            )}
             <div className={cx('header-1')}>
                 <div className={cx('logo')}>
                     <a href="/"><img className={cx('logo-icon')} src="./image/logo.png"/></a>
@@ -43,10 +121,23 @@ const HeaderComponent = () => {
                     </button>
                 </div>
     
-                <div>
-                    <button className={cx('btn', 'registerBtn')} onClick={openRegister}>Đăng ký</button>
-                    <button className={cx('btn', 'loginBtn')} onClick={openLogin}>Đăng nhập</button>
-                </div>
+                <Loading isLoading={loading}>
+                    <div className={cx('User-login')}>
+                        {user?.name ? (
+                            <>
+                                <Popover content={content} trigger="click">
+                                    <div style={{cursor: 'pointer'}}>{user.name}</div>
+                                </Popover>
+                            </>
+                        ) : (
+                            <div>
+                                <button className={cx('btn', 'registerBtn')} onClick={openRegister}>Đăng ký</button>
+                                <button className={cx('btn', 'loginBtn')} onClick={openLogin}>Đăng nhập</button>
+                            </div>
+                        )}
+                    </div>
+                </Loading>
+
             </div> 
 
             <div className={cx('header-2')}>
@@ -91,7 +182,7 @@ const HeaderComponent = () => {
                     </ul>
                 </nav>
             </div>
-
+            
             {showLogin && (<div className={cx('login-container')} onClick={(e) => handleOverlayClick(e, closeLogin)}>
                 <div className={cx('login')}>
                     <div className={cx('login__header')}>
@@ -100,9 +191,19 @@ const HeaderComponent = () => {
                     </div>
 
                     <img src="./image/logo.png" alt="logo" />
-                    <input name="user" type="text" placeholder="Nhập MSSV hoặc mã GV" />
-                    <input name="password" type="password" placeholder="Mật khẩu" />
-                    <button className={cx('login__submitBtn')} type="submit">Đăng nhập</button>
+                    <input name="user" type="text" placeholder="Nhập MSSV hoặc mã GV" value={MSSV} onChange={(e) => setMSSV(e.target.value)}/>
+                    <div style={{position: 'relative'}}>
+                        <input className={cx('inputPassword')} name="password" type= { showPassword ? "text" : "password" } placeholder="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        {
+                            showPassword ? 
+                            (<div className={cx('icon-hide')} onClick={() => setShowPassword(!showPassword)}><i class="fa-solid fa-eye"></i></div>) :
+                            (<div className={cx('icon-show')} onClick={() => setShowPassword(!showPassword)}><i class="fa-solid fa-eye-slash"></i></div>) 
+                        }
+                    </div>
+                    {data?.status === 'ERR' && <span style={{color: 'red'}}>{data?.message}</span>}
+                    <Loading isLoading={isPending}>
+                        <button className={cx('login__submitBtn')} type="submit" onClick={handleLogin}>Đăng nhập</button>
+                    </Loading>
                     <button className={cx('login__backBtn')} onClick={closeLogin}><span>Trở lại</span></button>
                 </div>
             </div>)}

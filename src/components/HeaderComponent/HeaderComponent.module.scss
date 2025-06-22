@@ -107,6 +107,10 @@
     margin-left: 4px;
 }
 
+.User-login {
+    min-width: 224px;
+}
+
 .header-2{
     width: 80%;
     padding: 0 10%;
@@ -374,12 +378,23 @@
     margin-right: 12px;
 }
 
-.login input{
+.login input,
+.inputPassword{
+    position: relative;
     padding: 14px;
     font-size: 16px;
     border-radius: 4px;
     border: 1px solid #ccc;
     caret-color: var(--primary-color);
+    width: 93%;
+}
+
+.icon-show,
+.icon-hide {
+    position: absolute;
+    right: 16px;
+    bottom: 30%;
+    cursor: pointer;
 }
 
 .login input:focus-within{
@@ -398,6 +413,7 @@
     cursor: pointer;
     font-size: 16px;
     border-radius: 4px;
+    width: 100%;
 }
 
 .login__submitBtn:hover {
@@ -420,6 +436,11 @@
 
 .login__backBtn:hover {
     background-color: #e0dede;
+}
+
+.option-user p:hover {
+    cursor: pointer;
+    background-color: var(--primary-color);
 }
 
 //keyframes
