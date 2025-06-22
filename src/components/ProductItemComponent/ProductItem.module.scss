@@ -1,0 +1,85 @@
+.Product-Item {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+  margin-bottom: 16px;
+}
+
+.Product-Image {
+  width: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 24px;
+}
+
+.Product-Info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 32px;
+  font-family: sans-serif;
+
+  .Info-Name {
+    max-width: 26rem;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .Info-Price {
+    padding: 1rem 2rem;
+    text-align: center;
+    max-width: 16rem;
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+
+  .Info-Status {
+    display: flex;
+    align-items: center;
+
+    .Label {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-right: 6px;
+      color: #000;
+    }
+
+    .Status-Text {
+      color: #777;
+      font-size: 2rem;
+    }
+  }
+}
+
+.Product-Button {
+  padding: 1.5rem 2.5rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* màu & viền cho từng trạng thái */
+.btnChoban {
+  background-color: #e53935;
+  color: #fff;
+}
+
+.btnDamua {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btnDaban {
+  background-color: var(--primary-color);
+  color: #fff;
+}
