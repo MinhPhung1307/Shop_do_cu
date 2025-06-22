@@ -117,7 +117,7 @@ const HeaderComponent = () => {
                 <div className={cx('search')}>  
                     <input className={cx('search-input')} placeholder="Nhập tên sản phẩm" />
                     <button className={cx('search-btn')}>
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i className={cx("fa-solid fa-magnifying-glass")}></i>
                     </button>
                 </div>
     
@@ -141,9 +141,9 @@ const HeaderComponent = () => {
             </div> 
 
             <div className={cx('header-2')}>
-                <label for="header-2__nav-input" className={cx('controll')}>
+                <label htmlFor="header-2__nav-input" className={cx('controll')}>
                     <div  className={cx('navigation')} >
-                        <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ceqcxd" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ViewHeadlineRoundedIcon">
+                        <svg className={cx("MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ceqcxd")} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ViewHeadlineRoundedIcon">
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
@@ -161,16 +161,16 @@ const HeaderComponent = () => {
                 </div>
 
                 <div className={cx('header-2_icon')}>
-                    <i className="fa-solid fa-cart-shopping"></i>
+                    <i className={cx("fa-solid fa-cart-shopping")}></i>
                 </div>
 
                 <input type="checkbox" className={cx('header-2__nav-input')} id="header-2__nav-input" />
-                <label for="header-2__nav-input" className={cx('header-2__navOverlay')}></label>
+                <label htmlFor="header-2__nav-input" className={cx('header-2__navOverlay')}></label>
                 <nav className={cx('header-2__nav')}>
                     <div className={cx('header-2__nav-header')}>
                         <span className={cx('header-2__nav-header-title')}>Phân loại</span>
-                        <label for="header-2__nav-input">
-                            <div className={cx('header-2__nav-header-close')}><i class="fa-solid fa-xmark"></i></div>
+                        <label htmlFor="header-2__nav-input">
+                            <div className={cx('header-2__nav-header-close')}><i className={cx("fa-solid fa-xmark")}></i></div>
                         </label>
                     </div>
                     <ul className={cx('header-2__nav-list')}>

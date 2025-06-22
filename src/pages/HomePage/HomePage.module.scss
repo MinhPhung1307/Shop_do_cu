@@ -1,0 +1,33 @@
+.wrapper{
+    background-color:rgba(109, 114, 124, 0.1);
+}
+
+.list__products{
+    background-color: #fff;
+    margin: 10px;
+    border-radius: 16px;
+}
+
+.title{
+    display: flex;
+}
+
+.title img[alt="Noi_that"]
+{
+    width: 54px;
+    height: 54px;
+    margin: 10px;
+}
+
+.list__products--item{
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.list__products:hover{
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
