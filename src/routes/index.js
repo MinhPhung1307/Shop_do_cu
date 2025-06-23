@@ -23,7 +23,6 @@ export const routes = [
   {
     path: "/chat",
     page: ChatPage,
-    isShowHeader: true,
   },
   {
     path: "*",
