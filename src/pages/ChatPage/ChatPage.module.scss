@@ -1,0 +1,133 @@
+.Container {
+  background-color: #6d727c16;
+  height: 100%;
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 10rem;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.393);
+}
+
+.Chat__search {
+  max-width: 400px;
+  margin: 2rem;
+}
+
+.Chat__content {
+  display: flex;
+  height: calc(100vh - 73px);
+  gap: 1rem;
+}
+
+.List__profile {
+  border-radius: 16px;
+  height: 85%;
+  padding: 1rem;
+  background-color: #fff;
+  cursor: pointer;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.List__profile::-webkit-scrollbar {
+  display: none;
+}
+
+.List__profile--items {
+  padding: 1rem;
+}
+
+.List__profile--items:hover {
+  background-color: #b5f0cf;
+}
+
+.Chat__table {
+  width: 100%;
+  border-left: 1px solid #ccc;
+}
+
+.Chat__table--header {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.533);
+}
+
+.Chat__table--header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  color: #fff;
+  margin-right: 2rem;
+}
+
+.Chat__table--icon-video i,
+.Chat__table--icon-phone i,
+.Chat__table--icon-more i {
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+.Chat__table--content {
+  height: 75%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.Chat__table--content::-webkit-scrollbar {
+  display: none;
+}
+
+.Chat__table--footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 -2px 18px rgba(0, 0, 0, 0.533);
+}
+
+.Chat__table--footer input {
+  width: 80%;
+  height: 50px;
+  font-size: 2rem;
+  padding: 0 1rem;
+  border-radius: 8px;
+}
+
+.Chat__table--footer input::placeholder {
+  color: #5f5e5e;
+  font-size: 2rem;
+  margin-left: 2rem;
+}
+
+.Chat__table--footer-active {
+  width: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Chat__table--footer-active button {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  border: none;
+}
+
+.Chat__table--icon-smile i,
+.Chat__table--icon-image i {
+  font-size: 2.4rem;
+}

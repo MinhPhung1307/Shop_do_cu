@@ -10,6 +10,7 @@ export const routes = [
     path: "/",
     page: HomePage,
     isShowHeader: true,
+    isShowFooter: true,
   },
   {
     path: "/cartpage",
@@ -20,16 +21,17 @@ export const routes = [
     path: "/order",
     page: OrderPage,
     isShowHeader: true,
+    isShowFooter: true,
   },
   {
     path: "/products",
     page: ProductsPage,
     isShowHeader: true,
+    isShowFooter: true,
   },
   {
     path: "/chat",
     page: ChatPage,
-    isShowHeader: true,
   },
   {
     path: "*",
