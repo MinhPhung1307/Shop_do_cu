@@ -3,11 +3,17 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import OrderPage from "../pages/OrderPage/OrderPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import ChatPage from "../pages/ChatPage/ChatPage";
+import CartPage from "../pages/CartPage/CartPage";
 
 export const routes = [
   {
     path: "/",
     page: HomePage,
+    isShowHeader: true,
+  },
+  {
+    path: "/cartpage",
+    page: CartPage,
     isShowHeader: true,
   },
   {
