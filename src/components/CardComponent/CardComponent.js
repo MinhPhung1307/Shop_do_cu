@@ -29,7 +29,7 @@ const ProductPrice = styled.p`
     color: #000;
 `;
 
-const ProductItem = () => {
+const CardComponent = () => {
     const [masp, setmasp] = useState('TL');
     return (
         <ProductCard>
@@ -40,4 +40,4 @@ const ProductItem = () => {
     );
 };
 
-export default ProductItem;
+export default CardComponent;
