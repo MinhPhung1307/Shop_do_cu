@@ -59,6 +59,7 @@ const HeaderComponent = () => {
 
   return (
     <div className={cx("header")}>
+
       {toast && (
         <ToastMessage
           type={toast.type}
@@ -77,12 +78,12 @@ const HeaderComponent = () => {
 
         <Search />
 
-        <Loading isLoading={loading}>
-          <div className={cx("User-login")}>
+        <Loading isLoading={loading} className={cx("User-login")}>
             {user?.name ? (
               <>
-                <Popover content={content} trigger="click">
-                  <div style={{ cursor: "pointer" }}>{user.name}</div>
+                <Popover content={content} trigger="click" className={cx('user-action')}>
+                  <img src='https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my' className={cx('user-avatar')} alt={user.name} />
+                  <span>{user.name}</span>
                 </Popover>
               </>
             ) : (
@@ -98,7 +99,6 @@ const HeaderComponent = () => {
                 </button>
               </div>
             )}
-          </div>
         </Loading>
       </div>
 
@@ -143,6 +143,7 @@ const HeaderComponent = () => {
                   d="M5 15h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1m0 4h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1m0-8h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1M4 6c0 .55.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1"
                 ></path>
               </svg>
+
             </div>
           </label>
 

@@ -7,6 +7,11 @@ export const SignUpUser = async (data) => {
     return res.data;
 }
 
+export const verifyEmail = async (token) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/verify-email?token=${token}`);
+    return res;
+}
+
 export const loginUser = async (data) => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/sign-in`, data);
     return res.data;

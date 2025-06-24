@@ -1,4 +1,5 @@
 import HomePage from "../pages/HomePage/HomePage";
+import VerifyEmail from "../pages/VerifyEmailPage/VerifyEmailPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import OrderPage from "../pages/OrderPage/OrderPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
@@ -20,6 +21,11 @@ export const routes = [
     isShowHeader: true,
   },
 
+  {
+    path: "/verify-email/:token",
+    page: VerifyEmail,
+    isShowHeader: false,
+  },
   {
     path: "/order",
     page: OrderPage,

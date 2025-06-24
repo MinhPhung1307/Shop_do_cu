@@ -42,7 +42,7 @@ const LoginComponent = ({ setShowLogin, setToast, handleGetDetailsUser, openRegi
     }, [isSuccess, isError, data]);
 
     return (
-        <div className={cx('login-container')} onClick={(e) => {if (e.target === e.currentTarget) setShowLogin(false); }}>
+        <div className={cx('login-container')} onMouseDown={(e) => {if (e.target === e.currentTarget) setShowLogin(false);}}>
             <div className={cx('login')}>
                 <div className={cx('login__header')}>
                     <span className={cx('login__heading')}>Đăng nhập</span> 

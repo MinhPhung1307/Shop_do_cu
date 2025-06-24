@@ -16,11 +16,27 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { storageData, decoded } = handleDecoded();
-    if(decoded?.id) {
-      handleGetDetailsUser(decoded?.id, storageData);
-    }
-  }, [])
+    const checkAndGetUser = async () => {
+      const { storageData, decoded } = handleDecoded();
+      const now = new Date().getTime() / 1000;
+
+      if (decoded?.exp < now) {
+        try {
+          const data = await UserService.refreshToken();
+          localStorage.setItem('access_token', JSON.stringify(data?.access_token));
+          const newDecoded = jwtDecode(data?.access_token);
+          await handleGetDetailsUser(newDecoded?.id, data?.access_token);
+        } catch (err) {
+          console.error('Refresh token failed:', err);
+          localStorage.removeItem('access_token');
+        }
+      } else if (decoded?.id) {
+        await handleGetDetailsUser(decoded?.id, storageData);
+      }
+    };
+
+    checkAndGetUser();
+  }, []);
 
   const handleDecoded = () => {
     let storageData = localStorage.getItem('access_token');

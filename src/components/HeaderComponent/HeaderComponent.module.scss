@@ -111,6 +111,21 @@
     min-width: 224px;
 }
 
+.user-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
 .header-2{
     width: 80%;
     padding: 0 10%;

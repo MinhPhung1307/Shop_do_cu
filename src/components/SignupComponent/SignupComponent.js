@@ -24,7 +24,7 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
 
     useEffect(() => {
         if (isSuccess && data?.status === 'OK') {
-            setToast('success', 'Thành công', 'Đăng ký thành công!');
+            setToast('success', 'Đăng ký Thành công', data?.message || 'Đăng ký thành công!');
             setShowRegister(false);
             setShowLogin(true);
         } else if (isError || data?.status === 'ERR') {
@@ -33,9 +33,7 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
     }, [isSuccess, isError, data]);
 
     return (
-        <div className={cx('register-container')} onClick={(e) => {
-            if (e.target === e.currentTarget) setShowRegister(false);
-        }}>
+        <div className={cx('register-container')} onMouseDown={(e) => {if (e.target === e.currentTarget) setShowRegister(false);}}>
             <div className={cx('login')}>
                 <div className={cx('login__header')}>
                     <span className={cx('login__heading')}>Đăng Ký</span>
