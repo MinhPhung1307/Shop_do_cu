@@ -18,7 +18,7 @@ const Search = ({ initialValue = "", onSearch }) => {
       <input
         className={cx("search-input")}
         type="text"
-        placeholder="Nhập tên sản phẩm"
+        placeholder="Tìm kiếm"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />

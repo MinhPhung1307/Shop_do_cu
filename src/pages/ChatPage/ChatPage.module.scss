@@ -25,7 +25,7 @@
 
 .List__profile {
   border-radius: 16px;
-  height: 85%;
+  height: calc(100% - 72px - 46px );
   padding: 1rem;
   background-color: #fff;
   cursor: pointer;
@@ -76,7 +76,7 @@
 }
 
 .Chat__table--content {
-  height: 75%;
+  height: calc(100% - 72px - 100px);
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
