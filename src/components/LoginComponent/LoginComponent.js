@@ -50,15 +50,21 @@ const LoginComponent = ({ setShowLogin, setToast, handleGetDetailsUser, openRegi
                 </div>
 
                 <img src="./image/logo.png" alt="logo" />
-                <input type="text" placeholder="Nhập Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <div style={{ position: 'relative' }}>
+                <div className={cx('form-group')}>
+                    <input id="username" type="text" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                    <label for="username">Tài khoản đăng nhập</label>
+                </div>
+               
+                <div className={cx('form-group')}>
                     <input
+                        id="password"
                         className={cx('inputPassword')}
                         type={showPassword ? "text" : "password"}
-                        placeholder="Mật khẩu"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
+                    <label for="password">Mật khẩu</label>
                     {
                         showPassword ?
                             (<div className={cx('icon-hide')} onClick={() => setShowPassword(!showPassword)}><i className="fa-solid fa-eye"></i></div>) :

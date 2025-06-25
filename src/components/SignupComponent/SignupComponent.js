@@ -14,6 +14,8 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
     const [confirmPassword, setConfirmPassword] = useState('');
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const mutation = useMutationHook(data => UserService.SignUpUser(data));
     const { data, isPending, isSuccess, isError } = mutation;
@@ -43,8 +45,22 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
                 <img src="/image/logo.png" alt="logo" />
                 <input type="text" placeholder="Nhập Họ và tên" value={name} onChange={(e) => setName(e.target.value)} />
                 <input type="text" placeholder="Nhập Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type="password" placeholder="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <input type="password" placeholder="Nhập lại Mật khẩu" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                <div style={{ position: 'relative' }}>
+                    <input type={showPassword ? "text" : "password"} placeholder="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    {
+                        showPassword ?
+                            (<div className={cx('icon-hide')} onClick={() => setShowPassword(!showPassword)}><i className="fa-solid fa-eye"></i></div>) :
+                            (<div className={cx('icon-show')} onClick={() => setShowPassword(!showPassword)}><i className="fa-solid fa-eye-slash"></i></div>)
+                    }
+                </div>
+                <div style={{ position: 'relative' }}>
+                    <input type={showConfirmPassword ? "text" : "password"} placeholder="Nhập lại Mật khẩu" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    {
+                        showConfirmPassword ?
+                            (<div className={cx('icon-hide')} onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className="fa-solid fa-eye"></i></div>) :
+                            (<div className={cx('icon-show')} onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className="fa-solid fa-eye-slash"></i></div>)
+                    }
+                </div>
                 <input type="text" placeholder="Nhập địa chỉ" value={address} onChange={(e) => setAddress(e.target.value)} />
                 <input type="text" placeholder="Nhập số điện thoại" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}

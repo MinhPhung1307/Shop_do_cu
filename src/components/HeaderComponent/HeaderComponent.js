@@ -69,6 +69,8 @@ const HeaderComponent = () => {
           onClose={() => setToast(null)}
         />
       )}
+
+      {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
           <a href="/">
@@ -79,6 +81,7 @@ const HeaderComponent = () => {
         <Search />
 
         <Loading isLoading={loading} className={cx("User-login")}>
+
             {user?.name ? (
               <>
                 <Popover content={content} trigger="click" className={cx('user-action')}>
@@ -226,6 +229,7 @@ const HeaderComponent = () => {
         )}
       </div>
     </div>
+
   );
 };
 
