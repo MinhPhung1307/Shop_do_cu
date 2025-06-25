@@ -6,8 +6,6 @@ import CardComponent from "../../components/CardComponent/CardComponent.js";
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
-  const [Masp, setMasp] = useState(""); // Quản lý MaSP từ CardComponent
-
   // Hàm nhận giá trị từ CardComponent
   const [MaSP, setMaSP] = useState("DP");
   return (
@@ -18,7 +16,13 @@ const HomePage = () => {
           <h2>Tài liệu</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "TL" && <CardComponent />}
+          {MaSP === "TL" && (
+            <CardComponent
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết"
+              Price="45.000"
+            />
+          )}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -27,7 +31,13 @@ const HomePage = () => {
           <h2>Dụng Cụ</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "DC" && <CardComponent />}
+          {MaSP === "DC" && (
+            <CardComponent
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết"
+              Price="45.000"
+            />
+          )}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -36,7 +46,13 @@ const HomePage = () => {
           <h2>Nội Thất</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "NT" && <CardComponent />}
+          {MaSP === "NT" && (
+            <CardComponent
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết"
+              Price="45.000"
+            />
+          )}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -45,7 +61,13 @@ const HomePage = () => {
           <h2>Đồ Điện Tử</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "DDT" && <CardComponent />}
+          {MaSP === "DDT" && (
+            <CardComponent
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết"
+              Price="45.000"
+            />
+          )}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -54,7 +76,13 @@ const HomePage = () => {
           <h2>Đồng Phục</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "DP" && <CardComponent />}
+          {MaSP === "DP" && (
+            <CardComponent
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết"
+              Price="45.000"
+            />
+          )}
         </div>
       </div>
     </div>
