@@ -43,26 +43,44 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
                 </div>
 
                 <img src="/image/logo.png" alt="logo" />
-                <input type="text" placeholder="Nhập Họ và tên" value={name} onChange={(e) => setName(e.target.value)} />
-                <input type="text" placeholder="Nhập Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <div style={{ position: 'relative' }}>
-                    <input type={showPassword ? "text" : "password"} placeholder="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+                <div className={cx('form-group')}>
+                    <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required/>
+                    <label for="name">Họ và tên</label>
+                </div>
+               
+                <div className={cx('form-group')}>
+                    <input id="username" type="text" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                    <label for="username">Emai của bạn</label>
+                </div>
+
+                <div className={cx('form-group')}>
+                    <input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                    <label for="password">Mật khẩu</label>
                     {
                         showPassword ?
                             (<div className={cx('icon-hide')} onClick={() => setShowPassword(!showPassword)}><i className="fa-solid fa-eye"></i></div>) :
                             (<div className={cx('icon-show')} onClick={() => setShowPassword(!showPassword)}><i className="fa-solid fa-eye-slash"></i></div>)
                     }
                 </div>
-                <div style={{ position: 'relative' }}>
-                    <input type={showConfirmPassword ? "text" : "password"} placeholder="Nhập lại Mật khẩu" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+
+                <div className={cx('form-group')}>
+                    <input id="confirmPassword" type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required/>
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
                     {
                         showConfirmPassword ?
                             (<div className={cx('icon-hide')} onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className="fa-solid fa-eye"></i></div>) :
                             (<div className={cx('icon-show')} onClick={() => setShowConfirmPassword(!showConfirmPassword)}><i className="fa-solid fa-eye-slash"></i></div>)
                     }
                 </div>
-                <input type="text" placeholder="Nhập địa chỉ" value={address} onChange={(e) => setAddress(e.target.value)} />
-                <input type="text" placeholder="Nhập số điện thoại" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <div className={cx('form-group')}>
+                    <input id="address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} required/>
+                    <label for="address">Địa chỉ</label>
+                </div>
+                <div className={cx('form-group')}>
+                    <input id="phone" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required/>
+                    <label for="phone">Số điện thoại</label>
+                </div>
                 {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
                 <Loading isLoading={isPending}>
                     <button className={cx('login__submitBtn')} type="submit" onClick={handleSignup}>Đăng Ký</button>

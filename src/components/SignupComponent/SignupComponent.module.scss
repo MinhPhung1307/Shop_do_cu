@@ -1,5 +1,4 @@
-.login-container,
-.register-container{
+.register-container {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -47,8 +46,12 @@
     margin-right: 12px;
 }
 
-.login input,
-.inputPassword{
+// input
+.form-group {
+    position: relative;
+}
+
+.form-group input {
     position: relative;
     padding: 14px;
     font-size: 16px;
@@ -56,6 +59,31 @@
     border: 1px solid #ccc;
     caret-color: var(--primary-color);
     width: 93%;
+}
+
+.form-group input:hover {
+  outline: 1px solid #000;
+}
+
+.form-group label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background-color: white;
+  padding: 0 4px;
+  color: #999;
+  font-style: italic;
+  transition: 0.2s ease all;
+  pointer-events: none;
+  font-size: 18px;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown):valid + label {
+  top: -10px;
+  left: 10px;
+  font-size: 14px;
+  color: teal;
 }
 
 .icon-show,
@@ -68,10 +96,6 @@
 
 .login input:focus-within{
     outline-color: var(--primary-color);
-}
-
-.login input::placeholder {
-  color: #c9c7c7;
 }
 
 .login__submitBtn{
@@ -105,9 +129,4 @@
 
 .login__backBtn:hover {
     background-color: #e0dede;
-}
-
-.option-user p:hover {
-    cursor: pointer;
-    background-color: var(--primary-color);
 }

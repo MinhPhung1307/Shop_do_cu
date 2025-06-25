@@ -1,5 +1,4 @@
-.login-container,
-.register-container{
+.login-container {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -19,13 +18,12 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     gap: 16px;
     width: 450px;
 }
 
 .login__header {
-    color: #000;
     margin-top: 16px;
     margin-bottom: 24px;
     display: flex;
@@ -33,6 +31,7 @@
 }
 
 .login__heading {
+    color: #000;
     margin-left: 12px;
     font-size: 2rem;
     font-weight: 400;
@@ -131,9 +130,4 @@
 
 .login__backBtn:hover {
     background-color: #e0dede;
-}
-
-.option-user p:hover {
-    cursor: pointer;
-    background-color: var(--primary-color);
 }

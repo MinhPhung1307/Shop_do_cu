@@ -59,7 +59,7 @@ const HeaderComponent = () => {
 
   return (
     <div className={cx("header")}>
-
+      
       {toast && (
         <ToastMessage
           type={toast.type}
@@ -105,29 +105,8 @@ const HeaderComponent = () => {
         </Loading>
       </div>
 
+      {/* header row 2 */}
       <div className={cx("header-2")}>
-        <label htmlFor="header-2__nav-input" className={cx("controll")}>
-          <div className={cx("navigation")}>
-            <svg
-              className={cx(
-                "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ceqcxd"
-              )}
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              data-testid="ViewHeadlineRoundedIcon"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                fill="currentColor"
-                d="M5 15h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1m0 4h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1m0-8h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1M4 6c0 .55.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1"
-              ></path>
-            </svg>
-          </div>
-        </label>
-
-        <div className={cx("header-2")}>
           <label htmlFor="header-2__nav-input" className={cx("controll")}>
             <div className={cx("navigation")}>
               <svg
@@ -208,26 +187,28 @@ const HeaderComponent = () => {
               </li>
             </ul>
           </nav>
-        </div>
-
-        {showLogin && (
-          <LoginComponent
-            openRegister={openRegister}
-            setShowLogin={setShowLogin}
-            setToast={showToast}
-            handleGetDetailsUser={handleGetDetailsUser}
-          />
-        )}
-
-        {showRegister && (
-          <SignupComponent
-            openLogin={openLogin}
-            setShowRegister={setShowRegister}
-            setShowLogin={setShowLogin}
-            setToast={showToast}
-          />
-        )}
       </div>
+
+      {/* form login */}
+      {showLogin && (
+        <LoginComponent
+          openRegister={openRegister}
+          setShowLogin={setShowLogin}
+          setToast={showToast}
+          handleGetDetailsUser={handleGetDetailsUser}
+        />
+      )}
+
+      {/* form sign up */}
+      {showRegister && (
+        <SignupComponent
+          openLogin={openLogin}
+          setShowRegister={setShowRegister}
+          setShowLogin={setShowLogin}
+          setToast={showToast}
+        />
+      )}
+      
     </div>
 
   );
