@@ -119,10 +119,15 @@
 }
 
 .title-item{
+    color: #fff;
     position: relative;
     text-decoration: none;
     font-size: 18px;
     font-weight: 700;
+}
+
+.title-item:hover {
+    color: #fff;
 }
 
 .title-item::before{

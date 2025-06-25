@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     name: '',
-    MSSV: '',
+    email: '',
     access_token: '',
+    isAdmin: false
 }
 
 export const userSlide = createSlice({
@@ -11,15 +12,17 @@ export const userSlide = createSlice({
     initialState,
     reducers: {
         updateUser: (state, action) => {
-            const { name, MSSV, access_token } = action.payload;
+            const { name, email, access_token, isAdmin } = action.payload;
             state.name = name;
-            state.MSSV = MSSV;
+            state.email = email;
             state.access_token = access_token;
+            state.isAdmin = isAdmin;
         },
         resetUser: (state) => {
             state.name = '';
-            state.MSSV = '';
+            state.email = '';
             state.access_token = '';
+            state.isAdmin = '';
         },
     },
 })

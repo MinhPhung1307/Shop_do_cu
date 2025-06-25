@@ -1,4 +1,5 @@
 import HomePage from "../pages/HomePage/HomePage";
+import AdminPage from "../pages/AdminPage/AdminPage";
 import VerifyEmail from "../pages/VerifyEmailPage/VerifyEmailPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import OrderPage from "../pages/OrderPage/OrderPage";
@@ -50,6 +51,14 @@ export const routes = [
     page: ProductListPage,
     isShowFooter: true,
     isShowHeader: true,
+  },
+
+  {
+    path: "/admin",
+    page: AdminPage,
+    isShowFooter: false,
+    isShowHeader: false,
+    isPrivate: true
   },
 
   {
