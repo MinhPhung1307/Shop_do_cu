@@ -4,13 +4,13 @@ import styles from "./HeaderComponent.module.scss";
 import * as UserService from "../../services/UserService";
 import Loading from "../LoadingComponent/Loading";
 import ToastMessage from "../../components/Message/Message";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, resetUser } from "../../redux/slides/userSlide";
-import { Popover } from "antd";
 import LoginComponent from "../LoginComponent/LoginComponent";
 import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
+import Menu from "../Popper/Menu/Menu";
+import Image from "../Image/Image";
 
 const cx = classNames.bind(styles);
 
@@ -50,12 +50,18 @@ const HeaderComponent = () => {
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
 
-  const content = (
-    <div className={cx("option-user")}>
-      <p onClick={handleLogout}>Đăng xuất</p>
-      <p>Thông tin người dùng</p>
-    </div>
-  );
+  const MENU_ITEMS = [
+    {
+      icon: <i class="fa-solid fa-user"></i>,
+      title: 'Thông tin cá nhân',
+      callback: ''
+    },
+    {
+      icon: <i class="fa-solid fa-right-from-bracket"></i>,
+      title: 'Đăng xuất',
+      callback: handleLogout
+    },
+  ]
 
   return (
     <div className={cx("header")}>
@@ -83,12 +89,17 @@ const HeaderComponent = () => {
         <Loading isLoading={loading} className={cx("User-login")}>
 
             {user?.name ? (
-              <>
-                <Popover content={content} trigger="click" className={cx('user-action')}>
-                  <img src='https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my' className={cx('user-avatar')} alt={user.name} />
+              <Menu items={MENU_ITEMS}>
+                <div className={cx('user-wrapper')} style={{display: 'flex'}}>
+                  <Image 
+                    src='https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my'
+                    className={cx('user-avatar')}
+                    alt={user.name} 
+                    // fallback
+                  />
                   <span>{user.name}</span>
-                </Popover>
-              </>
+                </div>
+              </Menu>
             ) : (
               <div>
                 <button
@@ -208,7 +219,7 @@ const HeaderComponent = () => {
           setToast={showToast}
         />
       )}
-      
+
     </div>
 
   );
