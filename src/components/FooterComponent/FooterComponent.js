@@ -91,7 +91,7 @@ const FooterComponent = () => {
         </div>
         {/* Danh sách thành viên */}
         <div className={cx("footer__section")}>
-          <h4>xây dựng và phát triển - ALTF4</h4>
+          <h4>Xây dựng và phát triển - ALTF4</h4>
           <ul>
             <li>Nguyễn Minh Phụng</li>
             <li>Đặng Quốc Phong</li>
