@@ -13,7 +13,6 @@ const AdminPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  console.log(user)
 
   const handleLogout = async () => {
     await UserService.logoutUser();
@@ -37,7 +36,7 @@ const AdminPage = () => {
         </div>
         <Menu items={MENU_ITEMS} offset={[60, -8]}>
           <div className={cx('topbar')}>
-            <img src="./image/admin/avt.jpg" alt="Avatar" className={cx('avatar')} />
+            <img src={images.avatar} alt="Avatar" className={cx('avatar')} />
             <span>{user.name}</span>
           </div>
         </Menu>
@@ -55,25 +54,25 @@ const AdminPage = () => {
         <div className={cx('main-content')}>
           <div className={cx('dashboard')}>
             <div className={cx('box')}>
-              <img src="./image/admin/logo_list.png" alt="Số danh mục" />
+              <img src={images.logo_list} alt="Số danh mục" />
               <span>Số danh mục</span>
               <span className={cx('count')}>5</span>
             </div>
 
             <div className={cx('box')}>
-              <img src="./image/admin/logo_don.png" alt="Đơn chờ duyệt" />
+              <img src={images.logo_don} alt="Đơn chờ duyệt" />
               <span>Đơn chờ duyệt</span>
               <span className={cx('count')}>2</span>
             </div>
 
             <div className={cx('box')}>
-              <img src="./image/admin/logo_account.png" alt="Tài khoản" />
-              <span>Tài khoản</span>
+              <img src={images.logo_account} alt="Tài khoản" />
+              <span>Tài khoản</span>  
               <span className={cx('count')}>10</span>
             </div>
 
             <div className={cx('box')}>
-              <img src="./image/admin/logo_infor.png" alt="Thông báo" />
+              <img src={images.logo_infor} alt="Thông báo" />
               <span>Thông báo</span>
               <span className={cx('count')}>2</span>
             </div>

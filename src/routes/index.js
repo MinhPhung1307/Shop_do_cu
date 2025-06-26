@@ -8,6 +8,7 @@ import ChatPage from "../pages/ChatPage/ChatPage";
 import CartPage from "../pages/CartPage/CartPage";
 import ProductListPage from "../pages/ProductListPage/ProductListPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import PushProductPage from "../pages/PushProductPage/PushProductPage";
 
 export const routes = [
   {
@@ -72,6 +73,13 @@ export const routes = [
   {
     path: "/Profile",
     page: ProfilePage,
+    isShowFooter: true,
+    isShowHeader: true,
+  },
+
+  {
+    path: "/push-product",
+    page: PushProductPage,
     isShowFooter: true,
     isShowHeader: true,
   },
