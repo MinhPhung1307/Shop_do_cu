@@ -1,0 +1,136 @@
+.user-profile {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+  background: linear-gradient(to bottom, #f0fdfa, #ffffff);
+  min-height: 100vh;
+}
+.profile-header {
+  display: flex;
+  gap: 16px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #eee;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .info h2 {
+    font-size: 3rem;
+    color: #0f766e;
+  }
+
+  .info p {
+    color: #6b7280;
+    font-size: 2rem;
+  }
+
+  .action {
+    margin-left: auto;
+
+    .primary-btn {
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background: #0e5e58;
+      }
+    }
+  }
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 20px 0;
+  background: #ccfbf1;
+  padding: 6px;
+  border-radius: 12px;
+  text-align: center;
+
+  button {
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    color: #0f766e;
+    font-weight: bold;
+    font-size: 1.8rem;
+
+    &.active {
+      background: #0f766e;
+      color: white;
+    }
+  }
+}
+
+.tab-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 2rem;
+  margin-bottom: 4px;
+  color: #0f766e;
+}
+
+.orders__title {
+  width: 20rem;
+  font-size: 2rem;
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+input {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-footer {
+  text-align: right;
+}
+
+.primary-btn {
+  background: var(--primary-color);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: bold;
+
+  &:hover {
+    background: #0e5e58;
+  }
+}
