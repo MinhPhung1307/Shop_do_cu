@@ -8,6 +8,7 @@ import ChatPage from "../pages/ChatPage/ChatPage";
 import CartPage from "../pages/CartPage/CartPage";
 import ProductListPage from "../pages/ProductListPage/ProductListPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import Digital from "../pages/ProductDigital/Digital";
 
 export const routes = [
   {
@@ -15,6 +16,12 @@ export const routes = [
     page: HomePage,
     isShowHeader: true,
     isShowFooter: true,
+    isPrivate: false,
+  },
+  {
+    path: "/digital",
+    page: Digital,
+    isShowHeader: true,
     isPrivate: false,
   },
 

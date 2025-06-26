@@ -23,7 +23,7 @@ const Search = ({ initialValue = "", onSearch }) => {
         onChange={(e) => setQuery(e.target.value)}
       />
       <button className={cx("search-btn")} type="submit">
-        <i className="fa-solid fa-magnifying-glass"></i>
+        <i className={cx("fa-solid fa-magnifying-glass")}></i>
       </button>
     </form>
   );

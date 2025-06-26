@@ -15,10 +15,7 @@ export default function UserProfile() {
         </div>
         <div className={cx("info")}>
           <h2>Nguyen Van A</h2>
-          <p>Khách hàng</p>
-        </div>
-        <div className={cx("action")}>
-          <button className={cx("primary-btn")}>Cập nhật thông tin</button>
+          <p>Người dùng</p>
         </div>
       </div>
 
@@ -28,18 +25,6 @@ export default function UserProfile() {
           className={cx(tab === "info" ? "active" : "")}
         >
           Thông tin
-        </button>
-        <button
-          onClick={() => setTab("orders")}
-          className={cx(tab === "orders" ? "active" : "")}
-        >
-          Đơn hàng
-        </button>
-        <button
-          onClick={() => setTab("wishlist")}
-          className={cx(tab === "wishlist" ? "active" : "")}
-        >
-          Yêu thích
         </button>
         <button
           onClick={() => setTab("settings")}
@@ -72,16 +57,6 @@ export default function UserProfile() {
           </div>
         </div>
       )}
-
-      {tab === "orders" && (
-        <div className={cx("tab-content")}>
-          <h3 className={cx("orders__title")}>Danh Sách Bán</h3>
-          <h3 className={cx("orders__title")}>Danh Sách Mua</h3>
-          <h3 className={cx("orders__title")}>Danh Sách Đã Mua</h3>
-        </div>
-      )}
-
-      {tab === "wishlist" && <div className={cx("tab-content")}></div>}
 
       {tab === "settings" && (
         <div className={cx("tab-content")}>

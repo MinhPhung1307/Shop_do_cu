@@ -20,7 +20,7 @@ const HomePage = () => {
             <CardComponent
               IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
               NAME="Giáo trình triết"
-              Price="45.000"
+              PRICE="45.000"
             />
           )}
         </div>
@@ -35,7 +35,7 @@ const HomePage = () => {
             <CardComponent
               IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
               NAME="Giáo trình triết"
-              Price="45.000"
+              PRICE="45.000"
             />
           )}
         </div>
@@ -50,7 +50,7 @@ const HomePage = () => {
             <CardComponent
               IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
               NAME="Giáo trình triết"
-              Price="45.000"
+              PRICE="45.000"
             />
           )}
         </div>
@@ -65,7 +65,7 @@ const HomePage = () => {
             <CardComponent
               IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
               NAME="Giáo trình triết"
-              Price="45.000"
+              PRICE="45.000"
             />
           )}
         </div>
@@ -80,7 +80,7 @@ const HomePage = () => {
             <CardComponent
               IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
               NAME="Giáo trình triết"
-              Price="45.000"
+              PRICE="45.000"
             />
           )}
         </div>
