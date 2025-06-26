@@ -14,24 +14,28 @@ export const routes = [
     page: HomePage,
     isShowHeader: true,
     isShowFooter: true,
+    isPrivate: false,
   },
 
   {
     path: "/cartpage",
     page: CartPage,
     isShowHeader: true,
+    isPrivate: false,
   },
 
   {
     path: "/verify-email/:token",
     page: VerifyEmail,
     isShowHeader: false,
+    isPrivate: false,
   },
   {
     path: "/order",
     page: OrderPage,
     isShowHeader: true,
     isShowFooter: true,
+    isPrivate: false,
   },
 
   {
@@ -39,11 +43,13 @@ export const routes = [
     page: ProductsPage,
     isShowHeader: true,
     isShowFooter: true,
+    isPrivate: false,
   },
 
   {
     path: "/chat",
     page: ChatPage,
+    isPrivate: false,
   },
 
   {
@@ -51,6 +57,7 @@ export const routes = [
     page: ProductListPage,
     isShowFooter: true,
     isShowHeader: true,
+    isPrivate: false,
   },
 
   {
@@ -58,11 +65,12 @@ export const routes = [
     page: AdminPage,
     isShowFooter: false,
     isShowHeader: false,
-    isPrivate: true
+    isPrivate: true,
   },
 
   {
     path: "*",
     page: NotFoundPage,
+    isPrivate: false,
   },
 ];

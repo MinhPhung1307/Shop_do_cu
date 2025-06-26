@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { routes } from './routes';
 import DefaultComponent from './components/DefaultComponent/DefaultComponent';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import * as UserService from './services/UserService';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from './redux/slides/userSlide';
 import Loading from './components/LoadingComponent/Loading';
+import NavigateByRole from './NavigateByRole';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
     };
 
     checkAndGetUser();
+    setIsLoading(false);
   }, []);
 
   const handleDecoded = () => {
@@ -69,7 +71,6 @@ function App() {
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({...res?.data, access_token: token }));
-    setIsLoading(false)
   }
   // useEffect(() => {
   //   fetchApi();
@@ -87,16 +88,21 @@ function App() {
     <div>
       <Loading isLoading={isLoading}>
         <Router>
+          <NavigateByRole />
           <Routes>
             {routes.map((route) => {
               const Page = route.page;
-              // const isCheckAuth = route.isPrivate || user.isAdmin;
+              const isCheckAuth = !(route.isPrivate) || user.isAdmin;
               const Layout = route.isShowHeader ? DefaultComponent : Fragment;
               return (
                 <Route key={route.path} path={route.path} element={
-                  <Layout>
-                    <Page />
+                  isCheckAuth ? (
+                    <Layout>
+                      <Page />
                   </Layout>
+                  ) : (
+                    <Navigate to="*" />
+                  )
                 } />
               )
             })}

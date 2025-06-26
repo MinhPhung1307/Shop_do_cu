@@ -1,19 +1,46 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminPage.module.scss';
+import Menu from '../../components/Popper/Menu/Menu';
+import * as UserService from "../../services/UserService";
+import { useDispatch, useSelector } from "react-redux";
+import { resetUser } from "../../redux/slides/userSlide";
+import { useNavigate } from 'react-router-dom';
+import images from '../../assets/images/admin';
 
 const cx = classNames.bind(styles);
 const AdminPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  console.log(user)
+
+  const handleLogout = async () => {
+    await UserService.logoutUser();
+    dispatch(resetUser());
+    localStorage.removeItem("access_token");
+    navigate('/');
+  };
+
+  const MENU_ITEMS = [
+    {
+      icon: <i class="fa-solid fa-right-from-bracket"></i>,
+      title: 'Đăng xuất',
+      callback: handleLogout
+    },
+  ]
   return (
     <div className={cx('wrapper')}>
       <div className={cx('uth_banner')}>
         <div className={cx('uth_logo')}>
-          <img src="./image/admin/logobanner.png" alt="UTH Logo" />
+          <a href="/admin"><img src={images.logobanner} alt="UTH Logo" /></a>
         </div>
-        <div className={cx('topbar')}>
-          <img src="./image/admin/avt.jpg" alt="Avatar" className={cx('avatar')} />
-          <span>Đặng Quốc Phong</span>
-        </div>
+        <Menu items={MENU_ITEMS} offset={[60, -8]}>
+          <div className={cx('topbar')}>
+            <img src="./image/admin/avt.jpg" alt="Avatar" className={cx('avatar')} />
+            <span>{user.name}</span>
+          </div>
+        </Menu>
       </div>
 
       <div className={cx('container')}>

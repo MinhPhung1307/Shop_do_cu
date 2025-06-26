@@ -5,7 +5,7 @@ import PopperWrapper from '../../Popper/Wrapper';
 import MenuItems from "./MenuItems";
 
 const cx = classNames.bind(styles);
-function Menu({ children, items = [] }) {
+function Menu({ children, items = [], offset = [8, 4] }) {
 
     const renderItem = () => {
         return items.map((item, index) => (
@@ -17,7 +17,7 @@ function Menu({ children, items = [] }) {
         <Tippy
             trigger="click"
             interactive
-            offset={[8, 4]}
+            offset={offset}
             placement="bottom-end"
             render = {attrs => (
                 <div className={cx("menu-items")} tabIndex="-1" {...attrs}>
