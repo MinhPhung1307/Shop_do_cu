@@ -7,6 +7,7 @@ import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import ChatPage from "../pages/ChatPage/ChatPage";
 import CartPage from "../pages/CartPage/CartPage";
 import ProductListPage from "../pages/ProductListPage/ProductListPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 
 export const routes = [
   {
@@ -66,6 +67,13 @@ export const routes = [
     isShowFooter: false,
     isShowHeader: false,
     isPrivate: true,
+  },
+
+  {
+    path: "/Profile",
+    page: ProfilePage,
+    isShowFooter: true,
+    isShowHeader: true,
   },
 
   {

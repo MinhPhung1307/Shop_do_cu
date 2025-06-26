@@ -14,7 +14,6 @@ import NavigateByRole from './NavigateByRole';
 
 
 function App() {
-
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.user);
@@ -28,12 +27,15 @@ function App() {
       if (decoded?.exp < now) {
         try {
           const data = await UserService.refreshToken();
-          localStorage.setItem('access_token', JSON.stringify(data?.access_token));
+          localStorage.setItem(
+            "access_token",
+            JSON.stringify(data?.access_token)
+          );
           const newDecoded = jwtDecode(data?.access_token);
           await handleGetDetailsUser(newDecoded?.id, data?.access_token);
         } catch (err) {
-          console.error('Refresh token failed:', err);
-          localStorage.removeItem('access_token');
+          console.error("Refresh token failed:", err);
+          localStorage.removeItem("access_token");
         }
       } else if (decoded?.id) {
         await handleGetDetailsUser(decoded?.id, storageData);
@@ -45,28 +47,31 @@ function App() {
   }, []);
 
   const handleDecoded = () => {
-    let storageData = localStorage.getItem('access_token');
+    let storageData = localStorage.getItem("access_token");
     let decoded = {};
-    if(storageData && isJsonString(storageData)) {
+    if (storageData && isJsonString(storageData)) {
       storageData = JSON.parse(storageData);
       decoded = jwtDecode(storageData);
     }
     return { decoded, storageData };
-  }
+  };
 
-  UserService.axiosJWT.interceptors.request.use(async (config) => {
-    const { decoded } = handleDecoded();
-    const currenttime = new Date();
-    if(decoded?.exp < currenttime.getTime() / 1000) {
-      const data = await UserService.refreshToken();
-      config.headers['token'] = `Bearer ${data?.access_token}`;
+  UserService.axiosJWT.interceptors.request.use(
+    async (config) => {
+      const { decoded } = handleDecoded();
+      const currenttime = new Date();
+      if (decoded?.exp < currenttime.getTime() / 1000) {
+        const data = await UserService.refreshToken();
+        config.headers["token"] = `Bearer ${data?.access_token}`;
+      }
+      // Do something before request is sent
+      return config;
+    },
+    function (error) {
+      // Do something with request error
+      return Promise.reject(error);
     }
-    // Do something before request is sent
-    return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
+  );
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
