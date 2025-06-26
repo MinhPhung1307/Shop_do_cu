@@ -1,9 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { routes } from './routes';
 import DefaultComponent from './components/DefaultComponent/DefaultComponent';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { isJsonString } from './utils';
 import { jwtDecode } from 'jwt-decode';
 import * as UserService from './services/UserService';
@@ -93,21 +91,16 @@ function App() {
     <div>
       <Loading isLoading={isLoading}>
         <Router>
-          <NavigateByRole />
           <Routes>
             {routes.map((route) => {
               const Page = route.page;
-              const isCheckAuth = !(route.isPrivate) || user.isAdmin;
               const Layout = route.isShowHeader ? DefaultComponent : Fragment;
+              const isCheckAuth = !(route.isPrivate) || user.isAdmin;
               return (
-                <Route key={route.path} path={route.path} element={
-                  isCheckAuth ? (
-                    <Layout>
-                      <Page />
+                <Route key={route.path} path={isCheckAuth ? route.path : '/NotFoundPage'} element={
+                  <Layout>
+                    <Page /> 
                   </Layout>
-                  ) : (
-                    <Navigate to="*" />
-                  )
                 } />
               )
             })}

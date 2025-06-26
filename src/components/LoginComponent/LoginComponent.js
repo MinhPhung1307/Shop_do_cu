@@ -5,6 +5,7 @@ import Loading from '../LoadingComponent/Loading';
 import { useMutationHook } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
 import { jwtDecode } from 'jwt-decode';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +14,7 @@ const LoginComponent = ({ setShowLogin, setToast, handleGetDetailsUser, openRegi
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const user = useSelector((state) => state.user);
 
 
     // Mutation
