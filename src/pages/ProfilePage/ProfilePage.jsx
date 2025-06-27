@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./ProfilePage.module.scss";
+import { useSelector } from "react-redux";
+import { useMutationHook } from "../../hooks/useMutationHook";
+import * as UserService from '../../services/UserService'
 
 const cx = classNames.bind(styles);
 
 export default function UserProfile() {
   const [tab, setTab] = useState("info");
+  const user = useSelector(state => state.user);
+  const { id , access_token } = user;
+  
+  const mutation = useMutationHook(data => UserService.getUserBE(data));
+
+
+  // const { email } = mutation.data
+
+  // console.log(mutation.data)
+
+  // console.log(email)
+
+  useEffect(() => {
+    if (id && access_token) {
+      mutation.mutate({id, access_token});
+    }
+  }, [id, access_token])
+  
 
   return (
     <div className={cx("user-profile")}>

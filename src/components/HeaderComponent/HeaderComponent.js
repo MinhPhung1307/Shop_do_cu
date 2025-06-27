@@ -138,7 +138,7 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a className={cx("title-item")}>Trang chủ</a>
+          <a href='/' className={cx("title-item")}>Trang chủ</a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
           <a className={cx("title-item")}>Đăng sản phẩm</a>
         </div>

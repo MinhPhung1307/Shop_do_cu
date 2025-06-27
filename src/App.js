@@ -8,7 +8,6 @@ import * as UserService from './services/UserService';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from './redux/slides/userSlide';
 import Loading from './components/LoadingComponent/Loading';
-import NavigateByRole from './NavigateByRole';
 
 
 function App() {
