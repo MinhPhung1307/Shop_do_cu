@@ -46,6 +46,14 @@
     margin: 15px 0 5px;
   }
 
+  .product-detail {
+    font-size: 2rem;
+    font-weight: bold;
+    span {
+      font-weight: normal;
+    }
+  }
+
   .product-price {
     font-size: 20px;
     color: #e60023;

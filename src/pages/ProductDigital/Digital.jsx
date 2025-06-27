@@ -47,12 +47,13 @@ export default function Digital() {
               ))}
             </div>
             <h1 className={cx("product-title")}>Tên sản phẩm</h1>
+            <p className={cx("product-detail")}>Chi tiết sản phẩm: <span >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint expedita aperiam modi cumque, tempora iste excepturi magnam aspernatur ad dolorum?</span></p>
             <p className={cx("product-price")}> 777.000<span> đ</span></p>
             <div className={cx("product-status")}>
               <span className={cx("status-label")}>
-                Tình trạng: Đã qua sử dụng
+                Thời gian đã dùng: <span className={cx("using-time")}>1 năm</span>
               </span>
-              <span className={cx("category-label")}>Phân loại: Điện tử</span>
+              <span className={cx("category-label")}>Phân loại: <span>Đồng phục</span></span>
             </div>
             <button className={cx("btn-primary", "buy-button")}>Mua ngay</button>
             <div className={cx("related-section")}>
