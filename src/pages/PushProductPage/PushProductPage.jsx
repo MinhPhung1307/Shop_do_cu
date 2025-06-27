@@ -91,9 +91,6 @@ const PushProductPage = () => {
         <label className={cx('label')}>Giá bán:</label>
         <input type="number" name="price" value={formData.price} onChange={handleChange} className={cx('input')} />
 
-        <label className={cx('label')}>Số lượng:</label>
-        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} className={cx('input')} />
-
         <label className={cx('label')}>Thời gian sử dụng:</label>
         <textarea name="description" value={formData.description} onChange={handleChange} className={cx('textarea')} rows="2" />
 
