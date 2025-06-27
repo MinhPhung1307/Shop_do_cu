@@ -10,6 +10,7 @@ import ProductListPage from "../pages/ProductListPage/ProductListPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import PushProductPage from "../pages/PushProductPage/PushProductPage";
 import Digital from "../pages/ProductDigital/Digital";
+import ProductDetail from "../pages/ProductDetail/ProductDetail";
 
 export const routes = [
   {
@@ -97,6 +98,24 @@ export const routes = [
     isShowFooter: true,
     isShowHeader: true,
   },
+
+  {
+    path: "/PushProduct",
+    page: PushProductPage,
+    isShowFooter: true,
+    isShowHeader: true,
+
+  },
+
+  {
+    path: "/ProductDetail",
+    page: ProductDetail,
+    isShowFooter: true,
+    isShowHeader: true,
+
+  },
+
+
 
   {
     path: "*",
