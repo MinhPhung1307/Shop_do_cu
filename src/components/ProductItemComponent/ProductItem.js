@@ -5,9 +5,9 @@ import styles from "./ProductItem.module.scss";
 const cx = classNames.bind(styles);
 
 const STATUS_MAP = {
-  "Chờ bán": { label: "Hủy Đơn", btnClass: "btnChoban" },
+  "Đặt hàng": { label: "Hủy Đơn", btnClass: "btnChoban" },
   "Đã mua": { label: "Nhắn Tin", btnClass: "btnDamua" },
-  "Đã bán": { label: "Mua sản phẩm khác", btnClass: "btnDaban" },
+  "Chờ duyệt": { label: "Hủy Đơn", btnClass: "btnChoban" },
 };
 
 const ProductItem = ({ IMG, NAME, PRICE, STATUS }) => {

@@ -99,17 +99,6 @@ export const routes = [
   },
 
   {
-    path: "/PushProduct",
-    page: PushProductPage,
-    isShowFooter: true,
-    isShowHeader: true,
-
-  },
-
- 
-
-
-  {
     path: "*",
     page: NotFoundPage,
     isPrivate: false,
