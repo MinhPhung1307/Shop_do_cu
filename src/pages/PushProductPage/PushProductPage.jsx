@@ -2,24 +2,122 @@ import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./PushProduct.module.scss";
 import ProductItem from "../../components/ProductItemComponent/ProductItem";
-
+import { useSelector } from "react-redux";
+import { useMutationHook } from "../../hooks/useMutationHook";
+import * as ProductService from "../../services/ProductService";
 const cx = classNames.bind(styles);
 
 export default function PushProductPage() {
   const [tab, setTab] = useState("add");
-  const [images, setImages] = useState([]);
-  const nameRef = useRef();
-  const priceRef = useRef();
-  const usedRef = useRef();
-  const categoryRef = useRef();
-  const descRef = useRef();
-  const fileInputRef = useRef();
 
+  // quy định các giá trị trong product
+  const [stateProduct, setStateProduct] = useState({
+    images: [],
+    name: "",
+    price: "",
+    used: "",
+    category: "",
+    description: "",
+    _iduser: "",
+  });
+
+  // thời gian hiện thông báo
+  const [alert, setAlert] = useState(null);
+
+  // hàm nhận giá trị khi nhập vào input
+  const handleOnChange = (e) => {
+    const { name, value, files } = e.target; // target là thuộc tính sự kiện đại diện cho các thẻ input
+    //quy định riêng cho phần úp ảnh
+    if (name === "images") {
+      setStateProduct((prev) => ({
+        ...prev, // cần có để khi cập nhật các trường khác không mất giá trị
+        images: Array.from(files), // Lưu mảng file
+      }));
+    } else {
+      // quy định cho các thẻ input còn lại
+      setStateProduct((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  // gọi API
+  const mutation = useMutationHook((data) => ProductService.PushProduct(data));
+  const user = useSelector((state) => state.user);
+  const { id } = user;
+
+  // lấy id từ redux (thông tin người dùng sẽ được lưu lại khi đăng nhập ở redux)
+  useEffect(() => {
+    if (id) {
+      setStateProduct((prev) => ({
+        ...prev,
+        _iduser: id,
+      }));
+    }
+  }, [id]);
+  // kiểm tra xem id đã được gán vào stateProduct chưa
+  console.log(stateProduct._iduser);
+  // biến để gán lại input file
+  const fileInputRef = useRef(null);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!stateProduct._iduser) {
+      setAlert({ type: "error", message: "Vui lòng đăng nhập!" });
+      setTimeout(() => setAlert(null), 2000);
+      return;
+    }
+    const formData = new FormData();
+    stateProduct.images.forEach((file) => {
+      formData.append("images", file);
+    });
+    formData.append("name", stateProduct.name);
+    formData.append("price", stateProduct.price);
+    formData.append("used", stateProduct.used);
+    formData.append("category", stateProduct.category);
+    formData.append("description", stateProduct.description);
+    formData.append("_iduser", stateProduct._iduser);
+
+    mutation.mutate(formData, {
+      onSuccess: () => {
+        console.log(stateProduct);
+        setStateProduct({
+          images: [],
+          name: "",
+          price: "",
+          used: "",
+          category: "",
+          description: "",
+          _iduser: stateProduct._iduser,
+        });
+        setAlert({ type: "success", message: "Tạo sản phẩm thành công" });
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        setTimeout(() => {
+          setAlert(null);
+          setTab("history"); // Chuyển tab sau khi ẩn thông báo
+        }, 2000);
+      },
+      onError: () => {
+        setAlert({ type: "error", message: "Tạo sản phẩm thất bại!" });
+        setTimeout(() => setAlert(null), 2000);
+      },
+    });
+  };
   return (
     <div className={cx("container")}>
+      {/* Thông báo */}
+      {alert && (
+        <div
+          className={cx("alert", {
+            success: alert.type === "success",
+            error: alert.type === "error",
+          })}
+        >
+          {alert.message}
+        </div>
+      )}
       {/* Thanh điều hướng */}
       <div className={cx("navTabs")}>
-
         <button
           className={cx("navButton", { activeTab: tab === "add" })}
           onClick={() => setTab("add")}
@@ -38,92 +136,93 @@ export default function PushProductPage() {
       {tab === "add" && (
         <section className={cx("section")}>
           <h2 className={cx("heading")}>Đăng Sản Phẩm</h2>
-          <div
-            className={cx("uploadArea")}
-            onClick={() => fileInputRef.current.click()}
-          >
-            {images.length === 0 && (
-              <span className={cx("placeholder")}>
-                <i class="fa-solid fa-camera"></i> Thêm hình ảnh (nhiều)
-              </span>
-            )}
-            {images.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt={`preview-${i}`}
-                className={cx("previewImage")}
+          <form className={cx("form")} onSubmit={handleSubmit}>
+            <div className={cx("field")}>
+              <label>Ảnh sản phẩm</label>
+              <label htmlFor="images" className={cx("uploadArea")}>
+                <i class="fa-solid fa-camera"></i> Chọn các file ảnh (tối đa 10
+                tấm)
+              </label>
+              <input
+                id="images"
+                type="file"
+                name="images"
+                multiple
+                ref={fileInputRef}
+                onChange={handleOnChange}
+                style={{ display: "none" }}
               />
-            ))}
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className={cx("hiddenFileInput")}
-              ref={fileInputRef}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => {
-                const files = Array.from(e.target.files);
-                Promise.all(
-                  files.map(
-                    (f) =>
-                      new Promise((res) => {
-                        const reader = new FileReader();
-                        reader.onload = () => res(reader.result);
-                        reader.readAsDataURL(f);
-                      })
-                  )
-                ).then(setImages);
-              }}
-            />
-          </div>
-
-          <form
-            className={cx("form")}
-            onSubmit={(e) => {
-              e.preventDefault();
-              const product = {
-                images,
-                name: nameRef.current.value,
-                price: parseFloat(priceRef.current.value).toLocaleString(
-                  "vi-VN"
-                ),
-                used: usedRef.current.value,
-                category: categoryRef.current.value,
-                desc: descRef.current.value,
-                timestamp: new Date().toLocaleString(),
-              };
-              e.target.reset();
-              setImages([]);
-            }}
-          >
+              {/* Hiển thị tên file đã chọn */}
+              <div className={cx("previewList")}>
+                {stateProduct.images.length > 0 &&
+                  stateProduct.images.map((file, idx) => (
+                    <div key={idx} className={cx("previewItem")}>
+                      <i
+                        className="fa-solid fa-image"
+                        style={{ marginRight: 4 }}
+                      ></i>
+                      {file.name.length > 30
+                        ? file.name.slice(0, 27) + "..."
+                        : file.name}
+                    </div>
+                  ))}
+              </div>
+            </div>
             {/* Các trường input */}
             <div className={cx("field")}>
               <label>Tên sản phẩm</label>
-              <input ref={nameRef} type="text" required />
+              <input
+                name="name"
+                onChange={handleOnChange}
+                value={stateProduct.name}
+                type="text"
+                required
+              />
             </div>
             <div className={cx("field")}>
               <label>Giá bán (VND)</label>
-              <input ref={priceRef} type="number" required />
+              <input
+                name="price"
+                onChange={handleOnChange}
+                value={stateProduct.price}
+                type="number"
+                required
+              />
             </div>
             <div className={cx("field")}>
               <label>Thời gian đã dùng</label>
-              <input ref={usedRef} type="text" placeholder="Ví dụ: 6 tháng" />
+              <input
+                name="used"
+                onChange={handleOnChange}
+                value={stateProduct.used}
+                type="text"
+                placeholder="Ví dụ: 6 tháng"
+              />
             </div>
             <div className={cx("field")}>
               <label>Danh mục</label>
-              <select ref={categoryRef}>
+              <select
+                name="category"
+                onChange={handleOnChange}
+                value={stateProduct.category}
+                required
+              >
                 <option value="">-- Chọn --</option>
                 <option value="Tài liệu">Tài liệu</option>
-                <option value="Tài liệu">Dụng cụ</option>
-                <option value="Tài liệu">Nội thất</option>
-                <option value="Điện tử">Đồ điện tử</option>
-                <option value="Thời trang">Đồng phục</option>
+                <option value="Dụng cụ">Dụng cụ</option>
+                <option value="Nội thất">Nội thất</option>
+                <option value="Đồ điện tử">Đồ điện tử</option>
+                <option value="Đồng phục">Đồng phục</option>
               </select>
             </div>
             <div className={cx("field")}>
               <label>Mô tả</label>
-              <textarea ref={descRef} rows={3} />
+              <textarea
+                value={stateProduct.description}
+                rows={3}
+                name="description"
+                onChange={handleOnChange}
+              />
             </div>
             <button type="submit" className={cx("submitButton")}>
               Xác nhận
@@ -136,20 +235,20 @@ export default function PushProductPage() {
         <section className={cx("section")}>
           <h2 className={cx("heading")}>Lịch Sử Đã Đăng</h2>
 
-           <div>
+          <div>
             <ProductItem
-                IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                NAME="Giáo trình triết haoid adhuashd gdjha udthf ngu dr hdsrf uhbbdrug dsfuyhig g"
-                PRICE="45.000"
-                STATUS="Chờ duyệt"
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết haoid adhuashd gdjha udthf ngu dr hdsrf uhbbdrug dsfuyhig g"
+              PRICE="45.000"
+              STATUS="Chờ duyệt"
             />
             <ProductItem
-                IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                NAME="Giáo trình triết haoid adhuashd gdjha udthf ngu dr hdsrf uhbbdrug dsfuyhig g"
-                PRICE="45.000"
-                STATUS="Đã bán"
+              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              NAME="Giáo trình triết haoid adhuashd gdjha udthf ngu dr hdsrf uhbbdrug dsfuyhig g"
+              PRICE="45.000"
+              STATUS="Đã bán"
             />
-        </div>
+          </div>
         </section>
       )}
     </div>

@@ -1,7 +1,9 @@
 .container {
+  position: relative;
   padding: 1.5rem;
   background-color: #e6fdf7;
   min-height: 100vh;
+  z-index: 0;
 }
 
 .navTabs {
@@ -60,18 +62,65 @@ h2.heading {
   align-items: center;
   cursor: pointer;
 }
+
+.alert {
+  top: 32px; // cách đỉnh một chút cho đẹp
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+  margin: 0 auto;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  box-shadow: 0 2px 8px #0001;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+.alert.success {
+  background: #e6ffed;
+  color: #1a7f37;
+  border: 1px solid #b7eb8f;
+}
+.alert.error {
+  background: #fff1f0;
+  color: #d4380d;
+  border: 1px solid #ffa39e;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .placeholder {
   color: #ccc;
 }
-.previewImage {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.25rem;
-  object-fit: cover;
+
+.previewList {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-.hiddenFileInput {
-  display: none;
+.previewItem {
+  display: flex;
+  align-items: center;
+  background: #c1f4e5;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 16px;
+  color: #333;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
 .form {
   display: flex;
   flex-direction: column;
@@ -94,7 +143,6 @@ h2.heading {
   border-radius: 0.8rem;
   font-size: 20px;
 }
-
 
 .field input:focus,
 .field select:focus,
