@@ -5,6 +5,8 @@ import ProductItem from "../../components/ProductItemComponent/ProductItem";
 import { useSelector } from "react-redux";
 import { useMutationHook } from "../../hooks/useMutationHook";
 import * as ProductService from "../../services/ProductService";
+import { useDispatch } from "react-redux";
+import { setProducts } from "../../redux/slides/productSlide";
 const cx = classNames.bind(styles);
 
 export default function PushProductPage() {
@@ -46,6 +48,7 @@ export default function PushProductPage() {
   const mutation = useMutationHook((data) => ProductService.PushProduct(data));
   const user = useSelector((state) => state.user);
   const { id } = user;
+  const dispatch = useDispatch();
 
   // lấy id từ redux (thông tin người dùng sẽ được lưu lại khi đăng nhập ở redux)
   useEffect(() => {
@@ -79,8 +82,10 @@ export default function PushProductPage() {
     formData.append("_iduser", stateProduct._iduser);
 
     mutation.mutate(formData, {
-      onSuccess: () => {
+      onSuccess: async () => {
         console.log(stateProduct);
+        const newProduct = await ProductService.getAllProducts();
+        dispatch(setProducts(newProduct));
         setStateProduct({
           images: [],
           name: "",
@@ -103,6 +108,8 @@ export default function PushProductPage() {
       },
     });
   };
+  const products = useSelector((state) => state.product.products);
+  console.log("danh sách sản phẩm", products);
   return (
     <div className={cx("container")}>
       {/* Thông báo */}
@@ -235,19 +242,35 @@ export default function PushProductPage() {
         <section className={cx("section")}>
           <h2 className={cx("heading")}>Lịch Sử Đã Đăng</h2>
 
-          <div>
-            <ProductItem
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết haoid adhuashd gdjha udthf ngu dr hdsrf uhbbdrug dsfuyhig g"
-              PRICE="45.000"
-              STATUS="Chờ duyệt"
-            />
-            <ProductItem
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết haoid adhuashd gdjha udthf ngu dr hdsrf uhbbdrug dsfuyhig g"
-              PRICE="45.000"
-              STATUS="Đã bán"
-            />
+          <div className={cx("section__content")}>
+            <div>
+              {products && products.length > 0 ? (
+                products.map((item) =>
+                  String(item._iduser) === String(id)
+                    ? (console.log(
+                        `http://localhost:3001/${item.images[0].replace(
+                          /\\/g,
+                          "/"
+                        )}`
+                      ),
+                      (
+                        <ProductItem
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          STATUS={item.status}
+                        />
+                      ))
+                    : null
+                )
+              ) : (
+                <div>Chưa có sản phẩm nào.</div>
+              )}
+            </div>
           </div>
         </section>
       )}

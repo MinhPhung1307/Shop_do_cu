@@ -1,14 +1,15 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { routes } from './routes';
-import DefaultComponent from './components/DefaultComponent/DefaultComponent';
-import { isJsonString } from './utils';
-import { jwtDecode } from 'jwt-decode';
-import * as UserService from './services/UserService';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from './redux/slides/userSlide';
-import Loading from './components/LoadingComponent/Loading';
-
+import React, { Fragment, useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { routes } from "./routes";
+import DefaultComponent from "./components/DefaultComponent/DefaultComponent";
+import { isJsonString } from "./utils";
+import { jwtDecode } from "jwt-decode";
+import * as UserService from "./services/UserService";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "./redux/slides/userSlide";
+import Loading from "./components/LoadingComponent/Loading";
+import * as ProductService from "./services/ProductService";
+import { setProducts } from "./redux/slides/productSlide";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,19 @@ function App() {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await ProductService.getAllProducts();
+        // Nếu API trả về {data: [...]}, lấy res.data
+        dispatch(setProducts(res.data || res));
+      } catch (err) {
+        console.error("Lỗi tải sản phẩm:", err);
+      }
+    };
+    fetchProducts();
+  }, [dispatch]);
+
   const handleDecoded = () => {
     let storageData = localStorage.getItem("access_token");
     let decoded = {};
@@ -72,8 +86,8 @@ function App() {
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
-    dispatch(updateUser({...res?.data, access_token: token }));
-  }
+    dispatch(updateUser({ ...res?.data, access_token: token }));
+  };
   // useEffect(() => {
   //   fetchApi();
   // }, [])
@@ -94,14 +108,18 @@ function App() {
             {routes.map((route) => {
               const Page = route.page;
               const Layout = route.isShowHeader ? DefaultComponent : Fragment;
-              const isCheckAuth = !(route.isPrivate) || user.isAdmin;
+              const isCheckAuth = !route.isPrivate || user.isAdmin;
               return (
-                <Route key={route.path} path={isCheckAuth ? route.path : '/NotFoundPage'} element={
-                  <Layout>
-                    <Page /> 
-                  </Layout>
-                } />
-              )
+                <Route
+                  key={route.path}
+                  path={isCheckAuth ? route.path : "/NotFoundPage"}
+                  element={
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  }
+                />
+              );
             })}
           </Routes>
         </Router>

@@ -21,7 +21,9 @@ const ProductItem = ({ IMG, NAME, PRICE, STATUS }) => {
       {/* 2. Thông tin: tên, giá, trạng thái */}
       <div className={cx("Product-Info")}>
         <div className={cx("Info-Name")}>{NAME}</div>
-        <div className={cx("Info-Price")}>{PRICE}₫</div>
+        <div className={cx("Info-Price")}>
+          {Number(PRICE).toLocaleString("vi-VN")} VNĐ
+        </div>
         <div className={cx("Info-Status")}>
           <span className={cx("Label")}>Trạng thái:</span>
           <span className={cx("Status-Text")}>{STATUS}</span>

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./HeaderComponent.module.scss";
 import * as UserService from "../../services/UserService";
+import * as ProductService from "../../services/ProductService";
 import Loading from "../LoadingComponent/Loading";
 import ToastMessage from "../../components/Message/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, resetUser } from "../../redux/slides/userSlide";
+import { setProducts } from "../../redux/slides/productSlide";
 import LoginComponent from "../LoginComponent/LoginComponent";
 import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
@@ -47,7 +49,7 @@ const HeaderComponent = () => {
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
-    dispatch(updateUser({ ...res?.data, access_token: token }));
+    dispatch(updateUser({ ...res?.data, access_token: token })); // lưu thông tin đăng nhập
   };
 
   const MENU_ITEMS = [
@@ -138,7 +140,9 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a href='/' className={cx("title-item")}>Trang chủ</a>
+          <a href="/" className={cx("title-item")}>
+            Trang chủ
+          </a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
           <a className={cx("title-item")}>Đăng sản phẩm</a>
         </div>
