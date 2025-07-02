@@ -245,28 +245,22 @@ export default function PushProductPage() {
           <div className={cx("section__content")}>
             <div>
               {products && products.length > 0 ? (
-                products.map((item) =>
-                  String(item._iduser) === String(id)
-                    ? (console.log(
-                        `http://localhost:3001/${item.images[0].replace(
+                [...products]
+                  .reverse()
+                  .map((item) =>
+                    String(item._iduser) === String(id) ? (
+                      <ProductItem
+                        key={item._id}
+                        IMG={`http://localhost:3001/${item.images[0].replace(
                           /\\/g,
                           "/"
-                        )}`
-                      ),
-                      (
-                        <ProductItem
-                          key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
-                          STATUS={item.status}
-                        />
-                      ))
-                    : null
-                )
+                        )}`}
+                        NAME={item.name}
+                        PRICE={item.price}
+                        STATUS={item.status}
+                      />
+                    ) : null
+                  )
               ) : (
                 <div>Chưa có sản phẩm nào.</div>
               )}
