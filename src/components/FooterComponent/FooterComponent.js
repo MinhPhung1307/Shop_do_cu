@@ -9,7 +9,7 @@ const FooterComponent = () => {
     <footer className={cx("footer")}>
       <div className={cx("footer__logo")}>
         <img
-          src="./image/logobanner-removebg-preview.png"
+          src="./image/Logo_Footer.png"
           alt="Shop do cu Logo"
         />
       </div>

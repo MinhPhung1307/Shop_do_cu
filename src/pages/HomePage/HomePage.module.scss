@@ -23,11 +23,17 @@
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 20px;
 }
 
 .list__products:hover{
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; // hoặc center nếu muốn căn giữa
+  gap: 24px; // khoảng cách giữa các sản phẩm
 }

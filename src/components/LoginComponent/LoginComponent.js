@@ -65,7 +65,7 @@ const LoginComponent = ({
           </span>
         </div>
 
-        <img src="./image/logo.png" alt="logo" />
+        <img src="./image/Logo_Shop.png" alt="logo" />
         <div className={cx("form-group")}>
           <input
             id="username"

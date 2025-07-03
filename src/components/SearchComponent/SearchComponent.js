@@ -4,6 +4,7 @@ import { setSearchProducts } from "../../redux/slides/productSlide";
 import classNames from "classnames/bind";
 import styles from "./Search.module.scss"; // tạo file SCSS riêng nếu cần
 import { useSelector } from "react-redux";
+import * as ProductService from "../../services/ProductService"; // đảm bảo đường dẫn đúng
 const cx = classNames.bind(styles);
 const Search = ({ initialValue = "", products = [] }) => {
   const dispatch = useDispatch();
@@ -34,7 +35,9 @@ const Search = ({ initialValue = "", products = [] }) => {
     const filtered = products.filter((item) =>
       item.name.toLowerCase().includes(name.toLowerCase())
     );
+
     dispatch(setSearchProducts(filtered));
+    localStorage.setItem("searchproduct", JSON.stringify(filtered)); // Lưu vào localStorage
     setSuggestions([]);
   };
   // ẩn trang gợi ý khi ấn submit
@@ -44,8 +47,18 @@ const Search = ({ initialValue = "", products = [] }) => {
       item.name.toLowerCase().includes(query.trim().toLowerCase())
     );
     dispatch(setSearchProducts(filtered));
+    localStorage.setItem("searchproduct", JSON.stringify(filtered)); // Lưu vào localStorage
     setSuggestions([]);
   };
+
+  // Mặc định khi load trang sẽ lấy dữ liệu từ localStorage nếu có
+  React.useEffect(() => {
+    const saved = localStorage.getItem("searchproduct");
+    if (saved) {
+      dispatch(setSearchProducts(JSON.parse(saved)));
+    }
+  }, [dispatch]);
+
   console.log(searchProducts);
   return (
     <div className={cx("search-wrapper")}>

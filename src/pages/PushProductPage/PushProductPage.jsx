@@ -99,7 +99,7 @@ export default function PushProductPage() {
         if (fileInputRef.current) fileInputRef.current.value = "";
         setTimeout(() => {
           setAlert(null);
-          setTab("history"); // Chuyển tab sau khi ẩn thông báo
+          window.location.reload();
         }, 2000);
       },
       onError: () => {

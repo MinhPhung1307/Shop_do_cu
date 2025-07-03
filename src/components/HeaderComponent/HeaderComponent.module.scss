@@ -21,10 +21,13 @@
   align-items: center;
   height: 48px;
   cursor: pointer;
+  height: 88px;
+  width: 178px;
+  padding: 10px;
 }
 
 .logo-icon {
-  height: 44px;
+  width: 100%;
   margin-left: 12px;
 }
 
@@ -161,6 +164,7 @@
 
 .header-2__navOverlay {
   position: fixed;
+  z-index: 99;
   top: 0;
   bottom: 0;
   right: 0;
@@ -173,6 +177,7 @@
 
 .header-2__nav {
   position: fixed;
+  z-index: 100;
   top: 0;
   bottom: 0;
   left: 0;
@@ -197,6 +202,7 @@
 }
 
 .header-2__nav-header-close {
+  color: white;
   padding: 12px 24px;
   font-size: 2.4rem;
   transition: transform 0.2s;
