@@ -7,7 +7,10 @@ import Loading from "../LoadingComponent/Loading";
 import ToastMessage from "../../components/Message/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, resetUser } from "../../redux/slides/userSlide";
-import { setProducts } from "../../redux/slides/productSlide";
+import {
+  setProducts,
+  setSearchProducts,
+} from "../../redux/slides/productSlide";
 import LoginComponent from "../LoginComponent/LoginComponent";
 import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
@@ -65,6 +68,18 @@ const HeaderComponent = () => {
     },
   ];
 
+  const products = useSelector((state) => state.product.products);
+
+  const handleSearch = (query) => {
+    if (!query) {
+      return;
+    }
+    // lộc sản phẩm theo giá trị trong ô tìm kiếm
+    const filtered = products.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    dispatch(setSearchProducts(filtered));
+  };
   return (
     <div className={cx("header")}>
       {toast && (
@@ -85,7 +100,7 @@ const HeaderComponent = () => {
           </a>
         </div>
 
-        <Search />
+        <Search products={products} />
 
         <Loading isLoading={loading} className={cx("User-login")}>
           {user?.name ? (

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   products: [],
+  searchproduct: [],
   selectedProduct: null,
 };
 
@@ -12,6 +13,11 @@ export const productSlide = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload;
     },
+    // lưu danh sách sản phẩm search
+    setSearchProducts: (state, action) => {
+      state.searchproduct = action.payload;
+    },
+    // lưu 1 sản phẩm để xem chi tiết
     setSelectedProduct: (state, action) => {
       state.selectedProduct = action.payload;
     },
@@ -22,7 +28,7 @@ export const productSlide = createSlice({
   },
 });
 
-export const { setProducts, setSelectedProduct, resetProducts } =
+export const { setProducts, setSearchProducts, resetProducts } =
   productSlide.actions;
 
 export default productSlide.reducer;

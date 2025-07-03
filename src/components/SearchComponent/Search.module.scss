@@ -1,3 +1,7 @@
+.search-wrapper {
+  position: relative;
+}
+
 .search {
   position: relative;
   display: flex;
@@ -38,4 +42,30 @@
   outline: none;
   border: none;
   cursor: pointer;
+}
+
+.suggestions {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.386);
+}
+.suggestion-item {
+  font-weight: bold;
+  padding: 8px 12px;
+}
+.suggestion-item:hover {
+  cursor: pointer;
+  background: #b2f3e1;
+  color: #fff;
 }
