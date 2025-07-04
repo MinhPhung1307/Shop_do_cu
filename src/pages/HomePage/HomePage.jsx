@@ -3,10 +3,12 @@ import styles from "./HomePage.module.scss";
 import classNames from "classnames/bind";
 import CardComponent from "../../components/CardComponent/CardComponent.js";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
   const products = useSelector((state) => state.product.products);
+  const navigate = useNavigate();
   // Hàm nhận giá trị từ CardComponent
   const [MaSP, setMaSP] = useState("DP");
   return (
@@ -43,6 +45,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -56,6 +59,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -96,6 +100,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -109,6 +114,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -150,6 +156,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -163,6 +170,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -204,6 +212,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -217,6 +226,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -258,6 +268,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>
@@ -271,6 +282,7 @@ const HomePage = () => {
                           )}`}
                           NAME={item.name}
                           PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
                         />
                       ))}
                     </div>

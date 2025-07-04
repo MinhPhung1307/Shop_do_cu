@@ -12,11 +12,11 @@
 }
 
 .left-panel {
-  flex: 1;
+  width: 60%;
 
   .main-image {
     width: 350px;
-    height: auto;
+    height: 400px;
     object-fit: cover;
     border-radius: 4px;
   }
@@ -113,9 +113,27 @@
     }
 
     .related-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      overflow-x: auto;
       gap: 20px;
+      padding: 20px 20px 10px 20px; // thêm padding top & left nhiều hơn
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 10px;
+      // Chỉ định phần thanh cuộn chính của phần tử
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+      // Thanh kéo (phần bạn kéo được)
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+      }
+
+      > div {
+        flex: 0 0 calc(50% - 25px);
+        scroll-snap-align: start;
+        min-width: calc(50% - 25px);
+      }
     }
 
     .related-card {

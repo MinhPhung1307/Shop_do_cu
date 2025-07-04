@@ -25,7 +25,7 @@ export const routes = [
     isPrivate: false,
   },
   {
-    path: "/digital",
+    path: "/digital/:id",
     page: Digital,
     isShowHeader: true,
     isPrivate: false,

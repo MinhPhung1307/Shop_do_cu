@@ -19,6 +19,7 @@ const ProductCard = styled.div`
 
 const ProductImage = styled.img`
   width: 100%;
+  height: 60%;
   object-fit: cover;
   border-radius: 10px;
 `;
@@ -34,10 +35,9 @@ const ProductPrice = styled.p`
   color: var(--primary-color);
 `;
 
-const CardComponent = ({ IMG, NAME, PRICE }) => {
-  const [masp, setmasp] = useState("TL");
+const CardComponent = ({ IMG, NAME, PRICE, onClick }) => {
   return (
-    <ProductCard>
+    <ProductCard onClick={onClick}>
       <ProductImage src={IMG} alt={NAME} />
       <ProductName>{NAME}</ProductName>
       <ProductPrice>{Number(PRICE).toLocaleString("vi-VN")} VNĐ</ProductPrice>

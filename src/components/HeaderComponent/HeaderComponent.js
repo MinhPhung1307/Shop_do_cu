@@ -2,15 +2,11 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./HeaderComponent.module.scss";
 import * as UserService from "../../services/UserService";
-import * as ProductService from "../../services/ProductService";
 import Loading from "../LoadingComponent/Loading";
 import ToastMessage from "../../components/Message/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, resetUser } from "../../redux/slides/userSlide";
-import {
-  setProducts,
-  setSearchProducts,
-} from "../../redux/slides/productSlide";
+import { setSearchProducts } from "../../redux/slides/productSlide";
 import LoginComponent from "../LoginComponent/LoginComponent";
 import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
