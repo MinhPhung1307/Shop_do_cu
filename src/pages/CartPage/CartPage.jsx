@@ -1,34 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "../../components/CartItemComponent/CartItem.module.scss";
 import CartItem from "../../components/CartItemComponent/CartItem";
+import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
 const CartPage = () => {
-  const [items, setItems] = useState([
-    {
-      ID: 1,
-      IMG: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-      NAME: "Máy tính Casio FX-580VN X",
-      PRICE: 300000,
-      SELECTED: false,
-    },
-    {
-      ID: 2,
-      IMG: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-      NAME: "Máy tính ",
-      PRICE: 330000,
-      SELECTED: false,
-    },
-    {
-      ID: 3,
-      IMG: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-      NAME: "Bàn phím cơ Dareu EK75 White Black PBT Multi Led",
-      PRICE: 350000,
-      SELECTED: false,
-    },
-  ]);
+  const products = useSelector((state) => state.product.products);
+  const user = useSelector((state) => state.user.user); // hoặc nơi bạn lưu user
+
+  // Lấy danh sách id sản phẩm đã thích/giỏ hàng
+  const idProductLike = user?._idProductlike || [];
+
+  // Lọc ra các sản phẩm có id nằm trong _idProductlike
+  const cartItems = products.filter((item) => idProductLike.includes(item._id));
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    setItems((prevItems) =>
+      cartItems.map((item) => {
+        const old = prevItems.find((i) => i.ID === item._id);
+        return {
+          ID: item._id,
+          IMG: item.images?.[0] || "",
+          NAME: item.name,
+          PRICE: item.price,
+          SELECTED: old ? old.SELECTED : false,
+        };
+      })
+    );
+  }, [cartItems]);
 
   const allSelected = items.length > 0 && items.every((i) => i.SELECTED);
 

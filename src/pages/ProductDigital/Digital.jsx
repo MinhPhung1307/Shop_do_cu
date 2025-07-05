@@ -1,32 +1,89 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./ProductDigital.module.scss";
 import CardComponent from "../../components/CardComponent/CardComponent";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 export default function Digital() {
-  const relatedProducts = [
-    {
-      id: 1,
-      name: "Tên SP 1",
-      price: "₫100.000",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-    {
-      id: 2,
-      name: "Tên SP 2",
-      price: "₫200.000",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-  ];
-  const thumbnails = [
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-  ];
-  const [mainImage, setMainImage] = React.useState(thumbnails[0]);
+  const navigate = useNavigate();
+  const params = useParams();
+  const id = params.id || "686647fd47a436ee09b6d907";
+
+  const products = useSelector((state) => state.product.products);
+  const user = useSelector((state) => state.user);
+  // Tìm sản phẩm theo id
+  const productitem = React.useMemo(() => {
+    return products.find((item) => item._id === id);
+  }, [products, id]);
+
+  const [seller, setSeller] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!productitem || !productitem._iduser) {
+      console.warn("Không có _iduser nên không gọi API");
+      return;
+    }
+
+    const fetchSeller = async () => {
+      try {
+        // gọi API
+        const res = await fetch(
+          `http://localhost:3001/api/user/public/${productitem._iduser}`
+        );
+        const result = await res.json();
+
+        console.log("Kết quả:", result);
+
+        if (result.status === "OK") {
+          setSeller(result.data);
+        } else {
+          console.error("Không lấy được người bán:", result.message);
+        }
+      } catch (err) {
+        console.error("Lỗi khi gọi API người bán:", err);
+      }
+    };
+
+    fetchSeller();
+  }, [productitem]); // chỉ cần theo dõi productitem
+
+  console.log("User ID:", productitem?._iduser);
+  console.log("seller:", seller?.name);
+
+  const thumbnails =
+    productitem?.images?.map(
+      (img) => `http://localhost:3001/${img.replace(/\\/g, "/")}`
+    ) || [];
+
+  const [mainImage, setMainImage] = React.useState("");
+
+  useEffect(() => {
+    const resetImage = () => {
+      if (productitem?.images?.length > 0) {
+        const url = `http://localhost:3001/${productitem.images[0].replace(
+          /\\/g,
+          "/"
+        )}`;
+        setMainImage(url);
+      }
+    };
+    resetImage();
+  }, [productitem]);
+
+  // lọc sản phẩm liên quan
+  const relatedProducts = products
+    .filter(
+      (item) =>
+        item._id !== productitem?._id &&
+        (item.category === productitem?.category ||
+          item.name === productitem?.name)
+    )
+    .sort((a, b) => b._id.localeCompare(a._id)) // sắp giảm dần theo _id => mới nhất
+    .slice(0, 4); // lấy 4 sản phẩm liên quan mới nhất
 
   return (
     <div className={cx("page-container")}>
@@ -34,7 +91,11 @@ export default function Digital() {
         <div className={cx("layout-container")}>
           {/* Left panel */}
           <div className={cx("left-panel")}>
-            <img src={mainImage} alt="Sản phẩm" className={cx("main-image")} />
+            <img
+              src={mainImage}
+              alt={productitem?.name}
+              className={cx("main-image")}
+            />
             <div className={cx("thumbnail-container")}>
               {thumbnails.map((src, i) => (
                 <img
@@ -43,27 +104,51 @@ export default function Digital() {
                   alt={`Thumb ${i}`}
                   className={cx("thumbnail")}
                   onClick={() => setMainImage(src)}
+                  style={{ width: 50, cursor: "pointer" }}
                 />
               ))}
             </div>
-            <h1 className={cx("product-title")}>Tên sản phẩm</h1>
-            <p className={cx("product-detail")}>Chi tiết sản phẩm: <span >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint expedita aperiam modi cumque, tempora iste excepturi magnam aspernatur ad dolorum?</span></p>
-            <p className={cx("product-price")}> 777.000<span> đ</span></p>
+            <h1 className={cx("product-title")}>{productitem?.name}</h1>
+            <p className={cx("product-detail")}>
+              Chi tiết sản phẩm:
+              <span>{productitem?.description}</span>
+            </p>
+            <p className={cx("product-price")}>
+              {" "}
+              {Number(productitem?.price).toLocaleString("vi-VN")}
+              <span> VNĐ</span>
+            </p>
             <div className={cx("product-status")}>
               <span className={cx("status-label")}>
-                Thời gian đã dùng: <span className={cx("using-time")}>1 năm</span>
+                Thời gian đã dùng:
+                <span className={cx("using-time")}>{productitem?.used}</span>
               </span>
-              <span className={cx("category-label")}>Phân loại: <span>Đồng phục</span></span>
+              <span className={cx("category-label")}>
+                Phân loại: <span>{productitem?.category}</span>
+              </span>
             </div>
-            <button className={cx("btn-primary", "buy-button")}>Mua ngay</button>
+            <button className={cx("btn-primary", "buy-button")}>
+              Mua ngay
+            </button>
             <div className={cx("related-section")}>
               <h3 className={cx("section-title")}>Sản phẩm liên quan</h3>
               <div className={cx("related-grid")}>
-                <CardComponent
-                  IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                  NAME="Giáo trình triết"
-                  PRICE="45.000"
-                />
+                {relatedProducts.map((prod) => (
+                  <CardComponent
+                    key={prod._id}
+                    IMG={
+                      prod.images && prod.images[0]
+                        ? `http://localhost:3001/${prod.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`
+                        : "https://via.placeholder.com/150" // fallback nếu không có ảnh
+                    }
+                    NAME={prod.name}
+                    PRICE={prod.price}
+                    onClick={() => navigate(`/digital/${prod._id}`)}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -73,12 +158,15 @@ export default function Digital() {
               <h2 className={cx("section-title")}>Thông tin người bán</h2>
               <div className={cx("seller-details")}>
                 <img
-                  src="./image/avatar.jpeg"
+                  src={
+                    seller?.avatar ||
+                    "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my"
+                  }
                   alt="Avatar"
                   className={cx("seller-avatar")}
                 />
                 <div className={cx("seller-text")}>
-                  <p className={cx("seller-name")}>Tên người bán</p>
+                  <p className={cx("seller-name")}>{seller?.name}</p>
                 </div>
               </div>
               <div className={cx("seller-actions")}>

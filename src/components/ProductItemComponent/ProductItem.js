@@ -5,9 +5,9 @@ import styles from "./ProductItem.module.scss";
 const cx = classNames.bind(styles);
 
 const STATUS_MAP = {
-  "Chờ bán": { label: "Hủy Đơn", btnClass: "btnChoban" },
+  "Đặt hàng": { label: "Hủy Đơn", btnClass: "btnChoban" },
   "Đã mua": { label: "Nhắn Tin", btnClass: "btnDamua" },
-  "Đã bán": { label: "Mua sản phẩm khác", btnClass: "btnDaban" },
+  "Chờ duyệt": { label: "Hủy Đơn", btnClass: "btnChoban" },
 };
 
 const ProductItem = ({ IMG, NAME, PRICE, STATUS }) => {
@@ -21,7 +21,9 @@ const ProductItem = ({ IMG, NAME, PRICE, STATUS }) => {
       {/* 2. Thông tin: tên, giá, trạng thái */}
       <div className={cx("Product-Info")}>
         <div className={cx("Info-Name")}>{NAME}</div>
-        <div className={cx("Info-Price")}>{PRICE}₫</div>
+        <div className={cx("Info-Price")}>
+          {Number(PRICE).toLocaleString("vi-VN")} VNĐ
+        </div>
         <div className={cx("Info-Status")}>
           <span className={cx("Label")}>Trạng thái:</span>
           <span className={cx("Status-Text")}>{STATUS}</span>

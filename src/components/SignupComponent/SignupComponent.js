@@ -42,7 +42,7 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
                     <span className={cx('login__switchBtn')} onClick={openLogin}>Đăng nhập</span>
                 </div>
 
-                <img src="/image/logo.png" alt="logo" />
+                <img src="/image/Logo_Shop.png" alt="logo" />
 
                 <div className={cx('form-group')}>
                     <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required/>

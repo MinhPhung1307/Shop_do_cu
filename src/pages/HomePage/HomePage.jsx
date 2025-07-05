@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import styles from "./HomePage.module.scss";
 import classNames from "classnames/bind";
 import CardComponent from "../../components/CardComponent/CardComponent.js";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
+  const products = useSelector((state) => state.product.products);
+  const navigate = useNavigate();
   // Hàm nhận giá trị từ CardComponent
   const [MaSP, setMaSP] = useState("DP");
   return (
@@ -16,13 +19,54 @@ const HomePage = () => {
           <h2>Tài liệu</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "TL" && (
-            <CardComponent
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết"
-              PRICE="45.000"
-            />
-          )}
+          {products && products.length > 0
+            ? (() => {
+                const filtered = [...products]
+                  .reverse()
+                  .filter(
+                    (item) =>
+                      item.category === "Tài liệu" &&
+                      item.status === "Chờ duyệt"
+                  )
+                  .slice(0, 10); // lấy 10 sản phẩm
+
+                const row1 = filtered.slice(0, 5);
+                const row2 = filtered.slice(5, 10);
+
+                return (
+                  <>
+                    <div className={cx("product-row")}>
+                      {row1.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                    <div className={cx("product-row")}>
+                      {row2.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()
+            : null}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -31,13 +75,53 @@ const HomePage = () => {
           <h2>Dụng Cụ</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "DC" && (
-            <CardComponent
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết"
-              PRICE="45.000"
-            />
-          )}
+          {products && products.length > 0
+            ? (() => {
+                const filtered = [...products]
+                  .reverse()
+                  .filter(
+                    (item) =>
+                      item.category === "Dụng cụ" && item.status === "Chờ duyệt"
+                  )
+                  .slice(0, 10); // lấy 10 sản phẩm
+
+                const row1 = filtered.slice(0, 5);
+                const row2 = filtered.slice(5, 10);
+
+                return (
+                  <>
+                    <div className={cx("product-row")}>
+                      {row1.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                    <div className={cx("product-row")}>
+                      {row2.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()
+            : null}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -46,13 +130,54 @@ const HomePage = () => {
           <h2>Nội Thất</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "NT" && (
-            <CardComponent
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết"
-              PRICE="45.000"
-            />
-          )}
+          {products && products.length > 0
+            ? (() => {
+                const filtered = [...products]
+                  .reverse()
+                  .filter(
+                    (item) =>
+                      item.category === "Nội thất" &&
+                      item.status === "Chờ duyệt"
+                  )
+                  .slice(0, 10); // lấy 10 sản phẩm
+
+                const row1 = filtered.slice(0, 5);
+                const row2 = filtered.slice(5, 10);
+
+                return (
+                  <>
+                    <div className={cx("product-row")}>
+                      {row1.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                    <div className={cx("product-row")}>
+                      {row2.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()
+            : null}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -61,13 +186,54 @@ const HomePage = () => {
           <h2>Đồ Điện Tử</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "DDT" && (
-            <CardComponent
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết"
-              PRICE="45.000"
-            />
-          )}
+          {products && products.length > 0
+            ? (() => {
+                const filtered = [...products]
+                  .reverse()
+                  .filter(
+                    (item) =>
+                      item.category === "Đồ điện tử" &&
+                      item.status === "Chờ duyệt"
+                  )
+                  .slice(0, 10); // lấy 10 sản phẩm
+
+                const row1 = filtered.slice(0, 5);
+                const row2 = filtered.slice(5, 10);
+
+                return (
+                  <>
+                    <div className={cx("product-row")}>
+                      {row1.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                    <div className={cx("product-row")}>
+                      {row2.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()
+            : null}
         </div>
       </div>
       <div className={cx("list__products")}>
@@ -76,13 +242,54 @@ const HomePage = () => {
           <h2>Đồng Phục</h2>
         </div>
         <div className={cx("list__products--item")}>
-          {MaSP === "DP" && (
-            <CardComponent
-              IMG="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              NAME="Giáo trình triết"
-              PRICE="45.000"
-            />
-          )}
+          {products && products.length > 0
+            ? (() => {
+                const filtered = [...products]
+                  .reverse()
+                  .filter(
+                    (item) =>
+                      item.category === "Đồng phục" &&
+                      item.status === "Chờ duyệt"
+                  )
+                  .slice(0, 10); // lấy 10 sản phẩm
+
+                const row1 = filtered.slice(0, 5);
+                const row2 = filtered.slice(5, 10);
+
+                return (
+                  <>
+                    <div className={cx("product-row")}>
+                      {row1.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                    <div className={cx("product-row")}>
+                      {row2.map((item) => (
+                        <CardComponent
+                          key={item._id}
+                          IMG={`http://localhost:3001/${item.images[0].replace(
+                            /\\/g,
+                            "/"
+                          )}`}
+                          NAME={item.name}
+                          PRICE={item.price}
+                          onClick={() => navigate(`/digital/${item._id}`)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()
+            : null}
         </div>
       </div>
     </div>

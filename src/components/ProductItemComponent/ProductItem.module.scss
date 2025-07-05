@@ -7,6 +7,13 @@
   border-radius: 8px;
   box-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
   margin-bottom: 16px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.Product-Item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px) scale(1.01);
+  cursor: pointer;
 }
 
 .Product-Image {
@@ -22,7 +29,6 @@
   align-items: center;
   justify-content: space-evenly;
   gap: 32px;
-  font-family: sans-serif;
 
   .Info-Name {
     max-width: 26rem;
@@ -77,9 +83,4 @@
   background-color: transparent;
   border: 2px solid var(--primary-color);
   color: var(--primary-color);
-}
-
-.btnDaban {
-  background-color: var(--primary-color);
-  color: #fff;
 }

@@ -6,13 +6,13 @@ import Loading from "../LoadingComponent/Loading";
 import ToastMessage from "../../components/Message/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, resetUser } from "../../redux/slides/userSlide";
+import { setSearchProducts } from "../../redux/slides/productSlide";
 import LoginComponent from "../LoginComponent/LoginComponent";
 import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
-import { useNavigate } from "react-router-dom";
-import images from "../../assets/images";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -51,7 +51,7 @@ const HeaderComponent = () => {
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
-    dispatch(updateUser({ ...res?.data, access_token: token }));
+    dispatch(updateUser({ ...res?.data, access_token: token })); // lưu thông tin đăng nhập
   };
 
   const MENU_ITEMS = [
@@ -67,6 +67,18 @@ const HeaderComponent = () => {
     },
   ];
 
+  const products = useSelector((state) => state.product.products);
+
+  const handleSearch = (query) => {
+    if (!query) {
+      return;
+    }
+    // lộc sản phẩm theo giá trị trong ô tìm kiếm
+    const filtered = products.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    dispatch(setSearchProducts(filtered));
+  };
   return (
     <div className={cx("header")}>
       {toast && (
@@ -82,12 +94,13 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
+
           <a onClick={() => navigate('/')}>
-            <img className={cx("logo-icon")} src="./image/logo.png" />
+            <img className={cx("logo-icon")} src="./image/Logo_Shop.png" />
           </a>
         </div>
 
-        <Search />
+        <Search products={products} />
 
         <Loading isLoading={loading} className={cx("User-login")}>
           {user?.access_token ? (
@@ -143,6 +156,7 @@ const HeaderComponent = () => {
 
         <div className={cx("title")}>
           <a className={cx("title-item")} onClick={() => navigate('/')}>Trang chủ</a>
+        
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
           <a className={cx("title-item")}>Đăng sản phẩm</a>
         </div>
@@ -171,29 +185,41 @@ const HeaderComponent = () => {
           </div>
           <ul className={cx("header-2__nav-list")}>
             <li>
-              <a href="" className={cx("header-2__nav-item")}>
+              <Link
+                to="/ProductListDocument"
+                className={cx("header-2__nav-item")}
+              >
                 Tài liệu
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="" className={cx("header-2__nav-item")}>
+              <Link to="/ProductListTool" className={cx("header-2__nav-item")}>
                 Dụng cụ
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="" className={cx("header-2__nav-item")}>
+              <Link
+                to="/ProductListInterior"
+                className={cx("header-2__nav-item")}
+              >
                 Nội thất
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="" className={cx("header-2__nav-item")}>
+              <Link
+                to="/ProductListElectronics"
+                className={cx("header-2__nav-item")}
+              >
                 Đồ điện tử
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="" className={cx("header-2__nav-item")}>
+              <Link
+                to="/ProductListUniform"
+                className={cx("header-2__nav-item")}
+              >
                 Đồng phục
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

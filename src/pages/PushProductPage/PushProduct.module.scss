@@ -1,0 +1,171 @@
+.container {
+  position: relative;
+  padding: 1.5rem;
+  background-color: #e6fdf7;
+  min-height: 100vh;
+  z-index: 0;
+}
+
+.navTabs {
+  background: #b2f3e1;
+  box-shadow: 0 0 12px #2dd4a4;
+  border-radius: 0.8rem;
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.navButton {
+  flex: 1;
+  padding: 1rem 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--primary-color);
+  background: #b2f3e1;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  border: none;
+  border-radius: 0.8rem;
+}
+.activeTab {
+  background: var(--primary-color);
+  color: #fff;
+  // border-radius: 0.8rem;
+}
+.section {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+h2.heading {
+  width: 15%;
+  font-size: 2rem;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color);
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+.uploadArea {
+  border: 2px dashed #ccc;
+  border-radius: 0.5rem;
+  padding: 4.5rem;
+  display: flex;
+  font-size: 2rem;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.alert {
+  top: 32px; // cách đỉnh một chút cho đẹp
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+  margin: 0 auto;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  box-shadow: 0 2px 8px #0001;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+.alert.success {
+  background: #e6ffed;
+  color: #1a7f37;
+  border: 1px solid #b7eb8f;
+}
+.alert.error {
+  background: #fff1f0;
+  color: #d4380d;
+  border: 1px solid #ffa39e;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.placeholder {
+  color: #ccc;
+}
+
+.previewList {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.previewItem {
+  display: flex;
+  align-items: center;
+  background: #c1f4e5;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 16px;
+  color: #333;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.field label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+.field input,
+.field select,
+.field textarea {
+  padding: 1rem;
+  border: 2px solid #ccc;
+  transition: border 0.3s;
+  border-radius: 0.8rem;
+  font-size: 20px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+.submitButton {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  font-size: 2rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+.submitButton:hover {
+  opacity: 0.8;
+}
+
+.section__content {
+  padding: 10px 30px;
+  height: 500px;
+  overflow-y: auto;
+}
