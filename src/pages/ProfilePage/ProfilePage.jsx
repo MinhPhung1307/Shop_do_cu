@@ -1,41 +1,109 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./ProfilePage.module.scss";
-import { useSelector } from "react-redux";
-import { useMutationHook } from "../../hooks/useMutationHook";
-import * as UserService from '../../services/UserService'
+import { useDispatch, useSelector } from "react-redux";
+import * as UserService from '../../services/UserService';
+import images from "../../assets/images";
+import { updateUser as updateUserReDux } from "../../redux/slides/userSlide";
+import ToastMessage from "../../components/Message/Message";
 
 const cx = classNames.bind(styles);
 
 export default function UserProfile() {
   const [tab, setTab] = useState("info");
   const user = useSelector(state => state.user);
-  const { id , access_token } = user;
+  const userName = user.name;
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState(user?.email)
+  const [formData, setFormData] = useState({
+    name: user?.name,
+    phone: user?.phone,
+    address: user?.address,
+    image: user?.avatar,
+  });
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const [toast, setToast] = useState(null);
   
-  const mutation = useMutationHook(data => UserService.getUserBE(data));
-
-
-  // const { email } = mutation.data
-
-  // console.log(mutation.data)
-
-  // console.log(email)
+  const showToast = (type, title, message, duration = 3000) => {
+    setToast({ type, title, message, duration });
+  };
+  
 
   useEffect(() => {
-    if (id && access_token) {
-      mutation.mutate({id, access_token});
-    }
-  }, [id, access_token])
+    setFormData({
+      name: user.name,
+      phone: user.phone,
+      address: user.address,
+      image: user.avatar
+    })
+    setEmail(user.email)
+  }, [user]);
+
+  const handleGetDetailsUser = async (id, token) => {
+    const res = await UserService.getDetailsUser(id, token);
+    dispatch(updateUserReDux({ ...res?.data, access_token: token }));
+  };
   
+  const fileInputRef = useRef();
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setFormData((prev) => ({
+        ...prev,
+        image: imageUrl,
+      }));
+      setSelectedFile(file);
+    }
+  };
+
+  const handleUpdateUser = async () => {
+    const form = new FormData();
+    form.append('name', formData.name);
+    form.append('phone', formData.phone);
+    form.append('address', formData.address);
+
+    if (selectedFile) {
+      form.append('avatar', selectedFile); // avatar là tên field bên backend nhận
+    }
+
+    const res = await UserService.updateUser(user.id, form, user.access_token);
+    handleGetDetailsUser(user?.id, user?.access_token);
+    if(res.status === 'OK'){
+      showToast('success', 'Thành công', res?.message);
+    }else {
+      showToast('error', 'Thất bại', res?.message);
+    }
+  }
 
   return (
     <div className={cx("user-profile")}>
+      {toast && (
+        <ToastMessage
+          type={toast.type}
+          title={toast.title}
+          message={toast.message}
+          duration={toast.duration}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       <div className={cx("profile-header")}>
-        <div className={cx("avatar")}>
-          <img src="" alt="User avatar" />
+        <div className={cx("avatar-wrapper")}>
+          <img className={cx("avatar")} src={formData.image ? formData.image : images.avatar} alt="User avatar" />
+          <div className={cx("avatar-change")} onClick={() => fileInputRef.current.click()}>Chọn ảnh</div>
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
         </div>
         <div className={cx("info")}>
-          <h2>Nguyen Van A</h2>
+          <h2>{userName}</h2>
           <p>Người dùng</p>
         </div>
       </div>
@@ -51,7 +119,7 @@ export default function UserProfile() {
           onClick={() => setTab("settings")}
           className={cx(tab === "settings" ? "active" : "")}
         >
-          Cài đặt
+          Đổi mật khẩu
         </button>
       </div>
 
@@ -59,22 +127,22 @@ export default function UserProfile() {
         <div className={cx("tab-content")}>
           <div className={cx("form-group")}>
             <label>Họ và tên</label>
-            <input type="text" placeholder="Nguyen Van A" />
+            <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
           <div className={cx("form-group")}>
             <label>Email</label>
-            <input type="email" placeholder="example@gmail.com" />
+            <input type="email" value={email} className={cx('disable')}/>
           </div>
           <div className={cx("form-group")}>
             <label>Số điện thoại</label>
-            <input type="text" placeholder="0123456789" />
+            <input type="text" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}/>
           </div>
           <div className={cx("form-group")}>
             <label>Địa chỉ</label>
-            <input type="text" placeholder="123 Nguyễn Văn Cừ, Quận 5" />
+            <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}/>
           </div>
           <div className={cx("form-footer")}>
-            <button className={cx("primary-btn")}>Lưu thay đổi</button>
+            <button className={cx("primary-btn")} onClick={handleUpdateUser}>Lưu thay đổi</button>
           </div>
         </div>
       )}

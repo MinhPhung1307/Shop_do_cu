@@ -1,4 +1,4 @@
-const images = {
+const imagesAdmin = {
     avatar: require('./avatar.jpg'),
     logobanner: require('./logobanner.png'),
     logo_account: require('./logo_account.png'),
@@ -9,4 +9,4 @@ const images = {
 
 };
 
-export default images;
+export default imagesAdmin;

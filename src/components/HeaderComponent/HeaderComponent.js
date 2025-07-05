@@ -11,6 +11,8 @@ import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
+import { useNavigate } from "react-router-dom";
+import images from "../../assets/images";
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +22,7 @@ const HeaderComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const [toast, setToast] = useState(null);
 
@@ -42,6 +45,7 @@ const HeaderComponent = () => {
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoading(false);
+    navigate('/')
     localStorage.removeItem("access_token");
   };
 
@@ -54,7 +58,7 @@ const HeaderComponent = () => {
     {
       icon: <i className={cx("fa-solid fa-user")}></i>,
       title: "Thông tin cá nhân",
-      callback: "",
+      callback: function(){ navigate('/Profile') },
     },
     {
       icon: <i classNames={"fa-solid fa-right-from-bracket"}></i>,
@@ -78,7 +82,7 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
-          <a href="/">
+          <a onClick={() => navigate('/')}>
             <img className={cx("logo-icon")} src="./image/logo.png" />
           </a>
         </div>
@@ -86,11 +90,11 @@ const HeaderComponent = () => {
         <Search />
 
         <Loading isLoading={loading} className={cx("User-login")}>
-          {user?.name ? (
+          {user?.access_token ? (
             <Menu items={MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my"
+                  src={ user?.image ? user?.image : images.avatar }
                   className={cx("user-avatar")}
                   alt={user.name}
                   // fallback
@@ -138,7 +142,7 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a href='/' className={cx("title-item")}>Trang chủ</a>
+          <a className={cx("title-item")} onClick={() => navigate('/')}>Trang chủ</a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
           <a className={cx("title-item")}>Đăng sản phẩm</a>
         </div>
