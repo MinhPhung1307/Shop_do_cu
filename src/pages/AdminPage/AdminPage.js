@@ -6,7 +6,7 @@ import * as UserService from "../../services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../../redux/slides/userSlide";
 import { useNavigate } from 'react-router-dom';
-import images from '../../assets/images/admin';
+import imagesAdmin from '../../assets/images/admin';
 
 const cx = classNames.bind(styles);
 const AdminPage = () => {
@@ -32,11 +32,11 @@ const AdminPage = () => {
     <div className={cx('wrapper')}>
       <div className={cx('uth_banner')}>
         <div className={cx('uth_logo')}>
-          <a href="/admin"><img src={images.logobanner} alt="UTH Logo" /></a>
+          <a href="/admin"><img src={imagesAdmin.logobanner} alt="UTH Logo" /></a>
         </div>
         <Menu items={MENU_ITEMS} offset={[60, -8]}>
           <div className={cx('topbar')}>
-            <img src={images.avatar} alt="Avatar" className={cx('avatar')} />
+            <img src={imagesAdmin.avatar} alt="Avatar" className={cx('avatar')} />
             <span>{user.name}</span>
           </div>
         </Menu>
@@ -54,25 +54,25 @@ const AdminPage = () => {
         <div className={cx('main-content')}>
           <div className={cx('dashboard')}>
             <div className={cx('box')}>
-              <img src={images.logo_list} alt="Số danh mục" />
+              <img src={imagesAdmin.logo_list} alt="Số danh mục" />
               <span>Số danh mục</span>
               <span className={cx('count')}>5</span>
             </div>
 
             <div className={cx('box')}>
-              <img src={images.logo_don} alt="Đơn chờ duyệt" />
+              <img src={imagesAdmin.logo_don} alt="Đơn chờ duyệt" />
               <span>Đơn chờ duyệt</span>
               <span className={cx('count')}>2</span>
             </div>
 
             <div className={cx('box')}>
-              <img src={images.logo_account} alt="Tài khoản" />
+              <img src={imagesAdmin.logo_account} alt="Tài khoản" />
               <span>Tài khoản</span>  
               <span className={cx('count')}>10</span>
             </div>
 
             <div className={cx('box')}>
-              <img src={images.logo_infor} alt="Thông báo" />
+              <img src={imagesAdmin.logo_infor} alt="Thông báo" />
               <span>Thông báo</span>
               <span className={cx('count')}>2</span>
             </div>

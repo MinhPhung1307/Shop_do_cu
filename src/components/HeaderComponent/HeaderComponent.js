@@ -92,19 +92,19 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
-          <a href="/">
-            <img className={cx("logo-icon")} src="/image/Logo_Shop.png" />
+          <a onClick={() => navigate("/")}>
+            <img className={cx("logo-icon")} src="./image/Logo_Shop.png" />
           </a>
         </div>
 
         <Search products={products} />
 
         <Loading isLoading={loading} className={cx("User-login")}>
-          {user?.name ? (
+          {user?.access_token ? (
             <Menu items={MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my"
+                  src={user?.image ? user?.image : images.avatar}
                   className={cx("user-avatar")}
                   alt={user.name}
                   // fallback
@@ -152,7 +152,7 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a href="/" className={cx("title-item")}>
+          <a className={cx("title-item")} onClick={() => navigate("/")}>
             Trang chủ
           </a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
