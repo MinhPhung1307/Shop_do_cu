@@ -107,7 +107,17 @@ function App() {
           <Routes>
             {routes.map((route) => {
               const Page = route.page;
-              const Layout = route.isShowHeader ? DefaultComponent : Fragment;
+              const Layout = ({ children }) =>
+                route.isShowHeader || route.isShowFooter ? (
+                  <DefaultComponent
+                    showHeader={route.isShowHeader}
+                    showFooter={route.isShowFooter}
+                  >
+                    {children}
+                  </DefaultComponent>
+                ) : (
+                  <Fragment>{children}</Fragment>
+                );
               const isCheckAuth = !route.isPrivate || user.isAdmin;
               return (
                 <Route

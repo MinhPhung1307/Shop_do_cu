@@ -93,7 +93,7 @@ const HeaderComponent = () => {
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
           <a href="/">
-            <img className={cx("logo-icon")} src="./image/Logo_Shop.png" />
+            <img className={cx("logo-icon")} src="/image/Logo_Shop.png" />
           </a>
         </div>
 
