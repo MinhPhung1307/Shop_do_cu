@@ -12,7 +12,8 @@ import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
-import { Link } from "react-router-dom";
+import images from "../../assets/images";
+import { Link, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 

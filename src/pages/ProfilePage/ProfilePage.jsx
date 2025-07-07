@@ -23,6 +23,13 @@ export default function UserProfile() {
   });
   const [selectedFile, setSelectedFile] = useState(null);
 
+  const [curPassword, setCurPassword] = useState()
+  const [showCurPassword, setShowCurPassword] = useState(false)
+  const [newPassword, setNewPassword] = useState()
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState()
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
   const [toast, setToast] = useState(null);
   
   const showToast = (type, title, message, duration = 3000) => {
@@ -60,19 +67,23 @@ export default function UserProfile() {
   };
 
   const handleUpdateUser = async () => {
-    const form = new FormData();
-    form.append('name', formData.name);
-    form.append('phone', formData.phone);
-    form.append('address', formData.address);
-
-    if (selectedFile) {
-      form.append('avatar', selectedFile); // avatar là tên field bên backend nhận
-    }
-
-    const res = await UserService.updateUser(user.id, form, user.access_token);
+    const res = await UserService.updateUser(user.id, formData, user.access_token);
     handleGetDetailsUser(user?.id, user?.access_token);
     if(res.status === 'OK'){
       showToast('success', 'Thành công', res?.message);
+    }else {
+      showToast('error', 'Thất bại', res?.message);
+    }
+  }
+
+  const handleUpdatePassword = async () => {
+    const data = { curPassword, newPassword, confirmPassword };
+    const res = await UserService.updatePassword(user.id, data , user.access_token);
+    if(res.status === 'OK'){
+      showToast('success', 'Thành công', res?.message);
+      setCurPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
     }else {
       showToast('error', 'Thất bại', res?.message);
     }
@@ -104,7 +115,7 @@ export default function UserProfile() {
         </div>
         <div className={cx("info")}>
           <h2>{userName}</h2>
-          <p>Người dùng</p>
+          <p>{user.isAdmin ? 'Admin' : 'Người dùng'}</p>
         </div>
       </div>
 
@@ -151,18 +162,81 @@ export default function UserProfile() {
         <div className={cx("tab-content")}>
           <div className={cx("form-group")}>
             <label>Mật khẩu cũ</label>
-            <input type="password" placeholder="••••••" />
+            <input 
+              class={cx('input')}
+              type={showCurPassword ? "text" : "password"} 
+              placeholder="••••••" 
+              value={curPassword}
+              onChange={(e) => setCurPassword(e.target.value)}
+            />
+            {showCurPassword ? (
+              <div
+                  className={cx("icon-hide")}
+                  onClick={() => setShowCurPassword(!showCurPassword)}
+                >
+                  <i className="fa-solid fa-eye"></i>
+                </div>
+              ) : (
+                <div
+                  className={cx("icon-show")}
+                  onClick={() => setShowCurPassword(!showCurPassword)}
+                >
+                  <i className="fa-solid fa-eye-slash"></i>
+                </div>
+            )}
           </div>
           <div className={cx("form-group")}>
             <label>Mật khẩu mới</label>
-            <input type="password" placeholder="••••••" />
+            <input 
+              class={cx('input')}
+              type={showNewPassword ? "text" : "password"} 
+              placeholder="••••••" 
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)} 
+            />
+            {showNewPassword ? (
+              <div
+                className={cx("icon-hide")}
+                onClick={() => setShowNewPassword(!showNewPassword)}
+              >
+                <i className="fa-solid fa-eye"></i>
+              </div>
+            ) : (
+                <div
+                  className={cx("icon-show")}
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                >
+                  <i className="fa-solid fa-eye-slash"></i>
+                </div>
+            )}
           </div>
           <div className={cx("form-group")}>
             <label>Nhập lại mật khẩu mới</label>
-            <input type="password" placeholder="••••••" />
+            <input 
+              class={cx('input')}
+              type={showConfirmPassword ? "text" : "password"} 
+              placeholder="••••••" 
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}  
+            />
+            {showConfirmPassword ? (
+              <div
+                className={cx("icon-hide")}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <i className="fa-solid fa-eye"></i>
+              </div>
+            ) : (
+                <div
+                  className={cx("icon-show")}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <i className="fa-solid fa-eye-slash"></i>
+                </div>
+            )}
           </div>
           <div className={cx("form-footer")}>
-            <button className={cx("primary-btn")}>Cập nhật mật khẩu</button>
+            <button className={cx("primary-btn")} onClick={handleUpdatePassword}>Cập nhật mật khẩu</button>
           </div>
         </div>
       )}

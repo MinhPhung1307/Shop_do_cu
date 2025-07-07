@@ -109,6 +109,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 label {
@@ -154,4 +155,12 @@ input {
 .disable {
   pointer-events: none;
   user-select: none;
+}
+
+.icon-show,
+.icon-hide {
+  position: absolute;
+  right: 16px;
+  bottom: 20%;
+  cursor: pointer;
 }
