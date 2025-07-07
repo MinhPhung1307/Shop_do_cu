@@ -12,8 +12,7 @@ import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
-import images from "../../assets/images";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -93,19 +92,19 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
-          <a onClick={() => navigate("/")}>
-            <img className={cx("logo-icon")} src="./image/Logo_Shop.png" />
+          <a href="/">
+            <img className={cx("logo-icon")} src="/image/Logo_Shop.png" />
           </a>
         </div>
 
         <Search products={products} />
 
         <Loading isLoading={loading} className={cx("User-login")}>
-          {user?.access_token ? (
+          {user?.name ? (
             <Menu items={MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src={user?.image ? user?.image : images.avatar}
+                  src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my"
                   className={cx("user-avatar")}
                   alt={user.name}
                   // fallback
@@ -153,7 +152,7 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a className={cx("title-item")} onClick={() => navigate("/")}>
+          <a href="/" className={cx("title-item")}>
             Trang chủ
           </a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
