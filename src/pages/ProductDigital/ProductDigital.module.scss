@@ -248,6 +248,38 @@
       margin-bottom: 10px;
     }
 
+    .time {
+      font-size: 20px;
+
+      .countdown-normal-color {
+        color: black;
+      }
+
+      .countdown-urgent-color {
+        color: red;
+        animation: bling 1s infinite alternate;
+      }
+
+      .countdown-expired-color {
+        color: gray;
+      }
+
+      @keyframes bling {
+        0% {
+          transform: scale(1); /* Kích thước ban đầu */
+          color: red; /* Giữ lại nếu bạn vẫn muốn nhấp nháy màu cùng lúc */
+        }
+        50% {
+          transform: scale(1.05); /* Lớn hơn một chút (ví dụ 5%) */
+          color: white; /* Giữ lại nếu bạn vẫn muốn nhấp nháy màu cùng lúc */
+        }
+        100% {
+          transform: scale(1); /* Trở về kích thước ban đầu */
+          color: red; /* Giữ lại nếu bạn vẫn muốn nhấp nháy màu cùng lúc */
+        }
+      }
+    }
+
     .current-price {
       font-size: 2rem;
       margin-bottom: 10px;
