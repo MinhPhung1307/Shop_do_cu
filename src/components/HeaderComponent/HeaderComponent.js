@@ -23,7 +23,6 @@ const HeaderComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const navigate = useNavigate();
 
   const [toast, setToast] = useState(null);
 
@@ -46,7 +45,6 @@ const HeaderComponent = () => {
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoading(false);
-    navigate('/')
     localStorage.removeItem("access_token");
   };
 
@@ -59,7 +57,7 @@ const HeaderComponent = () => {
     {
       icon: <i className={cx("fa-solid fa-user")}></i>,
       title: "Thông tin cá nhân",
-      callback: function(){ navigate('/Profile') },
+      callback: "",
     },
     {
       icon: <i classNames={"fa-solid fa-right-from-bracket"}></i>,
@@ -95,8 +93,7 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
-
-          <a onClick={() => navigate('/')}>
+          <a onClick={() => navigate("/")}>
             <img className={cx("logo-icon")} src="./image/Logo_Shop.png" />
           </a>
         </div>
@@ -108,7 +105,7 @@ const HeaderComponent = () => {
             <Menu items={MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src={ user?.image ? user?.image : images.avatar }
+                  src={user?.image ? user?.image : images.avatar}
                   className={cx("user-avatar")}
                   alt={user.name}
                   // fallback
@@ -156,8 +153,9 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a className={cx("title-item")} onClick={() => navigate('/')}>Trang chủ</a>
-        
+          <a className={cx("title-item")} onClick={() => navigate("/")}>
+            Trang chủ
+          </a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>
           <a className={cx("title-item")}>Đăng sản phẩm</a>
         </div>

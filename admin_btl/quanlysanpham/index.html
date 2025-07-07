@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="uth_banner">
+    <div class="uth_logo">
+      <img src="image/Logo_Shop.png" alt="Logo Shop">
+    </div>
+    <div class="topbar">
+      <img src="image/Do_dien_tu.png" class="avatar" />
+      <span>Đặng Quốc Phong</span>
+    </div>
+  </header>
+
+  <!-- SIDEBAR + MAIN -->
+  <div class="container">
+    <nav class="sidebar">
+      <div class="menu">
+        <a href="#" id="menu-account" onclick="showSection('account', this)">Quản lý tài khoản</a>
+        <a href="#" id="menu-pending" onclick="showSection('pending', this)">Quản lý chờ duyệt</a>
+        <a href="#" id="menu-products" onclick="showSection('products', this)">Quản lý đăng tin</a>
+        <a href="#" id="menu-categories" onclick="showSection('categories', this)">Phân loại</a>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <!-- QUẢN LÝ TÀI KHOẢN -->
+      <section id="account" class="content-section">
+        <div class="header-line">
+          <h2>Danh sách tài khoản bị khóa</h2>
+          <input type="text" placeholder="Nhập tên hoặc MSSV" />
+        </div>
+        <div class="account-item">
+          <img src="image/Dung_cu.png" />
+          <span class="mssv">060205002481</span>
+          <span class="name">Lê Gia Bảo</span>
+          <button class="unlock-btn"> Mở khóa</button>
+        </div>
+      </section>
+
+      <!-- QUẢN LÝ CHỜ DUYỆT -->
+      <section id="pending" class="content-section" style="display: none">
+        <div class="header-line">
+          <h2>Danh sách chờ duyệt</h2>
+          <input type="text" placeholder="Nhập tên sản phẩm hoặc MSSP" />
+        </div>
+        <div class="product-item">
+          <img src="image/Do_dien_tu.png" />
+          <span class="code">DDT01</span>
+          <span class="name">Chuột AULA SC580 màu Trắng</span>
+          <span class="price">199.000đ</span>
+          <button class="approve-btn">✅</button>
+          <button class="reject-btn">❌</button>
+        </div>
+      </section>
+
+      <!-- QUẢN LÝ ĐĂNG TIN -->
+      <section id="products" class="content-section" style="display: none">
+        <div class="header-line">
+          <h2>Danh sách sản phẩm đã đăng</h2>
+          <input type="text" placeholder="Nhập tên sản phẩm hoặc MSSP" />
+        </div>
+        <div class="product-item">
+          <img src="image/Tai_lieu.png" />
+          <span class="code">TL01</span>
+          <span class="name">Sách Kỷ Luật Bản Thân</span>
+          <span class="price">59.000đ</span>
+          <button class="delete-btn"> Xóa</button>
+        </div>
+      </section>
+
+      <!-- PHÂN LOẠI -->
+      <section id="categories" class="content-section" style="display: none">
+        <div class="category-grid">
+          <div class="category-box" onclick="filterByCategory('Tài liệu')">
+            <img src="image/Tai_lieu.png" />
+            <div>Tài liệu</div>
+            <span>16</span>
+          </div>
+          <div class="category-box" onclick="filterByCategory('Dụng cụ')">
+            <img src="image/Dung_cu.png" />
+            <div>Dụng cụ</div>
+            <span>10</span>
+          </div>
+          <div class="category-box" onclick="filterByCategory('Đồ điện tử')">
+            <img src="image/Do_dien_tu.png" />
+            <div>Đồ điện tử</div>
+            <span>2</span>
+          </div>
+          <div class="category-box" onclick="filterByCategory('Nội thất')">
+            <img src="image/Noi_that.png" />
+            <div>Nội thất</div>
+            <span>2</span>
+          </div>
+          <div class="category-box" onclick="filterByCategory('Đồng phục')">
+            <img src="image/Đồng_phục.png" />
+            <div>Đồng phục</div>
+            <span>4</span>
+          </div>
+        </div>
+        <div id="category-products" style="margin-top: 30px;"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

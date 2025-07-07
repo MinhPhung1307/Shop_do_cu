@@ -28,6 +28,7 @@ export const routes = [
     path: "/digital/:id",
     page: Digital,
     isShowHeader: true,
+    isShowFooter: true,
     isPrivate: false,
   },
 
