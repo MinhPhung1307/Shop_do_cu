@@ -12,13 +12,10 @@ import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
-<<<<<<< HEAD
 import images from "../../assets/images";
 import imagesAdmin from '../../assets/images/admin/index'
 import { Link, useNavigate } from "react-router-dom";
-=======
-import { Link } from "react-router-dom";
->>>>>>> 44460017178a7c7f03b1f5b8aaadd1bd5f7bc199
+
 
 const cx = classNames.bind(styles);
 
