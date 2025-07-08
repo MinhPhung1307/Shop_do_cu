@@ -104,7 +104,7 @@ export default function UserProfile() {
       <div className={cx("profile-header")}>
         <div className={cx("avatar-wrapper")}>
           <img className={cx("avatar")} src={formData.image ? formData.image : images.avatar} alt="User avatar" />
-          <div className={cx("avatar-change")} onClick={() => fileInputRef.current.click()}>Chọn ảnh</div>
+          <div className={cx("avatar-change")} onClick={() => fileInputRef.current?.click?.()}>Chọn ảnh</div>
           <input
             type="file"
             accept="image/*"
@@ -163,7 +163,7 @@ export default function UserProfile() {
           <div className={cx("form-group")}>
             <label>Mật khẩu cũ</label>
             <input 
-              class={cx('input')}
+              className={cx('input')}
               type={showCurPassword ? "text" : "password"} 
               placeholder="••••••" 
               value={curPassword}
@@ -188,7 +188,7 @@ export default function UserProfile() {
           <div className={cx("form-group")}>
             <label>Mật khẩu mới</label>
             <input 
-              class={cx('input')}
+              className={cx('input')}
               type={showNewPassword ? "text" : "password"} 
               placeholder="••••••" 
               value={newPassword}
@@ -213,7 +213,7 @@ export default function UserProfile() {
           <div className={cx("form-group")}>
             <label>Nhập lại mật khẩu mới</label>
             <input 
-              class={cx('input')}
+              className={cx('input')}
               type={showConfirmPassword ? "text" : "password"} 
               placeholder="••••••" 
               value={confirmPassword}

@@ -13,6 +13,7 @@ import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
 import images from "../../assets/images";
+import imagesAdmin from '../../assets/images/admin/index'
 import { Link, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
@@ -23,6 +24,7 @@ const HeaderComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate()
 
   const [toast, setToast] = useState(null);
 
@@ -57,10 +59,23 @@ const HeaderComponent = () => {
     {
       icon: <i className={cx("fa-solid fa-user")}></i>,
       title: "Thông tin cá nhân",
-      callback: "",
+      callback: () => navigate('/profile'),
     },
     {
-      icon: <i classNames={"fa-solid fa-right-from-bracket"}></i>,
+      icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
+      title: "Đăng xuất",
+      callback: handleLogout,
+    },
+  ];
+
+  const MENU_ITEMS_ADMIN = [
+    {
+      icon: <i className="fa-solid fa-shield-halved"></i>,
+      title: "Quản lý hệ thống",
+      callback: () => navigate('/admin'),
+    },
+    {
+      icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
       title: "Đăng xuất",
       callback: handleLogout,
     },
@@ -102,13 +117,13 @@ const HeaderComponent = () => {
 
         <Loading isLoading={loading} className={cx("User-login")}>
           {user?.access_token ? (
-            <Menu items={MENU_ITEMS}>
+            <Menu items={user.isAdmin ? MENU_ITEMS_ADMIN : MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src={user?.image ? user?.image : images.avatar}
+                  src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar}
                   className={cx("user-avatar")}
                   alt={user.name}
-                  // fallback
+                  fallback={images.avatar}
                 />
                 <span>{user.name}</span>
               </div>
