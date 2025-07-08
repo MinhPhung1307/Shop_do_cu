@@ -12,9 +12,13 @@ import SignupComponent from "../SignupComponent/SignupComponent";
 import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
+<<<<<<< HEAD
 import images from "../../assets/images";
 import imagesAdmin from '../../assets/images/admin/index'
 import { Link, useNavigate } from "react-router-dom";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> 44460017178a7c7f03b1f5b8aaadd1bd5f7bc199
 
 const cx = classNames.bind(styles);
 
@@ -108,8 +112,8 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
-          <a onClick={() => navigate("/")}>
-            <img className={cx("logo-icon")} src="./image/Logo_Shop.png" />
+          <a href="/">
+            <img className={cx("logo-icon")} src="/image/Logo_Shop.png" />
           </a>
         </div>
 
@@ -121,6 +125,7 @@ const HeaderComponent = () => {
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
                   src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar}
+
                   className={cx("user-avatar")}
                   alt={user.name}
                   fallback={images.avatar}
@@ -168,7 +173,7 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a className={cx("title-item")} onClick={() => navigate("/")}>
+          <a href="/" className={cx("title-item")}>
             Trang chủ
           </a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>

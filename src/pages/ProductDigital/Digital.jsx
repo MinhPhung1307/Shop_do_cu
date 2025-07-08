@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./ProductDigital.module.scss";
 import CardComponent from "../../components/CardComponent/CardComponent";
@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 export default function Digital() {
   const navigate = useNavigate();
   const params = useParams();
-  const id = params.id || "686647fd47a436ee09b6d907";
+  const id = params.id || "";
 
   const products = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user);
@@ -20,9 +20,9 @@ export default function Digital() {
     return products.find((item) => item._id === id);
   }, [products, id]);
 
-  const [seller, setSeller] = React.useState(null);
+  const [seller, setSeller] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!productitem || !productitem._iduser) {
       console.warn("Không có _iduser nên không gọi API");
       return;
@@ -84,6 +84,71 @@ export default function Digital() {
     )
     .sort((a, b) => b._id.localeCompare(a._id)) // sắp giảm dần theo _id => mới nhất
     .slice(0, 4); // lấy 4 sản phẩm liên quan mới nhất
+
+  // hàm tính thời gian
+  const [timeLeft, setTimeLeft] = useState("");
+
+  const [countdownColorClass, setCountdownColorClass] = useState(
+    cx("countdown-normal-color")
+  ); // Mặc định khởi tạo là class cho màu đen
+  const productCreatedAt = productitem?.createdAt;
+  useEffect(() => {
+    // Đảm bảo productCreatedAt được cung cấp và là một ngày hợp lệ
+    if (!productCreatedAt) {
+      setTimeLeft("00 : 00 : 00");
+      setCountdownColorClass(cx("countdown-expired-color")); // Màu xám
+      return;
+    }
+
+    const creationDate = new Date(productCreatedAt);
+    // Tính toán thời gian kết thúc: thời gian tạo + 48 giờ
+    const countdownEndTime = new Date(
+      creationDate.getTime() + 48 * 60 * 60 * 1000
+    );
+
+    const calculateTimeLeft = () => {
+      const difference = countdownEndTime.getTime() - new Date().getTime();
+      let timeLeft = {};
+
+      if (difference > 0) {
+        timeLeft = {
+          hours: Math.floor(difference / (1000 * 60 * 60)), // Tổng số giờ còn lại
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        };
+      }
+      return timeLeft;
+    };
+
+    // Thiết lập interval để cập nhật đồng hồ đếm ngược mỗi giây
+    const timer = setInterval(() => {
+      const newTimeLeft = calculateTimeLeft();
+      if (Object.keys(newTimeLeft).length === 0) {
+        setTimeLeft("00 : 00 : 00"); // Khi hết thời gian, hiển thị cố định 00:00:00
+        setCountdownColorClass(cx("countdown-expired-color")); // Màu xám khi hết thời gian
+        clearInterval(timer); // Dừng đếm ngược khi hết thời gian
+      } else {
+        // Định dạng hiển thị thời gian còn lại
+        // Đảm bảo luôn chuyển đổi sang chuỗi và dùng padStart
+        const hours = String(newTimeLeft.hours || 0).padStart(2, "0");
+        const minutes = String(newTimeLeft.minutes || 0).padStart(2, "0");
+        const seconds = String(newTimeLeft.seconds || 0).padStart(2, "0");
+        // Cập nhật class màu dựa trên số giờ
+        if (newTimeLeft.hours <= 1) {
+          // Nếu số giờ còn lại nhỏ hơn hoặc bằng 1
+          setCountdownColorClass(cx("countdown-urgent-color")); // Đặt class cho màu đỏ
+        } else {
+          // Nếu số giờ còn lại lớn hơn 1
+          setCountdownColorClass(cx("countdown-normal-color")); // Đặt lại class cho màu đen
+        }
+
+        setTimeLeft(`${hours} : ${minutes} : ${seconds}`);
+      }
+    }, 1000);
+
+    // Hàm dọn dẹp: xóa interval khi component bị gỡ khỏi DOM
+    return () => clearInterval(timer);
+  }, [productCreatedAt]); // Dependency array: re-run useEffect nếu productCreatedAt thay đổi
 
   return (
     <div className={cx("page-container")}>
@@ -147,6 +212,7 @@ export default function Digital() {
                     NAME={prod.name}
                     PRICE={prod.price}
                     onClick={() => navigate(`/digital/${prod._id}`)}
+                    productCreatedAt={prod.createAt}
                   />
                 ))}
               </div>
@@ -158,7 +224,10 @@ export default function Digital() {
               <h2 className={cx("section-title")}>Thông tin người bán</h2>
               <div className={cx("seller-details")}>
                 <img
-                  src={seller?.avatar || "/image/avatar.jpeg"}
+                  src={
+                    seller?.avatar ||
+                    "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my"
+                  }
                   alt="Avatar"
                   className={cx("seller-avatar")}
                 />
@@ -173,8 +242,12 @@ export default function Digital() {
             </section>
             <section className={cx("auction-section")}>
               <h3 className={cx("section-title")}>Đấu giá</h3>
+              <p className={cx("time")}>
+                Thời gian còn lại:{" "}
+                <span className={countdownColorClass}>{timeLeft}</span>
+              </p>
               <p className={cx("current-price")}>
-                Giá hiện tại <span>1.000.000</span> đ
+                Giá hiện tại: <span>1.000.000</span> đ
               </p>
               <div className={cx("bid-input")}>
                 <input
