@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled, { keyframes, css } from "styled-components";
 
 const bling = keyframes`
@@ -61,69 +61,144 @@ const CountdownText = styled.p`
     `}
 `;
 
-const CardComponent = ({ IMG, NAME, PRICE, productCreatedAt, onClick }) => {
+const CardComponent = ({ product, onClick }) => {
+  // Destructure các thuộc tính của sản phẩm để dễ dàng truy cập
+  // Sử dụng optional chaining (?) để an toàn nếu 'product' ban đầu là null hoặc undefined
+  const { images, name, price, createdAt, auctionEndTime } = product || {};
+
+  // State để lưu trữ chuỗi thời gian còn lại (ví dụ: "01 : 23 : 45")
   const [timeLeft, setTimeLeft] = useState("");
+  // State để lưu trữ màu của văn bản đếm ngược (đen, đỏ, xám)
   const [countdownColor, setCountdownColor] = useState("black");
+
+  // useMemo để xác định thời gian kết thúc đấu giá "hiệu quả"
+  // Ưu tiên sử dụng product.auctionEndTime nếu nó tồn tại và hợp lệ
+  // Nếu không, sẽ tính toán từ product.createdAt + 48 giờ
+  const effectiveAuctionEndTime = useMemo(() => {
+    // 1. Ưu tiên product.auctionEndTime (thời gian đã được gia hạn từ backend)
+    //    Kiểm tra xem nó có tồn tại và có phải là một đối tượng Date hợp lệ không.
+    if (
+      auctionEndTime &&
+      new Date(auctionEndTime) instanceof Date &&
+      !isNaN(new Date(auctionEndTime).getTime())
+    ) {
+      return new Date(auctionEndTime); // Trả về thời gian kết thúc đấu giá từ backend
+    }
+    // 2. Nếu product.auctionEndTime không có hoặc không hợp lệ, fallback về product.createdAt + 48 giờ
+    //    Kiểm tra tương tự cho createdAt.
+    if (
+      createdAt &&
+      new Date(createdAt) instanceof Date &&
+      !isNaN(new Date(createdAt).getTime())
+    ) {
+      return new Date(new Date(createdAt).getTime() + 48 * 60 * 60 * 1000); // Tính toán thời gian kết thúc mặc định
+    }
+    return null; // Trả về null nếu không có nguồn thời gian hợp lệ nào
+  }, [auctionEndTime, createdAt]); // Dependency array: useMemo sẽ chạy lại khi auctionEndTime hoặc createdAt thay đổi
+
+  // useEffect để thiết lập và quản lý bộ đếm ngược
   useEffect(() => {
-    // Đảm bảo productCreatedAt được cung cấp và là một ngày hợp lệ
-    if (!productCreatedAt) {
+    // Nếu không có thời gian kết thúc hiệu quả (sản phẩm không có createdAt/auctionEndTime),
+    // hiển thị 00:00:00 và màu xám, sau đó dừng.
+    if (!effectiveAuctionEndTime) {
       setTimeLeft("00 : 00 : 00");
       setCountdownColor("gray");
-      return;
+      return; // Dừng thực thi phần còn lại của useEffect trong chu kỳ này
     }
 
-    const creationDate = new Date(productCreatedAt);
-    // Tính toán thời gian kết thúc: thời gian tạo + 48 giờ
-    const countdownEndTime = new Date(
-      creationDate.getTime() + 48 * 60 * 60 * 1000
-    );
-
+    // Hàm nội bộ để tính toán thời gian còn lại
     const calculateTimeLeft = () => {
-      const difference = countdownEndTime.getTime() - new Date().getTime();
-      let timeLeft = {};
+      // Tính sự khác biệt giữa thời gian kết thúc và thời gian hiện tại
+      const difference =
+        effectiveAuctionEndTime.getTime() - new Date().getTime();
+      let calculatedTimeLeft = {};
 
+      // Nếu còn thời gian (difference > 0), tính giờ, phút, giây
       if (difference > 0) {
-        timeLeft = {
+        calculatedTimeLeft = {
           hours: Math.floor(difference / (1000 * 60 * 60)), // Tổng số giờ còn lại
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
+          minutes: Math.floor((difference / 1000 / 60) % 60), // Số phút còn lại trong giờ hiện tại
+          seconds: Math.floor((difference / 1000) % 60), // Số giây còn lại trong phút hiện tại
         };
       }
-      return timeLeft;
+      return calculatedTimeLeft;
     };
 
-    const timer = setInterval(() => {
-      const newTimeLeft = calculateTimeLeft();
-      if (Object.keys(newTimeLeft).length === 0) {
-        setTimeLeft("00 : 00 : 00"); // Khi hết thời gian, hiển thị cố định 00:00:00
-        setCountdownColor("gray");
-        clearInterval(timer); // Dừng đếm ngược khi hết thời gian
+    // --- Thực hiện tính toán ban đầu khi component mount hoặc effectiveAuctionEndTime thay đổi ---
+    // Điều này đảm bảo thời gian và màu được hiển thị ngay lập tức, không chờ 1 giây đầu tiên
+    const initialTimeLeft = calculateTimeLeft();
+    if (Object.keys(initialTimeLeft).length === 0) {
+      // Nếu không còn thời gian, đặt về 00:00:00 và màu xám
+      setTimeLeft("00 : 00 : 00");
+      setCountdownColor("gray");
+    } else {
+      // Định dạng chuỗi thời gian (thêm '0' phía trước nếu là số đơn)
+      const hours = String(initialTimeLeft.hours || 0).padStart(2, "0");
+      const minutes = String(initialTimeLeft.minutes || 0).padStart(2, "0");
+      const seconds = String(initialTimeLeft.seconds || 0).padStart(2, "0");
+
+      // Cập nhật màu dựa trên số giờ còn lại
+      if (initialTimeLeft.hours <= 1 && initialTimeLeft.hours >= 0) {
+        setCountdownColor("red"); // Màu đỏ nếu còn <= 1 giờ
       } else {
-        // Định dạng hiển thị thời gian còn lại
-        // Đảm bảo luôn chuyển đổi sang chuỗi và dùng padStart
+        setCountdownColor("black"); // Màu đen nếu còn > 1 giờ
+      }
+      setTimeLeft(`${hours} : ${minutes} : ${seconds}`); // Cập nhật chuỗi thời gian
+    }
+
+    // --- Thiết lập Interval để cập nhật thời gian mỗi giây ---
+    const timer = setInterval(() => {
+      const newTimeLeft = calculateTimeLeft(); // Tính toán thời gian còn lại mới nhất
+      if (Object.keys(newTimeLeft).length === 0) {
+        // Nếu đã hết thời gian
+        setTimeLeft("00 : 00 : 00"); // Hiển thị 00:00:00
+        setCountdownColor("gray"); // Đặt màu xám
+        clearInterval(timer); // Dừng bộ đếm ngược
+      } else {
+        // Nếu vẫn còn thời gian, định dạng và cập nhật hiển thị
         const hours = String(newTimeLeft.hours || 0).padStart(2, "0");
         const minutes = String(newTimeLeft.minutes || 0).padStart(2, "0");
         const seconds = String(newTimeLeft.seconds || 0).padStart(2, "0");
 
-        if (newTimeLeft.hours <= 1) {
-          setCountdownColor("red");
+        // Cập nhật màu dựa trên số giờ còn lại
+        // Chỉ gọi setCountdownColor nếu màu thực sự thay đổi để tránh re-render không cần thiết
+        if (newTimeLeft.hours <= 1 && newTimeLeft.hours >= 0) {
+          if (countdownColor !== "red") {
+            setCountdownColor("red");
+          }
         } else {
-          setCountdownColor("black");
+          if (countdownColor !== "black") {
+            setCountdownColor("black");
+          }
         }
-        setTimeLeft(`${hours} : ${minutes} : ${seconds}`);
+        setTimeLeft(`${hours} : ${minutes} : ${seconds}`); // Cập nhật chuỗi thời gian
       }
-    }, 1000);
+    }, 1000); // Cập nhật mỗi 1000 mili giây (1 giây)
 
-    // Hàm dọn dẹp: xóa interval khi component bị gỡ khỏi DOM
-    return () => clearInterval(timer);
-  }, [productCreatedAt]); // Dependency array: re-run useEffect nếu productCreatedAt thay đổi
+    // Hàm dọn dẹp (cleanup function): được chạy khi component unmount
+    // hoặc khi các dependencies của useEffect thay đổi (trước khi useEffect chạy lại)
+    return () => clearInterval(timer); // Xóa interval để tránh rò rỉ bộ nhớ
+  }, [effectiveAuctionEndTime, countdownColor]); // Dependency array: useEffect này sẽ chạy lại khi effectiveAuctionEndTime hoặc countdownColor thay đổi.
+  // effectiveAuctionEndTime thay đổi khi product.auctionEndTime thay đổi từ parent.
 
+  // Chuẩn bị URL hình ảnh, an toàn hơn với optional chaining và kiểm tra mảng rỗng
+  const productImageUrl =
+    images && images.length > 0
+      ? `http://localhost:3001/${images[0].replace(/\\/g, "/")}`
+      : "";
+
+  // Render UI của Product Card
   return (
     <ProductCard onClick={onClick}>
-      <ProductImage src={IMG} alt={NAME} />
-      <ProductName>{NAME}</ProductName>
-      <ProductPrice>{Number(PRICE).toLocaleString("vi-VN")} VNĐ</ProductPrice>
-      <CountdownText color={countdownColor}>{timeLeft}</CountdownText>
+      <ProductImage src={productImageUrl} alt={name} />{" "}
+      {/* Sử dụng name từ product */}
+      <ProductName>{name}</ProductName> {/* Sử dụng name từ product */}
+      <ProductPrice>
+        {Number(price).toLocaleString("vi-VN")} VNĐ
+      </ProductPrice>{" "}
+      {/* Sử dụng price từ product */}
+      <CountdownText color={countdownColor}>{timeLeft}</CountdownText>{" "}
+      {/* Sử dụng state countdownColor và timeLeft */}
     </ProductCard>
   );
 };
