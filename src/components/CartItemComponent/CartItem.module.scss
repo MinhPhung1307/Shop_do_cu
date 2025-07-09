@@ -97,7 +97,7 @@ $text-dark: #333;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .buy {
@@ -108,7 +108,7 @@ $text-dark: #333;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 //* --- actionBar --- */
@@ -118,7 +118,7 @@ $text-dark: #333;
   bottom: 0;             /* cách đáy 0 */
   left: 0;               /* cách trái 0 */
   width: 100%;           /* chiếm hết chiều ngang */
-  max-width: 90%;      /* giới hạn */
+  max-width: 100%;      /* giới hạn */
   margin: 0 auto;        /* căn giữa trong viewport */
   display: flex;
   justify-content: space-between;
