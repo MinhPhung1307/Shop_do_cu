@@ -30,18 +30,12 @@ const ProductListPageElectronics = () => {
         {Array.isArray(products) && products.length > 0 ? (
           [...products]
             .reverse()
-            .filter((item) => item.category === "Đồ điện tử")
+            .filter((item) =>item.category === "Đồ điện tử" && item.status === "checked")
             .map((item) => (
               <CardComponent
                 key={item._id}
-                IMG={`http://localhost:3001/${item.images[0]?.replace(
-                  /\\/g,
-                  "/"
-                )}`}
-                NAME={item.name}
-                PRICE={item.price}
                 onClick={() => navigate(`/digital/${item._id}`)}
-                productCreatedAt={item.createAt}
+                product={item}
               />
             ))
         ) : (

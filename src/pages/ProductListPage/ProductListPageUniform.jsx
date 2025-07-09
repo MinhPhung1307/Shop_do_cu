@@ -30,18 +30,12 @@ const ProductListPageUniform = () => {
         {Array.isArray(products) && products.length > 0 ? (
           [...products]
             .reverse()
-            .filter((item) => item.category === "Đồng phục")
+            .filter((item) => item.category === "Đồng phục" && item.status === "checked")
             .map((item) => (
               <CardComponent
                 key={item._id}
-                IMG={`http://localhost:3001/${item.images[0]?.replace(
-                  /\\/g,
-                  "/"
-                )}`}
-                NAME={item.name}
-                PRICE={item.price}
                 onClick={() => navigate(`/digital/${item._id}`)}
-                productCreatedAt={item.createAt}
+                product={item}
               />
             ))
         ) : (
