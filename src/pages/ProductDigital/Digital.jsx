@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import classNames from "classnames/bind";
 import styles from "./ProductDigital.module.scss";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -16,7 +15,7 @@ export default function Digital() {
   const products = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user);
   // Tìm sản phẩm theo id
-  const productitem = React.useMemo(() => {
+  const productitem = useMemo(() => {
     return products.find((item) => item._id === id);
   }, [products, id]);
 
@@ -59,7 +58,7 @@ export default function Digital() {
       (img) => `http://localhost:3001/${img.replace(/\\/g, "/")}`
     ) || [];
 
-  const [mainImage, setMainImage] = React.useState("");
+  const [mainImage, setMainImage] = useState("");
 
   useEffect(() => {
     const resetImage = () => {
@@ -91,28 +90,36 @@ export default function Digital() {
   const [countdownColorClass, setCountdownColorClass] = useState(
     cx("countdown-normal-color")
   ); // Mặc định khởi tạo là class cho màu đen
-  const productCreatedAt = productitem?.createdAt;
+  // *** ĐÂY LÀ PHẦN CHỈNH SỬA CHO HÀM TÍNH THỜI GIAN ***
+  // Sử dụng useMemo để tính toán nguồn thời gian kết thúc đấu giá
+  // Ưu tiên auctionEndTime nếu có, nếu không thì dùng createdAt + 48 giờ
+  const auctionEndTimeSource = useMemo(() => {
+    if (productitem?.auctionEndTime) {
+      return new Date(productitem.auctionEndTime);
+    }
+    if (productitem?.createdAt) {
+      return new Date(
+        new Date(productitem.createdAt).getTime() + 48 * 60 * 60 * 1000
+      );
+    }
+    return null; // Không có nguồn thời gian hợp lệ
+  }, [productitem?.auctionEndTime, productitem?.createdAt]); // Dependency array cho useMemo
+
   useEffect(() => {
-    // Đảm bảo productCreatedAt được cung cấp và là một ngày hợp lệ
-    if (!productCreatedAt) {
+    if (!auctionEndTimeSource) {
       setTimeLeft("00 : 00 : 00");
-      setCountdownColorClass(cx("countdown-expired-color")); // Màu xám
+      setCountdownColorClass(cx("countdown-expired-color"));
       return;
     }
 
-    const creationDate = new Date(productCreatedAt);
-    // Tính toán thời gian kết thúc: thời gian tạo + 48 giờ
-    const countdownEndTime = new Date(
-      creationDate.getTime() + 48 * 60 * 60 * 1000
-    );
-
     const calculateTimeLeft = () => {
-      const difference = countdownEndTime.getTime() - new Date().getTime();
+      // Sử dụng auctionEndTimeSource để tính toán thời gian còn lại
+      const difference = auctionEndTimeSource.getTime() - new Date().getTime();
       let timeLeft = {};
 
       if (difference > 0) {
         timeLeft = {
-          hours: Math.floor(difference / (1000 * 60 * 60)), // Tổng số giờ còn lại
+          hours: Math.floor(difference / (1000 * 60 * 60)),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60),
         };
@@ -120,35 +127,159 @@ export default function Digital() {
       return timeLeft;
     };
 
-    // Thiết lập interval để cập nhật đồng hồ đếm ngược mỗi giây
     const timer = setInterval(() => {
       const newTimeLeft = calculateTimeLeft();
       if (Object.keys(newTimeLeft).length === 0) {
-        setTimeLeft("00 : 00 : 00"); // Khi hết thời gian, hiển thị cố định 00:00:00
-        setCountdownColorClass(cx("countdown-expired-color")); // Màu xám khi hết thời gian
-        clearInterval(timer); // Dừng đếm ngược khi hết thời gian
+        setTimeLeft("00 : 00 : 00");
+        setCountdownColorClass(cx("countdown-expired-color"));
+        clearInterval(timer);
       } else {
-        // Định dạng hiển thị thời gian còn lại
-        // Đảm bảo luôn chuyển đổi sang chuỗi và dùng padStart
         const hours = String(newTimeLeft.hours || 0).padStart(2, "0");
         const minutes = String(newTimeLeft.minutes || 0).padStart(2, "0");
         const seconds = String(newTimeLeft.seconds || 0).padStart(2, "0");
+
         // Cập nhật class màu dựa trên số giờ
-        if (newTimeLeft.hours <= 1) {
-          // Nếu số giờ còn lại nhỏ hơn hoặc bằng 1
-          setCountdownColorClass(cx("countdown-urgent-color")); // Đặt class cho màu đỏ
+        if (newTimeLeft.hours <= 1 && newTimeLeft.hours >= 0) {
+          // Kiểm tra >= 0 để đảm bảo vẫn là thời gian hợp lệ
+          setCountdownColorClass(cx("countdown-urgent-color"));
         } else {
-          // Nếu số giờ còn lại lớn hơn 1
-          setCountdownColorClass(cx("countdown-normal-color")); // Đặt lại class cho màu đen
+          setCountdownColorClass(cx("countdown-normal-color"));
         }
 
         setTimeLeft(`${hours} : ${minutes} : ${seconds}`);
       }
     }, 1000);
 
-    // Hàm dọn dẹp: xóa interval khi component bị gỡ khỏi DOM
     return () => clearInterval(timer);
-  }, [productCreatedAt]); // Dependency array: re-run useEffect nếu productCreatedAt thay đổi
+  }, [auctionEndTimeSource]); // Dependency array: useEffect này chạy lại khi auctionEndTimeSource thay đổi
+  const [bidAmount, setBidAmount] = useState(""); // giá trị đấu giá
+  const [isLoadingBid, setIsLoadingBid] = useState(false); // Thêm state để quản lý trạng thái loading
+
+  const handlePlaceBid = async () => {
+    // 1. Kiểm tra dữ liệu đầu vào
+    if (!bidAmount || isNaN(Number(bidAmount)) || Number(bidAmount) <= 0) {
+      alert("Vui lòng nhập giá đấu hợp lệ");
+      return;
+    }
+    if (!user?.id) {
+      alert("Vui lòng đăng nhập để đặt giá.");
+      return;
+    }
+    if (!productitem?._id) {
+      alert("Không tìm thấy sản phẩm để đặt giá.");
+      return;
+    }
+
+    setIsLoadingBid(true); // Bắt đầu trạng thái loading
+
+    try {
+      // 2. Chuẩn bị dữ liệu để gửi trong body
+      const bidData = {
+        amount: Number(bidAmount),
+        bidderId: user.id,
+        // Không cần productId ở đây vì nó đã có trong URL
+      };
+      console.log("amount:", bidData.amount);
+      console.log("bidderId:", user.id);
+
+      // 3. Gọi API bằng fetch
+      const response = await fetch(
+        `http://localhost:3001/api/product/bid/${productitem._id}`, // <-- URL API ĐẶT GIÁ CHÍNH XÁC
+        {
+          method: "PUT", // <-- Phương thức HTTP là PUT
+          headers: {
+            "Content-Type": "application/json", // <-- RẤT QUAN TRỌNG: Báo cho server biết body là JSON
+            // Nếu bạn có token xác thực người dùng, hãy thêm nó vào đây
+            // 'Authorization': `Bearer ${user.accessToken}`,
+          },
+          body: JSON.stringify(bidData), // <-- Chuyển đổi đối tượng JavaScript thành chuỗi JSON
+        }
+      );
+
+      // 4. Xử lý phản hồi từ server
+      const result = await response.json();
+
+      if (result.status === "OK") {
+        alert("Đặt giá thành công!");
+        setBidAmount(""); // Xóa giá trị trong input sau khi đặt giá thành công
+        // TODO: Bạn có thể cần fetch lại dữ liệu sản phẩm để cập nhật danh sách đấu giá trên UI
+        // hoặc dispatch một action Redux nếu bạn quản lý trạng thái sản phẩm trong Redux store.
+        window.location.reload();
+        console.log("Phản hồi đặt giá:", result);
+        console.log("giờ", timeLeft);
+      } else {
+        // Lỗi từ phía server (ví dụ: giá không đủ lớn, sản phẩm không tồn tại)
+        alert(result.message || "Có lỗi xảy ra khi đặt giá.");
+      }
+    } catch (error) {
+      // Lỗi mạng, lỗi parse JSON, hoặc các lỗi không mong muốn khác
+      console.error("Lỗi khi gửi yêu cầu đặt giá:", error);
+      alert("Lỗi hệ thống khi đặt giá. Vui lòng thử lại.");
+    } finally {
+      setIsLoadingBid(false); // Kết thúc trạng thái loading dù thành công hay thất bại
+    }
+  };
+  const [bidderNames, setBidderNames] = useState({}); // tên người đấu giá
+  // useEffect để fetch tên người đấu giá
+  useEffect(() => {
+    const fetchBidderNames = async () => {
+      if (!productitem?.bids || productitem.bids.length === 0) {
+        setBidderNames({});
+        return;
+      }
+
+      // Lấy tất cả các bidderId duy nhất từ mảng bids
+      const uniqueBidderIds = [
+        ...new Set(productitem.bids.map((bid) => bid.bidderId)),
+      ];
+      const newBidderNames = {};
+      const fetchPromises = uniqueBidderIds.map(async (bidderId) => {
+        // Tránh fetch lại nếu đã có tên người đấu giá này
+        if (bidderNames[bidderId]) {
+          newBidderNames[bidderId] = bidderNames[bidderId];
+          return;
+        }
+        try {
+          const res = await fetch(
+            `http://localhost:3001/api/user/public/${bidderId}`
+          );
+          const result = await res.json();
+          if (result.status === "OK" && result.data && result.data.name) {
+            newBidderNames[bidderId] = result.data.name;
+          } else {
+            newBidderNames[bidderId] = "Người dùng ẩn danh"; // Tên dự phòng nếu không lấy được
+            console.warn(
+              `Không lấy được tên người đấu giá cho ID ${bidderId}:`,
+              result.message
+            );
+          }
+        } catch (err) {
+          newBidderNames[bidderId] = "Người dùng ẩn danh"; // Tên dự phòng khi có lỗi
+          console.error(
+            `Lỗi khi lấy tên người đấu giá cho ID ${bidderId}:`,
+            err
+          );
+        }
+      });
+
+      await Promise.all(fetchPromises);
+      // Cập nhật state bidderNames, giữ lại các tên đã có và thêm các tên mới
+      setBidderNames((prevNames) => ({ ...prevNames, ...newBidderNames }));
+    };
+
+    fetchBidderNames();
+  }, [productitem?.bids]); // Dependency array: re-run khi bids array thay đổi
+  // tính giá cao nhất
+  const currentHighestPrice = useMemo(() => {
+    if (productitem?.bids && productitem.bids.length > 0) {
+      // Tìm giá cao nhất trong mảng bids
+      const highestBid = Math.max(...productitem.bids.map((bid) => bid.amount));
+      return highestBid;
+    }
+    // Nếu không có lượt đấu giá nào, giá hiện tại là giá khởi điểm của sản phẩm
+    // Đảm bảo productitem.price tồn tại, nếu không thì mặc định là 0 hoặc giá khởi tạo khác.
+    return productitem?.price || 0;
+  }, [productitem?.bids, productitem?.price]);
 
   return (
     <div className={cx("page-container")}>
@@ -247,15 +378,25 @@ export default function Digital() {
                 <span className={countdownColorClass}>{timeLeft}</span>
               </p>
               <p className={cx("current-price")}>
-                Giá hiện tại: <span>1.000.000</span> đ
+                Giá hiện tại:{" "}
+                <span>
+                  {Number(currentHighestPrice).toLocaleString("vi-VN")}
+                </span>{" "}
+                VNĐ
               </p>
               <div className={cx("bid-input")}>
                 <input
                   type="number"
+                  onChange={(e) => setBidAmount(e.target.value)}
+                  value={bidAmount}
                   placeholder="Đặt giá của bạn"
                   className={cx("bid-field")}
                 />
-                <button className={cx("btn-outline", "bid-button")}>
+                <button
+                  className={cx("btn-outline", "bid-button")}
+                  onClick={handlePlaceBid}
+                  disabled={isLoadingBid} // Vô hiệu hóa nút khi đang loading
+                >
                   Đặt giá
                 </button>
               </div>
@@ -267,30 +408,30 @@ export default function Digital() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className={cx("infor__auction")}>
-                    <td>Người A</td>
-                    <td>
-                      1.000.000<span> đ</span>
-                    </td>
-                  </tr>
-                  <tr className={cx("infor__auction")}>
-                    <td>Người B</td>
-                    <td>
-                      900.000<span> đ</span>
-                    </td>
-                  </tr>
-                  <tr className={cx("infor__auction")}>
-                    <td>Người C</td>
-                    <td>
-                      850.000<span> đ</span>
-                    </td>
-                  </tr>
-                  <tr className={cx("infor__auction")}>
-                    <td>Người F</td>
-                    <td>
-                      830.000<span> đ</span>
-                    </td>
-                  </tr>
+                  {/* Hiển thị danh sách đấu giá động */}
+                  {productitem?.bids && productitem.bids.length > 0 ? (
+                    // Sắp xếp bids để hiển thị giá cao nhất trước
+                    // hoặc nếu muốn hiển thị lượt đấu giá mới nhất, không cần sort
+                    // Hiện tại, ProductService dùng unshift, nên bid mới nhất ở đầu.
+                    // Để hiển thị giá cao nhất: sort theo amount giảm dần.
+                    // Để hiển thị mới nhất lên đầu: sort theo timestamp giảm dần (hoặc không sort nếu unshift đã đảm bảo)
+                    [...productitem.bids]
+                      .sort((a, b) => b.amount - a.amount) // Sắp xếp giá giảm dần
+                      .map((bid, index) => (
+                        <tr key={index} className={cx("infor__auction")}>
+                          {/* `bidderId` là ID, nếu muốn hiển thị tên người đấu giá, bạn cần fetch thông tin user từ backend */}
+                          <td>{bidderNames[bid.bidderId] || "Đang tải..."}</td>
+                          <td>
+                            {Number(bid.amount).toLocaleString("vi-VN")}
+                            <span> VNĐ</span>
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="2">Chưa có lượt đấu giá nào.</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </section>

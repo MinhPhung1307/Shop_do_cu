@@ -18,7 +18,6 @@ export const getAllProducts = async (data) => {
   );
   return res.data;
 };
-
 export const getAllProductCheck = async (access_token) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/getproduct-check/`, {
         headers: {
@@ -27,3 +26,11 @@ export const getAllProductCheck = async (access_token) => {
     });
     return res.data;
 }
+// HÀM GỌI API ĐẶT GIÁ ĐẤU
+export const placeBid = async (productId, bidData) => {
+  const res = await axios.post(
+    `${process.env.REACT_APP_API_URL}/product/bid/${productId}`,
+    bidData
+  );
+  return res.data;
+};

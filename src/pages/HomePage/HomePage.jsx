@@ -38,14 +38,8 @@ const HomePage = () => {
                       {row1.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -53,14 +47,8 @@ const HomePage = () => {
                       {row2.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -95,14 +83,8 @@ const HomePage = () => {
                       {row1.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createdAt}
                         />
                       ))}
                     </div>
@@ -110,14 +92,8 @@ const HomePage = () => {
                       {row2.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -153,14 +129,8 @@ const HomePage = () => {
                       {row1.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -168,14 +138,8 @@ const HomePage = () => {
                       {row2.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -211,14 +175,8 @@ const HomePage = () => {
                       {row1.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -226,14 +184,8 @@ const HomePage = () => {
                       {row2.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -269,14 +221,8 @@ const HomePage = () => {
                       {row1.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
@@ -284,14 +230,8 @@ const HomePage = () => {
                       {row2.map((item) => (
                         <CardComponent
                           key={item._id}
-                          IMG={`http://localhost:3001/${item.images[0].replace(
-                            /\\/g,
-                            "/"
-                          )}`}
-                          NAME={item.name}
-                          PRICE={item.price}
+                          product={item}
                           onClick={() => navigate(`/digital/${item._id}`)}
-                          productCreatedAt={item.createAt}
                         />
                       ))}
                     </div>
