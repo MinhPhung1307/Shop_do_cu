@@ -52,7 +52,7 @@ const AdminPage = () => {
           )}
 
           {activeSection === "account" && (
-            <AccountManagementPage/>
+            <AccountManagementPage setToast={showToast}/>
           )}
 
           {activeSection === "pending" && (

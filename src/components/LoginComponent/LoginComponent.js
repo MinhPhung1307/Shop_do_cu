@@ -42,7 +42,7 @@ const LoginComponent = ({
         }
       }
     } else if (isError || data?.status === "ERR") {
-      setToast("error", "Thất bại", "Sai tài khoản hoặc mật khẩu");
+      setToast("error", "Thất bại", data?.message || "Sai tài khoản hoặc mật khẩu");
     }
   }, [isSuccess, isError, data]);
 

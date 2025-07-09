@@ -37,6 +37,20 @@ const PendingManagementPage = ({setToast}) => {
             alert("Có lỗi xảy ra khi duyệt sản phẩm");
         }
     }
+
+    const handleReject = async (id) => {
+        // try {
+        //     const res = await ProductService.updateState(id, user.access_token);
+        //     if(res.status === "OK"){
+        //         setToast("success", "Thành công", res.message);
+        //     }
+        //     // Cập nhật lại danh sách
+        //     setProductCheck((prev) => prev.filter(product => product._id !== id));
+        // } catch (error) {
+        //     console.error("Lỗi duyệt sản phẩm:", error);
+        //     alert("Có lỗi xảy ra khi duyệt sản phẩm");
+        // }
+    }
     return (
         <section id="pending" className={cx('content-section')}>
             <div className={cx('header-line')}>
@@ -56,7 +70,7 @@ const PendingManagementPage = ({setToast}) => {
                         {product.price.toLocaleString('vi-VN')}đ
                         </span>
                         <button className={cx('approve-btn')} onClick={() => handleApprove(product._id)}>✅</button>
-                        <button className={cx('reject-btn')}>❌</button>
+                        <button className={cx('reject-btn')} onClick={() => handleReject(product._id)}>❌</button>
                     </div>
                 ))
             )}

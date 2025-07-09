@@ -64,3 +64,30 @@ export const getAllUser = async (access_token) => {
     });
     return res.data;
 }
+
+// gọi api yêu cầu thay đổi trạng thái của user
+export const updateState = async (id, access_token) => {
+  const res = await axios.put(
+    `${process.env.REACT_APP_API_URL}/user/update-state/${id}`,
+    {},
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return res.data;
+};
+
+// gọi api yêu cầu xóa user
+export const deleteUser = async (id, access_token) => {
+  const res = await axios.delete(
+    `${process.env.REACT_APP_API_URL}/user/delete-user/${id}`,
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return res.data;
+};

@@ -32,7 +32,7 @@ const HomePage = ({ onMenuClick }) => {
         const fetchData = async () => {
         try {
             const res = await UserService.getAllUser(user.access_token);
-            setCountUser(res.data.length)
+            setCountUser(res.data.length - 1)
         } catch (err) {
             console.error("Lỗi khi lấy người dùng:", err);
         }
