@@ -4,7 +4,7 @@ import styles from "./ProductDigital.module.scss";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { markAsSold } from "../../services/ProductService"; // Đảm bảo đường dẫn đúng đến file ProductService.js của bạn
+import * as ProductService from "../../services/ProductService";
 const cx = classNames.bind(styles);
 
 export default function Digital() {
@@ -14,7 +14,6 @@ export default function Digital() {
 
   const products = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user);
-  console.log("Redux User State (từ Digital.jsx):", user);
   // Tìm sản phẩm theo id
   const productitem = useMemo(() => {
     return products.find((item) => item._id === id);
@@ -136,6 +135,24 @@ export default function Digital() {
         setCountdownColorClass(cx("countdown-expired-color"));
         setIsAuctionEnded(true);
         clearInterval(timer);
+        const handletimeend = async (id) => {
+          id = productitem._id;
+          try {
+            const res = await ProductService.markAsSold(
+              id,
+              user.access_token,
+              currentHighestPrice,
+              user.id
+            );
+            if (res.status === "OK") {
+              alert("mua thành công");
+              window.location.reload();
+            }
+          } catch (error) {
+            console.error("Lỗi mua sản phẩm:", error);
+            alert("Có lỗi xảy ra mua sản phẩm");
+          }
+        };
       } else {
         const hours = String(newTimeLeft.hours || 0).padStart(2, "0");
         const minutes = String(newTimeLeft.minutes || 0).padStart(2, "0");
@@ -284,47 +301,36 @@ export default function Digital() {
     // Đảm bảo productitem.price tồn tại, nếu không thì mặc định là 0 hoặc giá khởi tạo khác.
     return productitem?.price || 0;
   }, [productitem?.bids, productitem?.price]);
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
-  const handleSubmit = async () => {
-    setIsLoadingSubmit(true); // Bắt đầu loading, vô hiệu hóa nút
+  // kiểm tra sản phẩm đã bán chưa
+  const [isSubmit, setIsSubmit] = useState(false);
+  useEffect(() => {
+    if (productitem?.status === "sold") {
+      setIsSubmit(true);
+    } else {
+      setIsSubmit(false); // Đảm bảo reset lại nếu trạng thái không phải 'sold'
+    }
+  }, [productitem?.status]);
 
+  // hàm submit
+  const handleSubmit = async (id) => {
+    id = productitem._id;
     try {
-      // Đảm bảo productitem và user có đủ thông tin cần thiết
-      if (!productitem || !user || !user.id || !user.access_token) {
-        alert(
-          "Thông tin sản phẩm hoặc người dùng không đầy đủ để hoàn tất giao dịch."
-        );
-        setIsLoadingSubmit(false);
-        return;
-      }
-
-      // Lấy giá cuối cùng của sản phẩm (giá cao nhất sau đấu giá hoặc giá mua trực tiếp)
-      const finalPrice = productitem.priceCurrent || productitem.price;
-
-      // 2. Gửi yêu cầu API để đánh dấu sản phẩm đã bán
-      const response = await markAsSold(
-        productitem._id, // ID sản phẩm
-        user.id, // ID người mua (lấy từ user Redux state)
-        finalPrice, // Giá cuối cùng của giao dịch
-        user.access_token // Token xác thực của người mua
+      const res = await ProductService.markAsSold(
+        id,
+        user.access_token,
+        productitem.price,
+        user.id
       );
-
-      if (response.status === "OK") {
-        alert("Giao dịch thành công! Sản phẩm đã được đánh dấu là đã bán.");
-        // TODO: Cập nhật lại UI hoặc Redux store sau khi sản phẩm đã bán
-        // Ví dụ: Bạn có thể điều hướng người dùng đến trang lịch sử mua hàng
-        // navigate('/my-purchases');
-        // Hoặc dispatch một action để cập nhật trạng thái sản phẩm trong Redux
-      } else {
-        alert(`Đã xảy ra lỗi khi hoàn tất giao dịch: ${response.message}`);
+      if (res.status === "OK") {
+        alert("mua thành công");
+        window.location.reload();
       }
     } catch (error) {
-      console.error("Lỗi khi cập nhật trạng thái sản phẩm:", error);
-      alert("Đã xảy ra lỗi khi cập nhật trạng thái sản phẩm.");
-    } finally {
-      setIsLoadingSubmit(false); // Dù thành công hay thất bại, kết thúc loading
+      console.error("Lỗi mua sản phẩm:", error);
+      alert("Có lỗi xảy ra mua sản phẩm");
     }
   };
+
   return (
     <div className={cx("page-container")}>
       <main className={cx("main-content")}>
@@ -370,6 +376,7 @@ export default function Digital() {
             <button
               className={cx("btn-primary", "buy-button")}
               onClick={handleSubmit}
+              disabled={isSubmit}
             >
               Mua ngay
             </button>

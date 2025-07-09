@@ -63,3 +63,25 @@ export const updateState = async (id, access_token) => {
   );
   return res.data;
 };
+// hàm xác nhận mua
+export const markAsSold = async (id, access_token, price, buyerId) => {
+  // <-- THÊM price VÀ buyerId VÀO ĐỊNH NGHĨA HÀM
+  try {
+    const res = await axios.put(
+      `${process.env.REACT_APP_API_URL}/product/mark-as-sold/${id}`,
+      {
+        // <--- TRUYỀN DỮ LIỆU VÀO BODY REQUEST
+        price: price, // Key là price, value là giá trị price nhận được
+        _idbuy: buyerId, // <--- Key là _idbuy (phải khớp với tên trường trong req.body ở backend)
+      },
+      {
+        headers: {
+          token: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    throw error; // Ném lỗi để Digital.jsx có thể bắt được
+  }
+};

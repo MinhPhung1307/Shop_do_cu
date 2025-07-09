@@ -24,8 +24,7 @@ const HomePage = () => {
                   .reverse()
                   .filter(
                     (item) =>
-                      item.category === "Tài liệu" &&
-                      item.status === "Chờ duyệt"
+                      item.category === "Tài liệu" && item.status === "checked"
                   )
                   .slice(0, 10); // lấy 10 sản phẩm
 
@@ -70,7 +69,7 @@ const HomePage = () => {
                   .reverse()
                   .filter(
                     (item) =>
-                      item.category === "Dụng cụ" && item.status === "Chờ duyệt"
+                      item.category === "Dụng cụ" && item.status === "checked"
                   )
                   .slice(0, 10); // lấy 10 sản phẩm
 
@@ -115,8 +114,7 @@ const HomePage = () => {
                   .reverse()
                   .filter(
                     (item) =>
-                      item.category === "Nội thất" &&
-                      item.status === "Chờ duyệt"
+                      item.category === "Nội thất" && item.status === "checked"
                   )
                   .slice(0, 10); // lấy 10 sản phẩm
 
@@ -162,7 +160,7 @@ const HomePage = () => {
                   .filter(
                     (item) =>
                       item.category === "Đồ điện tử" &&
-                      item.status === "Chờ duyệt"
+                      item.status === "checked"
                   )
                   .slice(0, 10); // lấy 10 sản phẩm
 
@@ -207,8 +205,7 @@ const HomePage = () => {
                   .reverse()
                   .filter(
                     (item) =>
-                      item.category === "Đồng phục" &&
-                      item.status === "Chờ duyệt"
+                      item.category === "Đồng phục" && item.status === "checked"
                   )
                   .slice(0, 10); // lấy 10 sản phẩm
 
