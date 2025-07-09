@@ -296,6 +296,12 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 16px;
+        &:disabled {
+          background-color: #e0e0e0; // Màu nền xám nhạt
+          color: #888; // Màu chữ xám
+          cursor: not-allowed; // Con trỏ chuột hiển thị không cho phép
+          border: 1px solid #ccc; // Viền xám
+        }
       }
 
       .bid-button {
@@ -312,6 +318,21 @@
         &:hover {
           background: coral;
           color: #fff;
+        }
+        &:disabled {
+          background-color: #cccccc; // Màu nền xám cho nút
+          color: #666666; // Màu chữ xám
+          cursor: not-allowed; // Con trỏ chuột hiển thị không cho phép
+          border: 1px solid #999999; // Viền xám
+          opacity: 0.7; // Giảm độ mờ để thể hiện rõ hơn là disabled
+
+          &:hover {
+            background-color: #cccccc; // Giữ nguyên màu xám khi hover
+            color: #666666; // Giữ nguyên màu chữ xám khi hover
+            // Loại bỏ hoặc ghi đè các hiệu ứng hover khác nếu có
+            transform: none; // Đảm bảo không có hiệu ứng transform
+            box-shadow: none; // Đảm bảo không có box-shadow
+          }
         }
       }
     }
