@@ -1,0 +1,27 @@
+.sidebar {
+  width: 220px;
+  background: linear-gradient(to bottom, #3b7ba3, #1db4bc);
+  color: white;
+  padding: 20px;
+}
+
+.menu a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 15px 0;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu a.active {
+  background: white;
+  color: #1db4bc;
+  font-weight: bold;
+}

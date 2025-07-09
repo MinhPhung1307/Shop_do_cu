@@ -55,3 +55,12 @@ export const updatePassword = async (id, data, access_token) => {
     });
     return res.data;
 }
+
+export const getAllUser = async (access_token) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/getAll/`, {
+        headers: {
+            token: `Bearer ${access_token}`,
+        }
+    });
+    return res.data;
+}

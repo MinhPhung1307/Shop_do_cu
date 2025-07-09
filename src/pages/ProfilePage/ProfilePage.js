@@ -6,6 +6,8 @@ import * as UserService from '../../services/UserService';
 import images from "../../assets/images";
 import { updateUser as updateUserReDux } from "../../redux/slides/userSlide";
 import ToastMessage from "../../components/Message/Message";
+import Image from "../../components/Image/Image";
+import imagesAdmin from "../../assets/images/admin/index"
 
 const cx = classNames.bind(styles);
 
@@ -34,8 +36,7 @@ export default function UserProfile() {
   
   const showToast = (type, title, message, duration = 3000) => {
     setToast({ type, title, message, duration });
-  };
-  
+  };  
 
   useEffect(() => {
     setFormData({
@@ -103,7 +104,7 @@ export default function UserProfile() {
 
       <div className={cx("profile-header")}>
         <div className={cx("avatar-wrapper")}>
-          <img className={cx("avatar")} src={formData.image ? formData.image : images.avatar} alt="User avatar" />
+          <img className={cx("avatar")} src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar} alt="User avatar" onError={images.avatar} />
           <div className={cx("avatar-change")} onClick={() => fileInputRef.current?.click?.()}>Chọn ảnh</div>
           <input
             type="file"

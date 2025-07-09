@@ -6,6 +6,7 @@ const imagesAdmin = {
     logo_infor: require('./logo_infor.png'),
     logo_list: require('./logo_list.png'),
     logologin: require('./logologin.png'),
+    logoShop: require('./Logo_Shop.png'),
 
 };
 
