@@ -15,7 +15,7 @@ const PendingManagementPage = ({setToast}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await ProductService.getAllProductCheck(user.access_token);
+                const res = await ProductService.getAllProductCheck(user.access_token, "check");
                 setProductCheck(res.data)
             } catch (err) {
                 console.error("Lỗi khi lấy sản phẩm:", err);
@@ -39,22 +39,22 @@ const PendingManagementPage = ({setToast}) => {
     }
 
     const handleReject = async (id) => {
-        // try {
-        //     const res = await ProductService.updateState(id, user.access_token);
-        //     if(res.status === "OK"){
-        //         setToast("success", "Thành công", res.message);
-        //     }
-        //     // Cập nhật lại danh sách
-        //     setProductCheck((prev) => prev.filter(product => product._id !== id));
-        // } catch (error) {
-        //     console.error("Lỗi duyệt sản phẩm:", error);
-        //     alert("Có lỗi xảy ra khi duyệt sản phẩm");
-        // }
+        try {
+            const res = await ProductService.deleteProduct(id, user.access_token);
+            if(res.status === "OK"){
+                setToast("success", "Thành công", res.message);
+            }
+            // Cập nhật lại danh sách
+            setProductCheck((prev) => prev.filter(product => product._id !== id));
+        } catch (error) {
+            console.error("Lỗi duyệt sản phẩm:", error);
+            alert("Có lỗi xảy ra khi duyệt sản phẩm");
+        }
     }
     return (
         <section id="pending" className={cx('content-section')}>
             <div className={cx('header-line')}>
-                <h2>Danh sách đơn chờ duyệt</h2>
+                <h2>Danh sách sản phẩm chờ duyệt</h2>
                 <input type="text" placeholder="Nhập tên sản phẩm hoặc MSSP" />
             </div>
 

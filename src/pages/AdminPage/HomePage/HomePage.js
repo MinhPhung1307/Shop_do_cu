@@ -18,7 +18,7 @@ const HomePage = ({ onMenuClick }) => {
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const res = await ProductService.getAllProductCheck(user.access_token);
+            const res = await ProductService.getAllProductCheck(user.access_token, "check");
             setCountProductCheck(res.data.length)
         } catch (err) {
             console.error("Lỗi khi lấy sản phẩm:", err);

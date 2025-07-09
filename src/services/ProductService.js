@@ -29,9 +29,9 @@ export const getDetailsProduct = async (productId) => {
   return res.data;
 };
 
-export const getAllProductCheck = async (access_token) => {
+export const getAllProductCheck = async (access_token,type) => {
   const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/product/getproduct-check/`,
+    `${process.env.REACT_APP_API_URL}/product/getproduct-check/?type=${type}`,
     {
       headers: {
         token: `Bearer ${access_token}`,
@@ -84,4 +84,17 @@ export const markAsSold = async (id, access_token, price, buyerId) => {
   } catch (error) {
     throw error; // Ném lỗi để Digital.jsx có thể bắt được
   }
+};
+
+// gọi api yêu cầu xóa sản phẩm
+export const deleteProduct = async (id, access_token) => {
+  const res = await axios.delete(
+    `${process.env.REACT_APP_API_URL}/product/delete/${id}`,
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return res.data;
 };

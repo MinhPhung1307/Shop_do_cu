@@ -60,7 +60,7 @@ const AdminPage = () => {
           )}
 
           {activeSection === "products" && (
-            <PostManagementPage/>
+            <PostManagementPage setToast={showToast}/>
           )}
 
           {activeSection === "categories" && (
