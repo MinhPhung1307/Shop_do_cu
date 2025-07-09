@@ -18,3 +18,12 @@ export const getAllProducts = async (data) => {
   );
   return res.data;
 };
+
+export const getAllProductCheck = async (access_token) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/getproduct-check/`, {
+        headers: {
+            token: `Bearer ${access_token}`,
+        }
+    });
+    return res.data;
+}

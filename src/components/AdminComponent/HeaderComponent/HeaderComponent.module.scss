@@ -1,0 +1,39 @@
+.uth_banner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, #3b7ba3, #1db4bc);
+  height: 120px;
+  padding: 0px 8%;
+}
+
+.uth_logo a {
+  display: inline-block;
+  width: 220px;
+  height: 100%;  
+}
+.uth_logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.topbar {
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}

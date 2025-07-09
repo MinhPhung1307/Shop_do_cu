@@ -1,55 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminPage.module.scss';
-import Menu from '../../components/Popper/Menu/Menu';
 import * as UserService from "../../services/UserService";
-import { useDispatch, useSelector } from "react-redux";
-import { resetUser } from "../../redux/slides/userSlide";
-import { useNavigate } from 'react-router-dom';
+import * as ProductService from "../../services/ProductService";
+import { useSelector } from "react-redux";
 import imagesAdmin from '../../assets/images/admin';
+import HeaderComponent from '../../components/AdminComponent/HeaderComponent/HeaderComponent';
+import SidebarComponent from '../../components/AdminComponent/SidebarComponent/SidebarComponent';
 
 const cx = classNames.bind(styles);
 const AdminPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const [countProductCheck, setCountProductCheck] = useState()
+  const [countUser, setCountUser] = useState()
 
-  const handleLogout = async () => {
-    await UserService.logoutUser();
-    dispatch(resetUser());
-    localStorage.removeItem("access_token");
-    navigate('/');
-  };
+  // lấy số lượng sản phẩm chưa duyêt
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await ProductService.getAllProductCheck(user.access_token);
+        setCountProductCheck(res.data.length)
+      } catch (err) {
+        console.error("Lỗi khi lấy sản phẩm:", err);
+      }
+    };
+    fetchData();
+  }, [countProductCheck])
 
-  const MENU_ITEMS = [
-    {
-      icon: <i class="fa-solid fa-right-from-bracket"></i>,
-      title: 'Đăng xuất',
-      callback: handleLogout
-    },
-  ]
+  // lấy tất cả user 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await UserService.getAllUser(user.access_token);
+        setCountUser(res.data.length)
+      } catch (err) {
+        console.error("Lỗi khi lấy người dùng:", err);
+      }
+    };
+    fetchData();
+  }, [countUser])
+
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('uth_banner')}>
-        <div className={cx('uth_logo')}>
-          <a href="/admin"><img src={imagesAdmin.logobanner} alt="UTH Logo" /></a>
-        </div>
-        <Menu items={MENU_ITEMS} offset={[60, -8]}>
-          <div className={cx('topbar')}>
-            <img src={imagesAdmin.avatar} alt="Avatar" className={cx('avatar')} />
-            <span>{user.name}</span>
-          </div>
-        </Menu>
-      </div>
+      <HeaderComponent user={user} />
 
       <div className={cx('container')}>
-        <div className={cx('sidebar')}>
-          <div className={cx('menu')}>
-            <a href="quanlytaikhoan/qltk.html">Quản lý tài khoản</a>
-            <a href="quanlydangtin/qldt.html">Quản lý đăng tin</a>
-            <a href="#">Phân loại</a>
-          </div>
-        </div>
+        <SidebarComponent />
 
         <div className={cx('main-content')}>
           <div className={cx('dashboard')}>
@@ -62,13 +58,13 @@ const AdminPage = () => {
             <div className={cx('box')}>
               <img src={imagesAdmin.logo_don} alt="Đơn chờ duyệt" />
               <span>Đơn chờ duyệt</span>
-              <span className={cx('count')}>2</span>
+              <span className={cx('count')}>{countProductCheck}</span>
             </div>
 
             <div className={cx('box')}>
               <img src={imagesAdmin.logo_account} alt="Tài khoản" />
               <span>Tài khoản</span>  
-              <span className={cx('count')}>10</span>
+              <span className={cx('count')}>{countUser}</span>
             </div>
 
             <div className={cx('box')}>
