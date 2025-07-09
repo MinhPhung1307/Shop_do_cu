@@ -109,7 +109,7 @@ const HeaderComponent = () => {
       {/* header row 1 */}
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
-          <a href="/">
+          <a onClick={() => navigate("/")}>
             <img className={cx("logo-icon")} src="/image/Logo_Shop.png" />
           </a>
         </div>
@@ -121,8 +121,7 @@ const HeaderComponent = () => {
             <Menu items={user.isAdmin ? MENU_ITEMS_ADMIN : MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar}
-
+                  src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar || images.avatar}
                   className={cx("user-avatar")}
                   alt={user.name}
                   fallback={images.avatar}
@@ -170,7 +169,7 @@ const HeaderComponent = () => {
         </label>
 
         <div className={cx("title")}>
-          <a href="/" className={cx("title-item")}>
+          <a onClick={() => navigate("/")} className={cx("title-item")}>
             Trang chủ
           </a>
           <a className={cx("title-item")}>Danh sách đặt hàng</a>

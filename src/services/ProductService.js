@@ -34,3 +34,15 @@ export const placeBid = async (productId, bidData) => {
   );
   return res.data;
 };
+
+// gọi api yêu cầu thay đổi trạng thái của sản phẩm
+export const updateState = async (id, access_token) => {
+    const res = await axios.put(`${process.env.REACT_APP_API_URL}/product/update-state/${id}`,
+      {},
+      {
+        headers: {
+            token: `Bearer ${access_token}`,
+        }
+    });
+    return res.data;
+}
