@@ -15,6 +15,7 @@ const cx = classNames.bind(styles);
 const AdminPage = () => {
   const user = useSelector((state) => state.user);
   const [activeSection, setActiveSection] = useState("home");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [toast, setToast] = useState(null);
   const showToast = (type, title, message, duration = 3000) => {
     setToast({ type, title, message, duration });
@@ -28,6 +29,13 @@ const AdminPage = () => {
     setActiveSection("home"); // Hiển thị mặc định
   }, []);
 
+  // kiểm tra màn hình có ở mobile không
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 739);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); 
+
 
   return (
     <div className={cx('wrapper')}>
@@ -40,10 +48,10 @@ const AdminPage = () => {
           onClose={() => setToast(null)}
         />
       )}
-      <HeaderComponent user={user} />
+      <HeaderComponent user={user} isMobile={isMobile}/>
 
       <div className={cx('container')}>
-        <SidebarComponent onMenuClick={showSection} activeSection={activeSection}/>
+        {!isMobile && <SidebarComponent onMenuClick={showSection} activeSection={activeSection}/>}
 
         <div className={cx('main-content')}>
 
@@ -64,7 +72,7 @@ const AdminPage = () => {
           )}
 
           {activeSection === "categories" && (
-            <CategoryManagementPage/>
+            <CategoryManagementPage setToast={showToast}/>
           )}
         </div>
       </div>

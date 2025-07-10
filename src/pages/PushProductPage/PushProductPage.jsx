@@ -60,7 +60,6 @@ export default function PushProductPage() {
     }
   }, [id]);
   // kiểm tra xem id đã được gán vào stateProduct chưa
-  console.log(stateProduct._iduser);
   // biến để gán lại input file
   const fileInputRef = useRef(null);
   const handleSubmit = (e) => {

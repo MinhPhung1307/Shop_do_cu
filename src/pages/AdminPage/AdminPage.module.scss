@@ -128,6 +128,18 @@
   text-align: center;
   transition: transform 0.2s;
   cursor: pointer;
+
+   &:hover {
+    background-color: #1db4bc;
+  }
+
+  &.active {
+    background-color: #1db4bc;
+    color: white;
+    span {
+      color: white;
+    }
+  }
 }
 
 .category-box:hover {
@@ -152,4 +164,16 @@
 .icon {
   font-size: 24px;
   margin-bottom: 10px;
+}
+
+/* tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+  .container {
+    flex-direction: column;
+  }
+} 
+
+/* mobile */
+@media (max-width: 739px) {
+  
 }

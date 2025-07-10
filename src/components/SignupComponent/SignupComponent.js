@@ -4,6 +4,7 @@ import styles from './SignupComponent.module.scss';
 import Loading from '../LoadingComponent/Loading';
 import { useMutationHook } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
+import images from '../../assets/images'
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +43,7 @@ const RegisterComponent = ({ setShowRegister, setShowLogin, setToast, openLogin 
                     <span className={cx('login__switchBtn')} onClick={openLogin}>Đăng nhập</span>
                 </div>
 
-                <img src="/image/Logo_Shop.png" alt="logo" />
+                <img src={images.logo} alt="logo" />
 
                 <div className={cx('form-group')}>
                     <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required/>
