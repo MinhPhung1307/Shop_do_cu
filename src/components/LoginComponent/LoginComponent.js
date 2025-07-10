@@ -6,6 +6,7 @@ import { useMutationHook } from "../../hooks/useMutationHook";
 import * as UserService from "../../services/UserService";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
+import images from "../../assets/images";
 
 const cx = classNames.bind(styles);
 
@@ -65,7 +66,8 @@ const LoginComponent = ({
           </span>
         </div>
 
-        <img src="/image/Logo_Shop.png" alt="logo" />
+        <img src={images.logo} alt="logo" />
+
         <div className={cx("form-group")}>
           <input
             id="username"

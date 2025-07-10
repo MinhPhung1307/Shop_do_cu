@@ -25,3 +25,25 @@
   color: #1db4bc;
   font-weight: bold;
 }
+
+
+/* tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+  .sidebar {
+    width: 100%;
+  }
+  .menu {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+
+    a {
+      text-align: center;
+    }
+  }
+}
+
+/* mobile */
+@media (max-width: 739px) {
+  
+}

@@ -13,6 +13,7 @@ const HomePage = ({ onMenuClick }) => {
     const user = useSelector((state) => state.user);
     const [countProductCheck, setCountProductCheck] = useState()
     const [countUser, setCountUser] = useState()
+    const [countCategory, setCountCategory] = useState()
 
     // lấy all sản phẩm chưa duyêt
     useEffect(() => {
@@ -25,7 +26,7 @@ const HomePage = ({ onMenuClick }) => {
         }
         };
         fetchData();
-    }, [])
+    }, [user.access_token])
 
     // lấy tất cả user 
     useEffect(() => {
@@ -38,14 +39,35 @@ const HomePage = ({ onMenuClick }) => {
         }
         };
         fetchData();
-    }, [])
+    }, [user.access_token])
+
+    // Gọi API kiểm tra có bao nhiêu loại sản phẩm
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await ProductService.getAllProduct(user.access_token);
+                // Tạo danh sách category từ sản phẩm
+                const uniqueCategories = new Set();
+                res.data.forEach(p => {
+                    if (p.category) {
+                        uniqueCategories.add(p.category);
+                    }
+                });
+                setCountCategory(uniqueCategories.size);
+            } catch (error) {
+                console.error("Lỗi khi lấy sản phẩm:", error);
+        }
+        };
+
+        fetchProducts();
+  }, [user.access_token]);
 
     return (
         <div id="home" className={cx('dashboard')}>
             <div className={cx('box')} onClick={() => onMenuClick("categories")}>
                 <img src={imagesAdmin.logo_list} alt="Số danh mục" />
                 <span>Số danh mục</span>
-                <span className={cx('count')}>5</span>
+                <span className={cx('count')}>{countCategory}</span>
             </div>
 
             <div className={cx('box')} onClick={() => onMenuClick("pending")}>

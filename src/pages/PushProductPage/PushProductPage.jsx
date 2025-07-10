@@ -61,7 +61,6 @@ export default function PushProductPage() {
     }
   }, [id]);
   // kiểm tra xem id đã được gán vào stateProduct chưa
-  console.log(stateProduct._iduser);
   // biến để gán lại input file
   useEffect(() => {
     if (!stateProduct._iduser) {

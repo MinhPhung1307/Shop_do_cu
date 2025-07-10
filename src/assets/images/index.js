@@ -5,7 +5,8 @@ const images = {
     "Đồ điện tử": require('./Do_dien_tu.png'),
     "Nội thất": require('./Noi_that.png'),
     "Đồng phục": require('./Đồng_phục.png'),
-    noImage: require('./noImage.png')
+    noImage: require('./noImage.png'),
+    logo: require('./Logo_Shop.png'),
 };
 
 export default images;

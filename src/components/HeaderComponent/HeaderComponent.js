@@ -139,7 +139,7 @@ const HeaderComponent = () => {
       <div className={cx("header-1")}>
         <div className={cx("logo")}>
           <a onClick={() => navigate("/")}>
-            <img className={cx("logo-icon")} src="/image/Logo_Shop.png" />
+            <img className={cx("logo-icon")} src={images.logo} />
           </a>
         </div>
 

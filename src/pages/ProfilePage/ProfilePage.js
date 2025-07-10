@@ -104,7 +104,15 @@ export default function UserProfile() {
 
       <div className={cx("profile-header")}>
         <div className={cx("avatar-wrapper")}>
-          <img className={cx("avatar")} src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar} alt="User avatar" onError={images.avatar} />
+          <Image className={cx("avatar")} 
+            src={
+              user?.isAdmin
+                ? imagesAdmin.avatar
+                : user?.avatar || images.avatar
+            } 
+            alt={user.name}
+            fallback={images.avatar}
+          />
           <div className={cx("avatar-change")} onClick={() => fileInputRef.current?.click?.()}>Chọn ảnh</div>
           <input
             type="file"
