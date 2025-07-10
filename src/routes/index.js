@@ -3,8 +3,6 @@ import AdminPage from "../pages/AdminPage/AdminPage";
 import VerifyEmail from "../pages/VerifyEmailPage/VerifyEmailPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import OrderPage from "../pages/OrderPage/OrderPage";
-import ProductsPage from "../pages/ProductsPage/ProductsPage";
-import ChatPage from "../pages/ChatPage/ChatPage";
 import CartPage from "../pages/CartPage/CartPage";
 import ProductListPageUniform from "../pages/ProductListPage/ProductListPageUniform";
 import ProductListPageElectronics from "../pages/ProductListPage/ProductListPageElectronics";
@@ -45,25 +43,12 @@ export const routes = [
     isShowHeader: false,
     isPrivate: false,
   },
+
   {
     path: "/order",
     page: OrderPage,
     isShowHeader: true,
     isShowFooter: true,
-    isPrivate: false,
-  },
-
-  {
-    path: "/products",
-    page: ProductsPage,
-    isShowHeader: true,
-    isShowFooter: true,
-    isPrivate: false,
-  },
-
-  {
-    path: "/chat",
-    page: ChatPage,
     isPrivate: false,
   },
 

@@ -13,9 +13,8 @@ import Search from "../SearchComponent/SearchComponent";
 import Menu from "../Popper/Menu/Menu";
 import Image from "../Image/Image";
 import images from "../../assets/images";
-import imagesAdmin from '../../assets/images/admin/index'
+import imagesAdmin from "../../assets/images/admin/index";
 import { Link, useNavigate } from "react-router-dom";
-
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +26,7 @@ const HeaderComponent = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate()
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
 
   const [toast, setToast] = useState(null);
 
@@ -63,32 +63,6 @@ const HeaderComponent = () => {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token })); // lưu thông tin đăng nhập
   };
-
-  // const MENU_ITEMS = [
-  //   {
-  //     icon: <i className={cx("fa-solid fa-user")}></i>,
-  //     title: "Thông tin cá nhân",
-  //     callback: () => navigate('/profile'),
-  //   },
-  //   {
-  //     icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
-  //     title: "Đăng xuất",
-  //     callback: handleLogout,
-  //   },
-  // ];
-
-  // const MENU_ITEMS_ADMIN = [
-  //   {
-  //     icon: <i className="fa-solid fa-shield-halved"></i>,
-  //     title: "Quản lý hệ thống",
-  //     callback: () => navigate('/admin'),
-  //   },
-  //   {
-  //     icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
-  //     title: "Đăng xuất",
-  //     callback: handleLogout,
-  //   },
-  // ];
 
   const MENU_ITEMS = [];
 
@@ -176,7 +150,11 @@ const HeaderComponent = () => {
             <Menu items={MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
-                  src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar || images.avatar}
+                  src={
+                    user?.isAdmin
+                      ? imagesAdmin.avatar
+                      : user?.avatar || images.avatar
+                  }
                   className={cx("user-avatar")}
                   alt={user.name}
                   fallback={images.avatar}
@@ -215,39 +193,24 @@ const HeaderComponent = () => {
 
       {/* header row 2 */}
       <div className={cx("header-2")}>
-        <label htmlFor="header-2__nav-input" className={cx("controll")}>
-          <div className={cx("navigation")}>
-            <svg
-              className={cx(
-                "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ceqcxd"
-              )}
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              data-testid="ViewHeadlineRoundedIcon"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                fill="#fff"
-                d="M5 15h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1m0 4h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1m0-8h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1M4 6c0 .55.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1"
-              ></path>
-            </svg>
-          </div>
-        </label>
-
         <div className={cx("title")}>
           <a onClick={() => navigate("/")} className={cx("title-item")}>
             Trang chủ
           </a>
-          <a className={cx("title-item")}>Danh sách đặt hàng</a>
-          <a className={cx("title-item")}>Đăng sản phẩm</a>
+          <a onClick={() => navigate("/order")} className={cx("title-item")}>Danh sách đặt hàng</a>
+          <a onClick={() => navigate("/push-product")} className={cx("title-item")}>Đăng sản phẩm</a>
         </div>
 
-        <div className={cx("header-2_icon")}>
-          <i className={cx("fa-solid fa-cart-shopping")}></i>
-        </div>
+        <label htmlFor="header-2__nav-input" className={cx("controll")}>
+          <div className={cx("navigation", "title-item")}>Phân loại</div>
+        </label>
 
+       <a onClick={() => navigate("/cartpage")} className={cx( "title-item")}>
+          <div className={cx("header-2_icon")}>
+            <i className={cx("fa-solid fa-cart-shopping")}></i>
+          </div>
+  
+       </a>
         <input
           type="checkbox"
           className={cx("header-2__nav-input")}
