@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 const AccountManagementPage = ({ setToast }) => {
   const user = useSelector((state) => state.user);
   const [users, setUsers] = useState([])
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

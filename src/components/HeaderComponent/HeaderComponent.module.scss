@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .header {
   margin: 0 auto;
 }
@@ -12,7 +16,7 @@
 }
 
 .header-1 {
-  width: 80%;
+  padding: 0 10%;
   height: 74px;
 }
 
@@ -27,8 +31,8 @@
 }
 
 .logo-icon {
-  width: 100%;
-  margin-left: 12px;
+  height: 56px;
+  margin-left: -12px;
 }
 
 .logo-icon,
@@ -90,7 +94,6 @@
 }
 
 .header-2 {
-  width: 80%;
   padding: 0 10%;
   height: 50px;
   background-color: var(--primary-color);
@@ -244,4 +247,118 @@
 
 #header-2__nav-input:checked ~ .header-2__nav {
   transform: translateX(0);
+}
+
+/* tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+  .header-1 {
+    width: 100%;
+    flex-direction: row;
+    height: auto;
+    padding: 0;
+  }
+
+  .header-2 {
+    flex-direction: row;
+    gap: 12px;
+    margin: 0;
+    padding: 0px;
+    width: 100%;
+  }
+
+  .logo {
+    height: 60px;
+    justify-content: center;
+    padding: 10px 0 10px 28px;
+  }
+
+  .logo-icon {
+    height: 40px;
+    margin-left: to-lower-case($string: "");
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .User-login {
+    min-width: 180px;
+    margin-left: 12px;
+  }
+
+  .btn {
+    min-width: 80px;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .title-item {
+    font-size: 15px;
+  }
+
+  .controll {
+    padding: 0 40px;
+  }
+
+  .header-2_icon {
+    padding: 0 40px;
+  }
+}
+
+/* mobile */
+@media (max-width: 739px) {
+  .header-1 {
+    flex-direction: row;
+    margin: 0;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .User-login {
+    min-width: 52px;
+  }
+
+  .user-wrapper span {
+    display: none;
+  }
+
+  .btn {
+    display: none;
+  }
+
+  .header-2 {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+    height: 50px;
+  }
+
+  .controll {
+    padding: 0;
+  }
+
+  .header-2_icon {
+    padding: 0 20px;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .header-2__nav {
+    width: 260px;
+  }
+
+  .header-2__nav-header-title {
+    padding-left: 24px !important;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
 }

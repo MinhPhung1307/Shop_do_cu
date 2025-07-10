@@ -26,6 +26,7 @@ const HeaderComponent = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate()
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const [toast, setToast] = useState(null);
 
@@ -43,6 +44,13 @@ const HeaderComponent = () => {
     setShowLogin(false);
   };
 
+  // kiểm tra màn hình có ở mobile không
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 739);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleLogout = async () => {
     setLoading(true);
     await UserService.logoutUser();
@@ -56,31 +64,78 @@ const HeaderComponent = () => {
     dispatch(updateUser({ ...res?.data, access_token: token })); // lưu thông tin đăng nhập
   };
 
-  const MENU_ITEMS = [
-    {
-      icon: <i className={cx("fa-solid fa-user")}></i>,
-      title: "Thông tin cá nhân",
-      callback: () => navigate('/profile'),
-    },
-    {
-      icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
-      title: "Đăng xuất",
-      callback: handleLogout,
-    },
-  ];
+  // const MENU_ITEMS = [
+  //   {
+  //     icon: <i className={cx("fa-solid fa-user")}></i>,
+  //     title: "Thông tin cá nhân",
+  //     callback: () => navigate('/profile'),
+  //   },
+  //   {
+  //     icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
+  //     title: "Đăng xuất",
+  //     callback: handleLogout,
+  //   },
+  // ];
 
-  const MENU_ITEMS_ADMIN = [
-    {
-      icon: <i className="fa-solid fa-shield-halved"></i>,
-      title: "Quản lý hệ thống",
-      callback: () => navigate('/admin'),
-    },
-    {
-      icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
-      title: "Đăng xuất",
-      callback: handleLogout,
-    },
-  ];
+  // const MENU_ITEMS_ADMIN = [
+  //   {
+  //     icon: <i className="fa-solid fa-shield-halved"></i>,
+  //     title: "Quản lý hệ thống",
+  //     callback: () => navigate('/admin'),
+  //   },
+  //   {
+  //     icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
+  //     title: "Đăng xuất",
+  //     callback: handleLogout,
+  //   },
+  // ];
+
+  const MENU_ITEMS = [];
+
+  if(isMobile && !user?.access_token) {
+    MENU_ITEMS.push(
+      {
+        icon: <i className={"fa-solid fa-right-to-bracket"}></i>,
+        title: "Đăng nhập",
+        callback: () => setShowLogin(true),
+      },
+      {
+        icon: <i className={"fa-solid fa-user-plus"}></i>,
+        title: "Đăng ký",
+        callback: () => setShowRegister(true),
+      }
+    );
+  }
+  else if(user?.access_token) {
+    if (user.isAdmin) {
+      MENU_ITEMS.push(
+        {
+          icon: <i className="fa-solid fa-shield-halved"></i>,
+          title: "Quản lý hệ thống",
+          callback: () => navigate('/admin'),
+        },
+        {
+          icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
+          title: "Đăng xuất",
+          callback: handleLogout,
+        },
+      )
+    }
+    else {
+      MENU_ITEMS.push(
+        {
+          icon: <i className={cx("fa-solid fa-user")}></i>,
+          title: "Thông tin cá nhân",
+          callback: () => navigate('/profile'),
+        },
+        {
+          icon: <i className={"fa-solid fa-right-from-bracket"}></i>,
+          title: "Đăng xuất",
+          callback: handleLogout,
+        }
+      );
+    }
+  }
 
   const products = useSelector((state) => state.product.products);
 
@@ -118,7 +173,7 @@ const HeaderComponent = () => {
 
         <Loading isLoading={loading} className={cx("User-login")}>
           {user?.access_token ? (
-            <Menu items={user.isAdmin ? MENU_ITEMS_ADMIN : MENU_ITEMS}>
+            <Menu items={MENU_ITEMS}>
               <div className={cx("user-wrapper")} style={{ display: "flex" }}>
                 <Image
                   src={user?.isAdmin ? imagesAdmin.avatar : user?.avatar || images.avatar}
@@ -129,18 +184,31 @@ const HeaderComponent = () => {
                 <span>{user.name}</span>
               </div>
             </Menu>
-          ) : (
-            <div>
-              <button
-                className={cx("btn", "registerBtn")}
-                onClick={openRegister}
-              >
-                Đăng ký
-              </button>
-              <button className={cx("btn", "loginBtn")} onClick={openLogin}>
-                Đăng nhập
-              </button>
-            </div>
+          ) : ( isMobile ? ( 
+                <Menu items={MENU_ITEMS}>
+                  <div className={cx("user-wrapper")} style={{ display: "flex" }}>
+                    <Image
+                      src={images.noImage}
+                      className={cx("user-avatar")}
+                      alt={user.name}
+                      fallback={images.avatar}
+                    />
+                    <span>{user.name}</span>
+                  </div>
+                </Menu>
+              ) : (
+                  <div>
+                    <button
+                      className={cx("btn", "registerBtn")}
+                      onClick={openRegister}
+                    >
+                      Đăng ký
+                    </button>
+                    <button className={cx("btn", "loginBtn")} onClick={openLogin}>
+                      Đăng nhập
+                    </button>
+                  </div>
+                  )
           )}
         </Loading>
       </div>
@@ -199,6 +267,36 @@ const HeaderComponent = () => {
             </label>
           </div>
           <ul className={cx("header-2__nav-list")}>
+            {isMobile && (
+              <>
+                <li>
+                  <Link
+                    to="/"
+                    className={cx("header-2__nav-item")}
+                  >
+                    Trang chủ
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    className={cx("header-2__nav-item")}
+                  >
+                    Danh sách đặt hàng
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    className={cx("header-2__nav-item")}
+                  >
+                    Đăng sản phẩm
+                  </Link>
+                </li>
+              </>
+            )
+
+            }
             <li>
               <Link
                 to="/ProductListDocument"

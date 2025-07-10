@@ -69,3 +69,14 @@
   background: #b2f3e1;
   color: #fff;
 }
+
+/* mobile */
+@media (max-width: 739px) {
+  .search-wrapper {
+    margin-left: 12px;
+  }
+  .search {
+    width: 280px;
+    height: 36px;
+  }
+}
