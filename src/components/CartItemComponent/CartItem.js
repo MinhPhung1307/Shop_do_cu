@@ -26,15 +26,17 @@ const CartItem = ({
 
     <div className={cx("info")}>
       <div className={cx("name")}>{NAME}</div>
-      <div className={cx("price")}>{PRICE.toLocaleString()}₫</div>
+      <div className={cx("price")}>
+        <span>{Number(PRICE).toLocaleString("vi-VN")}</span> VNĐ
+      </div>
     </div>
 
     <button className={cx("delete")} onClick={() => ON_DELETE(ID)}>
       Xóa
     </button>
 
-    <button className={cx("buy")} onClick={() => ON_BUY(ID)}>
-      Mua hàng
+    <button className={cx("btn-primary")} onClick={() => ON_BUY(ID)}>
+      Mua Ngay
     </button>
   </li>
 );

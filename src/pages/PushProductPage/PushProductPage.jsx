@@ -49,6 +49,7 @@ export default function PushProductPage() {
   const user = useSelector((state) => state.user);
   const { id } = user;
   const dispatch = useDispatch();
+  const [isdisable, setIsdisable] = useState(false);
 
   // lấy id từ redux (thông tin người dùng sẽ được lưu lại khi đăng nhập ở redux)
   useEffect(() => {
@@ -61,14 +62,16 @@ export default function PushProductPage() {
   }, [id]);
   // kiểm tra xem id đã được gán vào stateProduct chưa
   // biến để gán lại input file
+  useEffect(() => {
+    if (!stateProduct._iduser) {
+      setIsdisable(true);
+    } else {
+      setIsdisable(false);
+    }
+  });
   const fileInputRef = useRef(null);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!stateProduct._iduser) {
-      setAlert({ type: "error", message: "Vui lòng đăng nhập!" });
-      setTimeout(() => setAlert(null), 2000);
-      return;
-    }
     const formData = new FormData();
     stateProduct.images.forEach((file) => {
       formData.append("images", file);
@@ -143,93 +146,110 @@ export default function PushProductPage() {
         <section className={cx("section")}>
           <h2 className={cx("heading")}>Đăng Sản Phẩm</h2>
           <form className={cx("form")} onSubmit={handleSubmit}>
-            <div className={cx("field")}>
-              <label>Ảnh sản phẩm</label>
-              <label htmlFor="images" className={cx("uploadArea")}>
-                <i class="fa-solid fa-camera"></i> Chọn các file ảnh (tối đa 10
-                tấm)
-              </label>
-              <input
-                id="images"
-                type="file"
-                name="images"
-                multiple
-                ref={fileInputRef}
-                onChange={handleOnChange}
-                style={{ display: "none" }}
-              />
-              {/* Hiển thị tên file đã chọn */}
-              <div className={cx("previewList")}>
-                {stateProduct.images.length > 0 &&
-                  stateProduct.images.map((file, idx) => (
-                    <div key={idx} className={cx("previewItem")}>
-                      <i
-                        className="fa-solid fa-image"
-                        style={{ marginRight: 4 }}
-                      ></i>
-                      {file.name.length > 30
-                        ? file.name.slice(0, 27) + "..."
-                        : file.name}
-                    </div>
-                  ))}
+            {/* Grid chia 2 cột */}
+            <div className={cx("formGrid")}>
+              {/* Cột trái - Ảnh */}
+              <div className={cx("formColumn", "imageColumn")}>
+                <div className={cx("field")}>
+                  <label>Ảnh sản phẩm</label>
+                  <label htmlFor="images" className={cx("uploadArea")}>
+                    <i className="fa-solid fa-camera"></i> Chọn các file ảnh
+                    (tối đa 10 tấm)
+                  </label>
+                  <input
+                    id="images"
+                    type="file"
+                    name="images"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleOnChange}
+                    style={{ display: "none" }}
+                    disabled={isdisable}
+                  />
+                  {/* Hiển thị tên file đã chọn */}
+                  <div className={cx("previewList")}>
+                    {stateProduct.images.length > 0 &&
+                      stateProduct.images.map((file, idx) => (
+                        <div key={idx} className={cx("previewItem")}>
+                          <i
+                            className="fa-solid fa-image"
+                            style={{ marginRight: 4 }}
+                          ></i>
+                          {file.name.length > 30
+                            ? file.name.slice(0, 27) + "..."
+                            : file.name}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Cột phải - Thông tin sản phẩm */}
+                {/* Các trường input */}
+              <div className={cx("formColumn", "infoColumn")}>
+                <div className={cx("field")}>
+                  <label>Tên sản phẩm</label>
+                  <input
+                    name="name"
+                    onChange={handleOnChange}
+                    value={stateProduct.name}
+                    type="text"
+                    required
+                    disabled={isdisable}
+                  />
+                </div>
+                <div className={cx("field")}>
+                  <label>Giá bán (VND)</label>
+                  <input
+                    name="price"
+                    onChange={handleOnChange}
+                    value={stateProduct.price}
+                    type="number"
+                    required
+                    disabled={isdisable}
+                  />
+                </div>
+                <div className={cx("field")}>
+                  <label>Thời gian đã dùng</label>
+                  <input
+                    name="used"
+                    onChange={handleOnChange}
+                    value={stateProduct.used}
+                    type="text"
+                    placeholder="Ví dụ: 6 tháng"
+                    disabled={isdisable}
+                  />
+                </div>
+                <div className={cx("field")}>
+                  <label>Danh mục</label>
+                  <select
+                    name="category"
+                    onChange={handleOnChange}
+                    value={stateProduct.category}
+                    required
+                    disabled={isdisable}
+                  >
+                    <option value="">-- Chọn --</option>
+                    <option value="Tài liệu">Tài liệu</option>
+                    <option value="Dụng cụ">Dụng cụ</option>
+                    <option value="Nội thất">Nội thất</option>
+                    <option value="Đồ điện tử">Đồ điện tử</option>
+                    <option value="Đồng phục">Đồng phục</option>
+                  </select>
+                </div>
+                <div className={cx("field")}>
+                  <label>Mô tả</label>
+                  <textarea
+                    value={stateProduct.description}
+                    rows={3}
+                    name="description"
+                    onChange={handleOnChange}
+                    disabled={isdisable}
+                  />
+                </div>
               </div>
             </div>
-            {/* Các trường input */}
-            <div className={cx("field")}>
-              <label>Tên sản phẩm</label>
-              <input
-                name="name"
-                onChange={handleOnChange}
-                value={stateProduct.name}
-                type="text"
-                required
-              />
-            </div>
-            <div className={cx("field")}>
-              <label>Giá bán (VND)</label>
-              <input
-                name="price"
-                onChange={handleOnChange}
-                value={stateProduct.price}
-                type="number"
-                required
-              />
-            </div>
-            <div className={cx("field")}>
-              <label>Thời gian đã dùng</label>
-              <input
-                name="used"
-                onChange={handleOnChange}
-                value={stateProduct.used}
-                type="text"
-                placeholder="Ví dụ: 6 tháng"
-              />
-            </div>
-            <div className={cx("field")}>
-              <label>Danh mục</label>
-              <select
-                name="category"
-                onChange={handleOnChange}
-                value={stateProduct.category}
-                required
-              >
-                <option value="">-- Chọn --</option>
-                <option value="Tài liệu">Tài liệu</option>
-                <option value="Dụng cụ">Dụng cụ</option>
-                <option value="Nội thất">Nội thất</option>
-                <option value="Đồ điện tử">Đồ điện tử</option>
-                <option value="Đồng phục">Đồng phục</option>
-              </select>
-            </div>
-            <div className={cx("field")}>
-              <label>Mô tả</label>
-              <textarea
-                value={stateProduct.description}
-                rows={3}
-                name="description"
-                onChange={handleOnChange}
-              />
-            </div>
+
             <button type="submit" className={cx("submitButton")}>
               Xác nhận
             </button>
