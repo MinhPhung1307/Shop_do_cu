@@ -110,3 +110,10 @@ export const getAllProduct = async (access_token) => {
   );
   return res.data;
 };
+
+export const getAuctionProducts = async () => {
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/product/auction`
+  );
+  return res.data;
+};

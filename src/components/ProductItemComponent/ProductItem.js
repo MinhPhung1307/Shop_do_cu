@@ -5,13 +5,13 @@ import styles from "./ProductItem.module.scss";
 const cx = classNames.bind(styles);
 
 const STATUS_MAP = {
-  "Đặt hàng": { label: "Hủy Đơn", btnClass: "btnChoban" },
-  "Đã mua": { label: "Nhắn Tin", btnClass: "btnDamua" },
-  "Chờ duyệt": { label: "Hủy Đơn", btnClass: "btnChoban" },
+  check: { show: "Chờ duyệt", label: "Hủy Đơn", btnClass: "btnChoban" },
+  sold: { show: "Đã bán" },
+  checked: { show: "Đang bán", label: "Hủy Đơn", btnClass: "btnChoban" },
 };
 
-const ProductItem = ({ IMG, NAME, PRICE, STATUS }) => {
-  const { label, btnClass } = STATUS_MAP[STATUS] || {};
+const ProductItem = ({ IMG, NAME, PRICE, STATUS, onCancel }) => {
+  const { show, label, btnClass } = STATUS_MAP[STATUS] || {};
 
   return (
     <div className={cx("Product-Item")}>
@@ -26,13 +26,15 @@ const ProductItem = ({ IMG, NAME, PRICE, STATUS }) => {
         </div>
         <div className={cx("Info-Status")}>
           <span className={cx("Label")}>Trạng thái:</span>
-          <span className={cx("Status-Text")}>{STATUS}</span>
+          <span className={cx("Status-Text")}>{show}</span>
         </div>
       </div>
 
       {/* 3. Button hành động */}
       {label && (
-        <button className={cx("Product-Button", btnClass)}>{label}</button>
+        <button className={cx("Product-Button", btnClass)} onClick={onCancel}>
+          {label}
+        </button>
       )}
     </div>
   );
