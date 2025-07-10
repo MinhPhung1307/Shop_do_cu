@@ -1,7 +1,7 @@
 // src/components/AdminComponent/PostedProductManager/PostedProductManager.jsx
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import styles from './PostManagementPage.module.scss';
+import styles from '../AdminPage.module.scss';
 import { useSelector } from 'react-redux';
 import * as ProductService from '../../../services/ProductService'
 
@@ -41,12 +41,12 @@ const PostManagementPage = ({ setToast }) => {
   return (
     <section id="products" className={cx('content-section')}>
       <div className={cx('header-line')}>
-        <h2>Danh sách sản phẩm đã đăng</h2>
+        <h2>Danh sách sản phẩm đang bán</h2>
         <input type="text" placeholder="Nhập tên sản phẩm hoặc MSSP" />
       </div>
 
       {productChecked ?.length === 0 ? (
-        <p>Không có sản phẩm nào đã đăng.</p>
+        <p>Không có sản phẩm nào đang được bán.</p>
       ) : (
           productChecked.map((product) => (
             <div key={product._id} className={cx('product-item')}>

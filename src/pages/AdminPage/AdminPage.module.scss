@@ -46,6 +46,11 @@
   margin-bottom: 20px;
 }
 
+.header-line h2,
+.content-section p {
+  cursor: default;
+}
+
 .header-line input {
   padding: 8px 12px;
   border-radius: 6px;
@@ -69,6 +74,7 @@
 
 .account-item span, .product-item span {
   font-size: 16px;
+  cursor: default;
 }
 
 .unlock-btn, .approve-btn, .reject-btn, .delete-btn {
@@ -121,6 +127,7 @@
   box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
   text-align: center;
   transition: transform 0.2s;
+  cursor: pointer;
 }
 
 .category-box:hover {

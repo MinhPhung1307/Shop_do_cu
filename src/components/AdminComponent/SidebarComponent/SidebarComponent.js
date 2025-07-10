@@ -10,7 +10,7 @@ const SidebarComponent = ({ onMenuClick, activeSection }) => {
     { id: "home", label: "Trang chủ" },
     { id: "account", label: "Quản lý tài khoản" },
     { id: "pending", label: "Quản lý đơn chờ duyệt" },
-    { id: "products", label: "Quản lý đăng tin" },
+    { id: "products", label: "Quản lý sản phẩm" },
     { id: "categories", label: "Phân loại" },
   ];  
 

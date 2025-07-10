@@ -98,3 +98,15 @@ export const deleteProduct = async (id, access_token) => {
   );
   return res.data;
 };
+
+export const getAllProduct = async (access_token) => {
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/product/get-allproduct`,
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return res.data;
+};
