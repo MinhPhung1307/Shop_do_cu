@@ -5,6 +5,7 @@ import CardComponent from "../../components/CardComponent/CardComponent";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import * as ProductService from "../../services/ProductService";
+import * as UserService from "../../services/UserService";
 const cx = classNames.bind(styles);
 
 export default function Digital() {
@@ -79,7 +80,8 @@ export default function Digital() {
       (item) =>
         item._id !== productitem?._id &&
         (item.category === productitem?.category ||
-          item.name === productitem?.name)
+          item.name === productitem?.name) &&
+        item.status === "checked"
     )
     .sort((a, b) => b._id.localeCompare(a._id)) // sắp giảm dần theo _id => mới nhất
     .slice(0, 4); // lấy 4 sản phẩm liên quan mới nhất
@@ -331,6 +333,36 @@ export default function Digital() {
     }
   };
 
+  const handleCart = async () => {
+    try {
+      const productId = productitem._id; // Lấy _id của sản phẩm
+      const userAccessToken = user.access_token; // Lấy access_token của người dùng đã đăng nhập
+
+      if (!productId) {
+        alert("Không tìm thấy ID sản phẩm.");
+        return;
+      }
+      if (!userAccessToken) {
+        alert("Bạn chưa đăng nhập.");
+        // Hoặc chuyển hướng đến trang đăng nhập
+        return;
+      }
+
+      const res = await UserService.addcart(productId, userAccessToken);
+      if (res.status === "OK") {
+        alert("Thêm thành công");
+        navigate("/cartpage");
+      } else {
+        alert(res.message || "Có lỗi xảy ra khi thêm sản phẩm");
+      }
+    } catch (error) {
+      console.error("Lỗi thêm sản phẩm:", error); //
+      alert("Có lỗi xảy ra thêm sản phẩm");
+    }
+  };
+  console.log("user.id:", user.id);
+  console.log("user.access_token:", user.access_token);
+
   return (
     <div className={cx("page-container")}>
       <main className={cx("main-content")}>
@@ -372,6 +404,18 @@ export default function Digital() {
               <span className={cx("category-label")}>
                 Phân loại: <span>{productitem?.category}</span>
               </span>
+              <button
+                className={cx("btn-cart")}
+                onClick={() => {
+                  handleCart();
+                  // navigate("/cartpage");
+                }}
+              >
+                <i
+                  className="fa-solid fa-cart-plus fa-lg"
+                  style={{ color: "#2f9499" }}
+                ></i>
+              </button>
             </div>
             <button
               className={cx("btn-primary", "buy-button")}
@@ -411,7 +455,6 @@ export default function Digital() {
                 </div>
               </div>
               <div className={cx("seller-actions")}>
-                <button className={cx("btn-primary")}>Nhắn tin</button>
                 <button className={cx("btn-outline")}>Report</button>
               </div>
             </section>
