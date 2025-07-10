@@ -4,7 +4,8 @@ import { setSearchProducts } from "../../redux/slides/productSlide";
 import classNames from "classnames/bind";
 import styles from "./Search.module.scss"; // tạo file SCSS riêng nếu cần
 import { useSelector } from "react-redux";
-import * as ProductService from "../../services/ProductService"; // đảm bảo đường dẫn đúng
+import { useNavigate } from "react-router-dom";
+
 const cx = classNames.bind(styles);
 const Search = ({ initialValue = "", products = [] }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,8 @@ const Search = ({ initialValue = "", products = [] }) => {
   const [query, setQuery] = useState(initialValue);
   // ô gợi ý
   const [suggestions, setSuggestions] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -71,8 +74,8 @@ const Search = ({ initialValue = "", products = [] }) => {
           onChange={handleChange}
           autoComplete="off"
         />
-        <button className={cx("search-btn")} type="submit">
-          <i className={cx("fa-solid fa-magnifying-glass")}></i>
+        <button className={cx("search-btn")} type="submit" onClick={() => navigate("/search")}>
+          <i className={cx("fa-solid fa-magnifying-glass")}></i> 
         </button>
       </form>
       {suggestions.length > 0 && (
