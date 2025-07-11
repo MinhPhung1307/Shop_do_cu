@@ -33,7 +33,7 @@ const ProductCard = styled.div`
 `;
 
 const ProductImage = styled.img`
-  width: 250px;
+  max-width: 230px;
   height: 200px;
   object-fit: cover;
   border-radius: 10px;

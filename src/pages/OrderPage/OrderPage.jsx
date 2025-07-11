@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import ProductItem from "../../components/ProductItemComponent/ProductItem";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import styles from "./OrderPage.module.scss";
+import classNames from "classnames/bind";
 
+const cx = classNames.bind(styles);
 const OrderPage = () => {
   const [products, setProducts] = useState([]);
   const [boughtProducts, setBoughtProducts] = useState([]);
@@ -57,7 +60,7 @@ const OrderPage = () => {
     .filter(Boolean);
 
   return (
-    <div>
+    <div className={cx("list__products")}>
       {userProducts.map((item) => (
         <ProductItem
           key={item._id}

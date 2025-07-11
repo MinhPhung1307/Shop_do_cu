@@ -12,6 +12,7 @@ const CartPage = () => {
   const user = useSelector((state) => state.user); // hoặc nơi bạn lưu user
   // Lấy danh sách id sản phẩm đã thích/giỏ hàng
   const [idProductLike, setIdProductLike] = useState([]);
+  const [alert, setAlert] = useState(null);
   useEffect(() => {
     if (!user?.id) return;
 
@@ -27,7 +28,6 @@ const CartPage = () => {
         console.error("Lỗi khi gọi API người bán:", err);
       }
     };
-
     fetchSeller();
   }, [user?.id]); // CHỈ theo dõi user.id
 
@@ -75,7 +75,10 @@ const CartPage = () => {
 
   const handleDeleteFromLike = async (productId) => {
     if (!user?.id || !user?.access_token) {
-      alert("Bạn cần đăng nhập để thực hiện thao tác này.");
+      setAlert({
+        type: "error",
+        message: "Bạn cần đăng nhập để thực hiện thao tác này.",
+      });
       return;
     }
 
@@ -97,15 +100,21 @@ const CartPage = () => {
         // Xóa ở FE
         setIdProductLike((prev) => prev.filter((id) => id !== productId));
         setItems((prev) => prev.filter((item) => item.ID !== productId));
-
-        alert("Đã xóa sản phẩm khỏi danh sách.");
+        setAlert({
+          type: "success",
+          message: "Đã xóa sản phẩm khỏi danh sách.",
+        });
       } else {
-        alert(result.message || "Xóa sản phẩm thất bại.");
+        setAlert({ type: "error", message: "Xóa sản phẩm thất bại." });
       }
     } catch (error) {
+      setAlert({ type: "error", message: "Đã xảy ra lỗi khi xóa sản phẩm." });
       console.error("Lỗi khi xóa sản phẩm:", error);
-      alert("Đã xảy ra lỗi khi xóa sản phẩm.");
     }
+    setTimeout(() => {
+      setAlert(null);
+      window.location.reload();
+    }, 1500);
   };
 
   //Xóa tất cả mục đã chọn
@@ -113,7 +122,10 @@ const CartPage = () => {
     const selected = items.filter((i) => i.SELECTED);
 
     if (selected.length === 0) {
-      alert("Bạn chưa chọn sản phẩm nào để xóa.");
+      setAlert({
+        type: "error",
+        message: "Bạn chưa chọn sản phẩm nào để xóa.",
+      });
       return;
     }
 
@@ -136,12 +148,15 @@ const CartPage = () => {
         prev.filter((id) => !selectedIDs.includes(id))
       );
       setItems((prev) => prev.filter((i) => !i.SELECTED));
-
-      alert("Đã xóa các sản phẩm đã chọn.");
+      setAlert({ type: "success", message: "Đã xóa các sản phẩm đã chọn." });
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error);
-      alert("Đã xảy ra lỗi khi xóa sản phẩm.");
+      setAlert({ type: "error", message: "Đã xảy ra lỗi khi xóa sản phẩm." });
     }
+    setTimeout(() => {
+      setAlert(null);
+      window.location.reload();
+    }, 1500);
   };
 
   //mua một sản phẩm
@@ -151,7 +166,7 @@ const CartPage = () => {
     console.log("id", id);
     console.log("item", item);
     if (!item) {
-      alert("Không tìm thấy sản phẩm.");
+      setAlert({ type: "error", message: "Không tìm thấy sản phẩm." });
       return;
     }
 
@@ -164,17 +179,22 @@ const CartPage = () => {
       );
 
       if (res.status === "OK") {
-        alert("Mua sản phẩm thành công!");
+        setAlert({ type: "success", message: "Mua sản phẩm thành công!" });
+
         // Xóa ở FE
         setIdProductLike((prev) => prev.filter((id) => id !== item.ID));
         setItems((prev) => prev.filter((item) => item.ID !== item.ID));
       } else {
-        alert(res.message || "Mua sản phẩm thất bại.");
+        setAlert({ type: "error", message: "Mua sản phẩm thất bại." });
       }
     } catch (error) {
       console.error("Lỗi mua sản phẩm:", error);
-      alert("Có lỗi xảy ra khi mua sản phẩm.");
+      setAlert({ type: "error", message: "Có lỗi xảy ra khi mua sản phẩm." });
     }
+    setTimeout(() => {
+      setAlert(null);
+      window.location.reload();
+    }, 1500);
   };
 
   //Mua tất cả các mục đã chọn
@@ -182,7 +202,10 @@ const CartPage = () => {
     const selectedItems = items.filter((i) => i.SELECTED);
 
     if (selectedItems.length === 0) {
-      alert("Bạn chưa chọn sản phẩm nào để mua.");
+      setAlert({
+        type: "error",
+        message: "Bạn chưa chọn sản phẩm nào để mua.",
+      });
       return;
     }
 
@@ -219,12 +242,18 @@ const CartPage = () => {
         prev.filter((id) => !selectedIDs.includes(id))
       );
       setItems((prev) => prev.filter((i) => !i.SELECTED));
-
-      alert("Đã mua thành công tất cả sản phẩm đã chọn.");
+      setAlert({
+        type: "success",
+        message: "Đã mua thành công tất cả sản phẩm đã chọn.",
+      });
     } catch (error) {
       console.error("Lỗi khi mua các sản phẩm đã chọn:", error);
-      alert("Đã xảy ra lỗi khi mua sản phẩm.");
+      setAlert({ type: "error", message: "Đã xảy ra lỗi khi mua sản phẩm." });
     }
+    setTimeout(() => {
+      setAlert(null);
+      window.location.reload();
+    }, 1500);
   };
 
   //Tính tổng giá sản phẩm
@@ -233,6 +262,17 @@ const CartPage = () => {
 
   return (
     <div className={cx("cart")}>
+      {/* Thông báo */}
+      {alert && (
+        <div
+          className={cx("alert", {
+            success: alert.type === "success",
+            error: alert.type === "error",
+          })}
+        >
+          {alert.message}
+        </div>
+      )}
       {/* Thanh “Chọn tất cả” */}
       <div className={cx("selectAll")}>
         <label>

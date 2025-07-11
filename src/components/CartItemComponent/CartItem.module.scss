@@ -162,3 +162,34 @@ $text-dark: #333;
 .buyAll {
   @extend .btn-primary; // kế thừa style nút Mua hiện có
 }
+
+.cart {
+  min-height: calc(100vh - 74px - 50px - 300px);
+  padding: 20px 0;
+}
+
+.alert {
+  top: 32px; // cách đỉnh một chút cho đẹp
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+  margin: 0 auto;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  box-shadow: 0 2px 8px #0001;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+.alert.success {
+  background: #e6ffed;
+  color: #1a7f37;
+  border: 1px solid #b7eb8f;
+}
+.alert.error {
+  background: #fff1f0;
+  color: #d4380d;
+  border: 1px solid #ffa39e;
+}
