@@ -62,13 +62,15 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .account-item img, .product-item img {
   width: 50px;
   height: 50px;
   object-fit: cover;
+}
+.account-item img {
   border-radius: 50%;
 }
 
@@ -77,9 +79,15 @@
   cursor: default;
 }
 
+.group-btn {
+  display: flex;
+  gap: 16px;
+}
+
 .unlock-btn, .approve-btn, .reject-btn, .delete-btn {
   padding: 6px 12px;
   border: none;
+  min-width: 80px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
@@ -166,6 +174,16 @@
   margin-bottom: 10px;
 }
 
+.overlay {
+  position: fixed;
+  top: 120px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); // màu nền tối
+  z-index: 0; // dưới sidebar một chút
+}
+
 /* tablet */
 @media (min-width: 740px) and (max-width: 1023px) {
   .container {
@@ -175,5 +193,44 @@
 
 /* mobile */
 @media (max-width: 739px) {
-  
+  .header-line {
+    flex-direction: column;
+
+    input {
+      width: 274px;
+    }
+  }
+  .account-item {
+    flex-wrap: wrap;
+
+    .name {
+      display: none;
+    }
+  }
+  .unlock-btn, .approve-btn, .reject-btn, .delete-btn {
+    width: 100px;
+  }
+  .only {
+    width: 100%;
+  }
+  .product-item {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: normal;
+  }
+  .category-box {
+    &:not(.active) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      height: 20px;
+      overflow: hidden;
+
+      img {
+        display: none;
+      }
+    }
+  }
 }

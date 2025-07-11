@@ -29,6 +29,7 @@
 /* mobile */
 @media (max-width: 739px) {
   .dashboard {
+    margin-top: 0;
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
   }

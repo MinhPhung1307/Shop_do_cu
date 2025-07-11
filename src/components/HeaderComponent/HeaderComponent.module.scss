@@ -214,6 +214,7 @@
 }
 
 .header-2__nav-list {
+  margin: 0;
   padding: 12px;
   list-style: none;
 }
@@ -232,6 +233,11 @@
   margin-left: 16px;
   transform: scale(1.1);
   font-weight: 700;
+}
+
+.icon-bars.controll {
+  padding: 12px;
+  color: #fff;
 }
 
 // Overlay

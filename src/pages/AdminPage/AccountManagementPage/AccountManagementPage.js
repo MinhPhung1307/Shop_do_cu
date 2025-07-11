@@ -66,12 +66,14 @@ const AccountManagementPage = ({ setToast }) => {
             <Image src="image/Dung_cu.png" alt="Tài khoản"/>
             <span className={cx('email')}>{item.email}</span>
             <span className={cx('name')}>{item.name}</span>
-            <button className={item.state ? cx('unlock-btn') : cx('delete-btn')} onClick={() => handleStateUser(item._id)}>
-              {item.state ? 'Khóa' : 'Mở khóa'}
-            </button>
-            <button className={cx('delete-btn')} onClick={() => handleDeleteUser(item._id)}>
-              Xóa
-            </button>
+            <div className={cx('group-btn')}>
+              <button className={item.state ? cx('unlock-btn') : cx('delete-btn')} onClick={() => handleStateUser(item._id)}>
+                {item.state ? 'Khóa' : 'Mở khóa'}
+              </button>
+              <button className={cx('delete-btn')} onClick={() => handleDeleteUser(item._id)}>
+                Xóa
+              </button>
+            </div>
           </div>
       ))}
     </section>

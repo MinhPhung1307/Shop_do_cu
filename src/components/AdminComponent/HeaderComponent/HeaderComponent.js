@@ -11,7 +11,7 @@ import * as UserService from "../../../services/UserService";
 
 const cx = classNames.bind(styles);
 
-const HeaderComponent = ({ user, isMobile }) => {
+const HeaderComponent = ({ user, isMobile, toggleSidebar }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,7 +33,9 @@ const HeaderComponent = ({ user, isMobile }) => {
   return (
     <div className={cx('uth_banner')}>
       {isMobile ? (
-          <div className={cx('icon-controll')}><i class="fa-solid fa-bars"></i></div>
+          <div className={cx('icon-controll')} onClick={toggleSidebar}>
+            <i class="fa-solid fa-bars"></i>
+          </div>
         ) : (
           <div className={cx('uth_logo')}>
             <a onClick={() => navigate('/admin')}><img src={imagesAdmin.logoShop} alt="UTH Logo" /></a>

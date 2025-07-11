@@ -54,7 +54,7 @@ const PostManagementPage = ({ setToast }) => {
               <span className={cx('code')}>{product._id}</span>
               <span className={cx('name')}>{product.name}</span>
               <span className={cx('price')}>{product.price?.toLocaleString('vi-VN')}đ</span>
-              <button className={cx('delete-btn')} onClick={() => handleReject(product._id)}>Xóa</button>
+              <button className={cx('delete-btn', 'only')} onClick={() => handleReject(product._id)}>Xóa</button>
             </div> 
           ))
       )}

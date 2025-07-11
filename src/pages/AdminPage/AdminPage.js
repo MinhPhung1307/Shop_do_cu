@@ -16,6 +16,7 @@ const AdminPage = () => {
   const user = useSelector((state) => state.user);
   const [activeSection, setActiveSection] = useState("home");
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [showSidebar, setShowSidebar] = useState();
   const [toast, setToast] = useState(null);
   const showToast = (type, title, message, duration = 3000) => {
     setToast({ type, title, message, duration });
@@ -48,10 +49,22 @@ const AdminPage = () => {
           onClose={() => setToast(null)}
         />
       )}
-      <HeaderComponent user={user} isMobile={isMobile}/>
+      <HeaderComponent user={user} isMobile={isMobile} toggleSidebar={() => setShowSidebar(!showSidebar)}/>
 
       <div className={cx('container')}>
-        {!isMobile && <SidebarComponent onMenuClick={showSection} activeSection={activeSection}/>}
+        {!isMobile && 
+          <SidebarComponent onMenuClick={showSection} activeSection={activeSection}/>
+        }
+
+        {(showSidebar && isMobile) && (
+          <>
+            <div className={cx('overlay')} onClick={() => setShowSidebar(false)}></div>
+            <SidebarComponent className={cx('sidebar-mobile')} onMenuClick={(id) => {
+              showSection(id);
+              setShowSidebar(false); // Ẩn sidebar sau khi chọn menu
+            }} activeSection={activeSection} />
+          </>
+        )}
 
         <div className={cx('main-content')}>
 

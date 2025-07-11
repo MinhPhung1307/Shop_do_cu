@@ -121,7 +121,7 @@ const CategoryManagementPage = ({ setToast }) => {
               <span className={cx('code')}>{p.code}</span>
               <span className={cx('name')}>{p.name}</span>
               <span className={cx('price')}>{p.price}</span>
-              <button className={cx('delete-btn')} onClick={() => handleDelete(p._id)}>🗑️ Xóa</button>
+              <button className={cx('delete-btn', 'only')} onClick={() => handleDelete(p._id)}>🗑️ Xóa</button>
             </div>
           ))
         )}

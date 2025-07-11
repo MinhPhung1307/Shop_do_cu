@@ -4,7 +4,7 @@ import styles from './SidebarComponent.module.scss';
 
 const cx = classNames.bind(styles);
 
-const SidebarComponent = ({ onMenuClick, activeSection }) => {
+const SidebarComponent = ({ onMenuClick, activeSection, className }) => {
 
   const menuItems = [
     { id: "home", label: "Trang chủ" },
@@ -15,7 +15,7 @@ const SidebarComponent = ({ onMenuClick, activeSection }) => {
   ];  
 
   return (
-    <nav className={cx('sidebar')}>
+    <nav className={cx('sidebar', className)}>
       <div className={cx('menu')}>
         {menuItems.map((item) => (
           <a

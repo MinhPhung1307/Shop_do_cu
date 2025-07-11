@@ -201,9 +201,17 @@ const HeaderComponent = () => {
           <a onClick={() => navigate("/push-product")} className={cx("title-item")}>Đăng sản phẩm</a>
         </div>
 
-        <label htmlFor="header-2__nav-input" className={cx("controll")}>
-          <div className={cx("navigation", "title-item")}>Phân loại</div>
-        </label>
+        {!isMobile && 
+          <label htmlFor="header-2__nav-input" className={cx("controll")}>
+            <div className={cx("navigation", "title-item")}>Phân loại</div>
+          </label>
+        }
+
+        {isMobile && 
+          <label htmlFor="header-2__nav-input" className={cx("controll", "icon-bars")}>
+            <i class="fa-solid fa-bars"></i>
+          </label>
+        }
 
        <a onClick={() => navigate("/cartpage")} className={cx( "title-item")}>
           <div className={cx("header-2_icon")}>

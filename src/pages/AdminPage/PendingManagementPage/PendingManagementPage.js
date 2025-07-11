@@ -69,8 +69,10 @@ const PendingManagementPage = ({setToast}) => {
                         <span className={cx('price')}>
                         {product.price.toLocaleString('vi-VN')}đ
                         </span>
-                        <button className={cx('approve-btn')} onClick={() => handleApprove(product._id)}>✅</button>
-                        <button className={cx('reject-btn')} onClick={() => handleReject(product._id)}>❌</button>
+                        <div className={cx('group-btn')}>
+                            <button className={cx('approve-btn')} onClick={() => handleApprove(product._id)}>✅</button>
+                            <button className={cx('reject-btn')} onClick={() => handleReject(product._id)}>❌</button>
+                        </div>
                     </div>
                 ))
             )}

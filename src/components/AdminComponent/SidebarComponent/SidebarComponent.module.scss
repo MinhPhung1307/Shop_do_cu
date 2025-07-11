@@ -26,6 +26,27 @@
   font-weight: bold;
 }
 
+.sidebar-mobile {
+  position: fixed;
+  top: 120px; // hoặc chiều cao header
+  left: 0;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 
 /* tablet */
 @media (min-width: 740px) and (max-width: 1023px) {
