@@ -53,11 +53,36 @@ $text-dark: #333;
   &:last-child {
     border-bottom: none;
   }
+
+  // Responsive adjustments for smaller screens
+  @media (max-width: 992px) {
+    // Tablets
+    flex-wrap: wrap; // Allow items to wrap
+    justify-content: center; // Center items when wrapped
+    padding: 1.5rem; // Reduce padding
+  }
+
+  @media (max-width: 768px) {
+    // Larger mobile devices
+    flex-direction: column; // Stack items vertically
+    text-align: center; // Center text
+  }
+
+  @media (max-width: 576px) {
+    // Smaller mobile devices
+    padding: 1rem; // Further reduce padding
+  }
 }
 
 .checkbox {
   margin-right: 2rem;
   transform: scale(1.5);
+
+  @media (max-width: 768px) {
+    margin-right: 0; // Remove right margin when stacked
+    margin-bottom: 1rem; // Add bottom margin
+    flex: 1;
+  }
 }
 
 .image {
@@ -65,6 +90,18 @@ $text-dark: #333;
   object-fit: cover;
   border-radius: 4px;
   margin-right: 24px;
+
+  @media (max-width: 768px) {
+    width: 100px; // Reduce image size
+    height: 100px; // Maintain aspect ratio
+    margin-right: 0; // Remove right margin
+    margin-bottom: 1rem; // Add bottom margin
+  }
+
+  @media (max-width: 576px) {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 .info {
@@ -74,11 +111,27 @@ $text-dark: #333;
   justify-content: space-evenly;
   gap: 34px;
 
+  @media (max-width: 992px) {
+    flex-direction: column; // Stack name and price
+    gap: 10px; // Reduce gap
+    margin-bottom: 1rem; // Add some space below info block
+  }
+
+  @media (max-width: 768px) {
+    width: 100%; // Take full width
+    justify-content: center; // Center content
+  }
+
   .name {
     max-width: 26rem;
     margin: 0 0 0.4rem;
     font-size: 2rem;
     font-weight: bold;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem; // Reduce font size
+      max-width: unset; // Remove max-width
+    }
   }
 
   .price {
@@ -87,10 +140,17 @@ $text-dark: #333;
     max-width: 16rem;
     font-size: 2rem;
     font-weight: bold;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem; // Reduce font size
+      padding: 0.5rem 1rem; // Reduce padding
+      max-width: unset; // Remove max-width
+    }
   }
 }
 
-.delete {
+.delete,
+.btn-primary {
   background: red;
   color: #fff;
   border: 2px solid red;
@@ -102,23 +162,22 @@ $text-dark: #333;
   transition: background 0.2s, color 0.2s;
   margin-left: 3rem;
 
-  &:hover {
-    background: #ec2323;
-    color: #fff;
+  @media (max-width: 992px) {
+    margin-left: 1rem; // Reduce margin
+    padding: 6px 12px; // Reduce padding
+    font-size: 14px; // Reduce font size
+  }
+
+  @media (max-width: 768px) {
+    margin: 0.5rem 0; // Add vertical margin, remove horizontal
+    width: 80%; // Make buttons wider
+    max-width: 200px; // Limit max width
   }
 }
 
 .btn-primary {
   background: var(--primary-color);
-  color: #fff;
   border: 2px solid var(--primary-color);
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background 0.2s, color 0.2s;
-  margin-left: 3rem;
 
   &:hover {
     background: #2a8087;
@@ -129,12 +188,12 @@ $text-dark: #333;
 //* --- actionBar --- */
 .actionBar {
   font-size: 2rem;
-  position: fixed; /* fixed với viewport */
-  bottom: 0; /* cách đáy 0 */
-  left: 0; /* cách trái 0 */
-  width: 100%; /* chiếm hết chiều ngang */
-  max-width: 100%; /* giới hạn */
-  margin: 0 auto; /* căn giữa trong viewport */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -142,29 +201,51 @@ $text-dark: #333;
   background: #fff;
   border-top: 1px solid $gray-border;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* nổi trên tất cả */
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Stack elements vertically
+    padding: 0.8rem 1rem; // Adjust padding
+  }
 }
 
 .actionBarSummary {
   font-size: 2rem;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.5rem; // Add space below summary
+    font-size: 1.8rem; // Adjust font size
+  }
 }
 
 /* Chừa chỗ cho .actionBar không che nội dung bên dưới */
 .cart {
-  padding-bottom: 8rem;
+  padding-bottom: 8rem; // Ensure content is not hidden by fixed action bar
+
+  @media (max-width: 768px) {
+    padding-bottom: 12rem; // Increase padding for stacked action bar
+  }
 }
 
 .deleteAll {
-  @extend .delete; // kế thừa style nút Xóa hiện có
+  @extend .delete;
+  @media (max-width: 768px) {
+    width: 80%; // Apply to the extended class as well
+    max-width: 200px;
+  }
 }
 
 .buyAll {
-  @extend .btn-primary; // kế thừa style nút Mua hiện có
+  @extend .btn-primary;
+  @media (max-width: 768px) {
+    width: 80%; // Apply to the extended class as well
+    max-width: 200px;
+  }
 }
 
 .alert {
-  top: 32px; // cách đỉnh một chút cho đẹp
+  top: 32px;
   left: 50%;
   transform: translateX(-50%);
   position: fixed;

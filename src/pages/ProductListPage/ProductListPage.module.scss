@@ -1,25 +1,51 @@
-.header-link {
-  margin: 2rem;
-  font-weight: bold;
-  font-size: 2rem;
-  margin-right: 20px;
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  min-height: calc(100vh - 74px - 50px - 300px);
 }
 
-.header-title {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  margin-left: 2rem;
-}
+.header {
+  padding: 20px 16px;
 
-.header-title h1 {
-  font-size: 2rem;
-  margin-left: 1rem;
+  .header-link {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .icon img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0c4c92;
+    }
+  }
 }
 
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
-  margin: 2rem;
+  gap: 20px;
+  padding: 20px 0;
+
+  // Mobile tối ưu
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px 0;
+  }
+
+  // Tablet nhỏ
+  @media (min-width: 769px) and (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
