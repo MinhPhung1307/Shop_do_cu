@@ -357,3 +357,52 @@
     }
   }
 }
+
+
+// report 
+
+.report-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  max-width: 400px;
+  border: 1px solid #ddd;
+}
+
+.report-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  flex: 1;
+  cursor: pointer;
+}
+
+.report-form select:focus {
+  border-color: #1db4bc;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(29, 180, 188, 0.2);
+}
+
+.report-form button {
+  background-color: #1db4bc;
+  color: white;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-end;
+}
+
+.report-form button:hover {
+  background-color: #149aa1;
+}

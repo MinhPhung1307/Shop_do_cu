@@ -37,3 +37,22 @@ export const markNotificationAsRead = async (notificationId, accessToken) => {
     throw error.response ? error.response.data : error.message;
   }
 };
+
+// Yêu cầu tạo 1 thông báo mới
+export const createNotify = async (data, accessToken) => {
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/notifications/create/${data.senderId}`,
+      data,
+      {
+        headers: {
+          token: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    // Ném lỗi để component gọi có thể bắt và xử lý
+    throw error.response ? error.response.data : error.message;
+  }
+};
