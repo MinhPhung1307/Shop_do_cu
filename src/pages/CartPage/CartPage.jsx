@@ -22,10 +22,8 @@ const CartPage = () => {
           `http://localhost:3001/api/user/public/${user.id}`
         );
         const result = await res.json();
-        console.log("Kết quả:", result);
         setIdProductLike(result.data._idProductlike || []);
       } catch (err) {
-        console.error("Lỗi khi gọi API người bán:", err);
       }
     };
     fetchSeller();
@@ -94,7 +92,6 @@ const CartPage = () => {
       );
 
       const result = await res.json();
-      console.log("Kết quả xóa:", result);
 
       if (res.ok && result.status === "OK") {
         // Xóa ở FE
@@ -109,7 +106,6 @@ const CartPage = () => {
       }
     } catch (error) {
       setAlert({ type: "error", message: "Đã xảy ra lỗi khi xóa sản phẩm." });
-      console.error("Lỗi khi xóa sản phẩm:", error);
     }
     setTimeout(() => {
       setAlert(null);
@@ -150,7 +146,6 @@ const CartPage = () => {
       setItems((prev) => prev.filter((i) => !i.SELECTED));
       setAlert({ type: "success", message: "Đã xóa các sản phẩm đã chọn." });
     } catch (error) {
-      console.error("Lỗi khi xóa sản phẩm:", error);
       setAlert({ type: "error", message: "Đã xảy ra lỗi khi xóa sản phẩm." });
     }
     setTimeout(() => {
@@ -163,8 +158,6 @@ const CartPage = () => {
   const handleBuyOne = async (id) => {
     // Tìm sản phẩm trong danh sách items theo ID
     const item = items.find((i) => i.ID === id);
-    console.log("id", id);
-    console.log("item", item);
     if (!item) {
       setAlert({ type: "error", message: "Không tìm thấy sản phẩm." });
       return;
@@ -188,7 +181,6 @@ const CartPage = () => {
         setAlert({ type: "error", message: "Mua sản phẩm thất bại." });
       }
     } catch (error) {
-      console.error("Lỗi mua sản phẩm:", error);
       setAlert({ type: "error", message: "Có lỗi xảy ra khi mua sản phẩm." });
     }
     setTimeout(() => {
@@ -220,7 +212,6 @@ const CartPage = () => {
         );
 
         if (res.status !== "OK") {
-          console.warn(`Mua sản phẩm ${item.NAME} thất bại.`);
           continue; // Bỏ qua nếu mua thất bại
         }
 
@@ -247,7 +238,6 @@ const CartPage = () => {
         message: "Đã mua thành công tất cả sản phẩm đã chọn.",
       });
     } catch (error) {
-      console.error("Lỗi khi mua các sản phẩm đã chọn:", error);
       setAlert({ type: "error", message: "Đã xảy ra lỗi khi mua sản phẩm." });
     }
     setTimeout(() => {

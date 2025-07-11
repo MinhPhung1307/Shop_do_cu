@@ -16,7 +16,6 @@ const OrderPage = () => {
       .get("http://localhost:3001/api/product/auction")
       .then((res) => {
         setProducts(res.data);
-        console.log("API data:", res.data);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -28,7 +27,6 @@ const OrderPage = () => {
       .get(`http://localhost:3001/api/product/bought-by-user/${user.id}`)
       .then((res) => {
         setBoughtProducts(res.data);
-        console.log("API bought data:", res.data);
       })
       .catch((err) => console.error("Lỗi khi lấy đơn đã mua:", err));
   }, [user.id]);
