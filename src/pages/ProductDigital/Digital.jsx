@@ -53,8 +53,7 @@ export default function Digital() {
           setSeller(result.data);
         } else {
         }
-      } catch (err) {
-      }
+      } catch (err) {}
     };
 
     fetchSeller();
@@ -404,7 +403,6 @@ export default function Digital() {
           message: "Thêm thành công.",
         });
         setTimeout(() => setAlert(null), 1500);
-        navigate("/cartpage");
       } else {
         setAlert({
           type: "error",
