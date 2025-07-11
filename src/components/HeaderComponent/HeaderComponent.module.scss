@@ -86,7 +86,7 @@
 .user-wrapper {
   display: flex;
   align-items: center;
-  gap: 8px; // Khoảng cách giữa avatar và tên user
+  cursor: pointer;
 }
 
 .notification-bell {
@@ -394,6 +394,10 @@
 
   .search-wrapper {
     width: 100%;
+  }
+
+  .user-notification-wrapper {
+    gap: 8px;
   }
 }
 
