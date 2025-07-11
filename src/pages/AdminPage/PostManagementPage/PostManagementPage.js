@@ -42,7 +42,7 @@ const PostManagementPage = ({ setToast }) => {
     <section id="products" className={cx('content-section')}>
       <div className={cx('header-line')}>
         <h2>Danh sách sản phẩm đang bán</h2>
-        <input type="text" placeholder="Nhập tên sản phẩm hoặc MSSP" />
+        <input type="text" placeholder="Nhập tên sản phẩm" />
       </div>
 
       {productChecked ?.length === 0 ? (

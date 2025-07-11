@@ -4,6 +4,7 @@ import styles from './HomePage.module.scss'
 import classNames from 'classnames/bind';
 import * as UserService from '../../../services/UserService';
 import * as ProductService from '../../../services/ProductService';
+import * as NotificationService from '../../../services/NotificationService';
 import imagesAdmin from '../../../assets/images/admin';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +15,7 @@ const HomePage = ({ onMenuClick }) => {
     const [countProductCheck, setCountProductCheck] = useState()
     const [countUser, setCountUser] = useState()
     const [countCategory, setCountCategory] = useState()
+    const [countNotify, setCountNotify] = useState()
 
     // lấy all sản phẩm chưa duyêt
     useEffect(() => {
@@ -60,6 +62,19 @@ const HomePage = ({ onMenuClick }) => {
         };
 
         fetchProducts();
+    }, [user.access_token]);
+
+    // Gọi API lấy tất cả thông báo
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await NotificationService.getNotifications(user.id, user.access_token);
+                setCountNotify(res.data.length)
+            } catch (err) {
+                console.error("Lỗi khi lấy thông báo:", err);
+            }
+        };
+        fetchProducts();
   }, [user.access_token]);
 
     return (
@@ -82,10 +97,10 @@ const HomePage = ({ onMenuClick }) => {
                 <span className={cx('count')}>{countUser}</span>
             </div>
 
-            <div className={cx('box')}>
+            <div className={cx('box')} onClick={() => onMenuClick("notify")}>
                 <img src={imagesAdmin.logo_infor} alt="Thông báo" />
                 <span>Thông báo</span>
-                <span className={cx('count')}>2</span>
+                <span className={cx('count')}>{countNotify}</span>
             </div>
         </div>
   );

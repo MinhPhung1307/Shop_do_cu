@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "sass": "^1.88.0"
   },
   "proxy": "http://localhost:3001"

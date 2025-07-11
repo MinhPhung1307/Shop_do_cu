@@ -12,6 +12,7 @@ const SidebarComponent = ({ onMenuClick, activeSection, className }) => {
     { id: "pending", label: "Quản lý sản phẩm chờ duyệt" },
     { id: "products", label: "Quản lý sản phẩm" },
     { id: "categories", label: "Phân loại" },
+    { id: "notify", label: "Thông báo" },
   ];  
 
   return (

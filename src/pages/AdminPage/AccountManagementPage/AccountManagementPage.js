@@ -56,7 +56,7 @@ const AccountManagementPage = ({ setToast }) => {
     <section id="account" className={cx('content-section')}>
       <div className={cx('header-line')}>
         <h2>Danh sách tài khoản</h2>
-        <input type="text" placeholder="Nhập tên hoặc MSSV" />
+        <input type="text" placeholder="Nhập họ và tên hoặc email" />
       </div>
 
       {users

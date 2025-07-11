@@ -55,7 +55,7 @@ const PendingManagementPage = ({setToast}) => {
         <section id="pending" className={cx('content-section')}>
             <div className={cx('header-line')}>
                 <h2>Danh sách sản phẩm chờ duyệt</h2>
-                <input type="text" placeholder="Nhập tên sản phẩm hoặc MSSP" />
+                <input type="text" placeholder="Nhập tên sản phẩm" />
             </div>
 
             {productCheck?.length === 0 ? (
