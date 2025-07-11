@@ -38,7 +38,6 @@ export default function Digital() {
 
   useEffect(() => {
     if (!productitem || !productitem._iduser) {
-      console.warn("Không có _iduser nên không gọi API");
       return;
     }
 
@@ -50,15 +49,11 @@ export default function Digital() {
         );
         const result = await res.json();
 
-        console.log("Kết quả:", result);
-
         if (result.status === "OK") {
           setSeller(result.data);
         } else {
-          console.error("Không lấy được người bán:", result.message);
         }
       } catch (err) {
-        console.error("Lỗi khi gọi API người bán:", err);
       }
     };
 
@@ -169,7 +164,6 @@ export default function Digital() {
               window.location.reload();
             }
           } catch (error) {
-            console.error("Lỗi mua sản phẩm:", error);
             setAlert({
               type: "error",
               message: "Có lỗi xảy ra mua sản phẩm",
@@ -235,9 +229,6 @@ export default function Digital() {
         bidderId: user.id,
         // Không cần productId ở đây vì nó đã có trong URL
       };
-      console.log("amount:", bidData.amount);
-      console.log("bidderId:", user.id);
-
       // 3. Gọi API bằng fetch
       const response = await fetch(
         `http://localhost:3001/api/product/bid/${productitem._id}`, // <-- URL API ĐẶT GIÁ CHÍNH XÁC
@@ -265,8 +256,6 @@ export default function Digital() {
         // TODO: Bạn có thể cần fetch lại dữ liệu sản phẩm để cập nhật danh sách đấu giá trên UI
         // hoặc dispatch một action Redux nếu bạn quản lý trạng thái sản phẩm trong Redux store.
         window.location.reload();
-        console.log("Phản hồi đặt giá:", result);
-        console.log("giờ", timeLeft);
       } else {
         // Lỗi từ phía server (ví dụ: giá không đủ lớn, sản phẩm không tồn tại)
         setAlert({
@@ -277,7 +266,6 @@ export default function Digital() {
       }
     } catch (error) {
       // Lỗi mạng, lỗi parse JSON, hoặc các lỗi không mong muốn khác
-      console.error("Lỗi khi gửi yêu cầu đặt giá:", error);
       setAlert({
         type: "error",
         message: "Lỗi hệ thống khi đặt giá. Vui lòng thử lại.",

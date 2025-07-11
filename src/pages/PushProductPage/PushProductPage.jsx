@@ -85,7 +85,6 @@ export default function PushProductPage() {
 
     mutation.mutate(formData, {
       onSuccess: async () => {
-        console.log(stateProduct);
         const newProduct = await ProductService.getAllProducts();
         dispatch(setProducts(newProduct));
         setStateProduct({
@@ -111,11 +110,9 @@ export default function PushProductPage() {
     });
   };
   const products = useSelector((state) => state.product.products);
-  console.log("danh sách sản phẩm", products);
   const handleCancelOrder = async (id) => {
     try {
       const res = await ProductService.deleteProduct(id, user.access_token);
-      console.log("Kết quả xoá:", res);
       if (res?.status === "OK" || res?.statusCode === 200) {
         setAlert({ type: "success", message: "Xóa sản phẩm thành công" });
         const newProductList = products.filter((item) => item._id !== id);
