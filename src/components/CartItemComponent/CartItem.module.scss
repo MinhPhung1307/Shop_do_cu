@@ -163,11 +163,6 @@ $text-dark: #333;
   @extend .btn-primary; // kế thừa style nút Mua hiện có
 }
 
-.cart {
-  min-height: calc(100vh - 74px - 50px - 300px);
-  padding: 20px 0;
-}
-
 .alert {
   top: 32px; // cách đỉnh một chút cho đẹp
   left: 50%;

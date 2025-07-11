@@ -20,7 +20,7 @@ export default function Digital() {
 
   // report
   const [showForm, setShowForm] = useState(false);
-  const [reason, setReason] = useState('Sản phẩm có vấn đề');
+  const [reason, setReason] = useState("Sản phẩm có vấn đề");
 
   // thong bao
   const [toast, setToast] = useState(null);
@@ -34,6 +34,7 @@ export default function Digital() {
   }, [products, id]);
 
   const [seller, setSeller] = useState(null);
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     if (!productitem || !productitem._iduser) {
@@ -160,12 +161,19 @@ export default function Digital() {
               user.id
             );
             if (res.status === "OK") {
-              alert("mua thành công");
+              setAlert({
+                type: "success",
+                message: "Mua thành công",
+              });
+              setTimeout(() => setAlert(null), 1500);
               window.location.reload();
             }
           } catch (error) {
             console.error("Lỗi mua sản phẩm:", error);
-            alert("Có lỗi xảy ra mua sản phẩm");
+            setAlert({
+              type: "error",
+              message: "Có lỗi xảy ra mua sản phẩm",
+            });
           }
         };
       } else {
@@ -194,15 +202,27 @@ export default function Digital() {
   const handlePlaceBid = async () => {
     // 1. Kiểm tra dữ liệu đầu vào
     if (!bidAmount || isNaN(Number(bidAmount)) || Number(bidAmount) <= 0) {
-      alert("Vui lòng nhập giá đấu hợp lệ");
+      setAlert({
+        type: "error",
+        message: "Vui lòng nhập giá đấu hợp lệ.",
+      });
+      setTimeout(() => setAlert(null), 1500);
       return;
     }
     if (!user?.id) {
-      alert("Vui lòng đăng nhập để đặt giá.");
+      setAlert({
+        type: "error",
+        message: "Vui lòng đăng nhập để đặt giá.",
+      });
+      setTimeout(() => setAlert(null), 1500);
       return;
     }
     if (!productitem?._id) {
-      alert("Không tìm thấy sản phẩm để đặt giá.");
+      setAlert({
+        type: "error",
+        message: "Không tìm thấy sản phẩm để đặt giá.",
+      });
+      setTimeout(() => setAlert(null), 1500);
       return;
     }
 
@@ -236,7 +256,11 @@ export default function Digital() {
       const result = await response.json();
 
       if (result.status === "OK") {
-        alert("Đặt giá thành công!");
+        setAlert({
+          type: "success",
+          message: "Đặt giá thành công!",
+        });
+        setTimeout(() => setAlert(null), 1500);
         setBidAmount(""); // Xóa giá trị trong input sau khi đặt giá thành công
         // TODO: Bạn có thể cần fetch lại dữ liệu sản phẩm để cập nhật danh sách đấu giá trên UI
         // hoặc dispatch một action Redux nếu bạn quản lý trạng thái sản phẩm trong Redux store.
@@ -245,12 +269,20 @@ export default function Digital() {
         console.log("giờ", timeLeft);
       } else {
         // Lỗi từ phía server (ví dụ: giá không đủ lớn, sản phẩm không tồn tại)
-        alert(result.message || "Có lỗi xảy ra khi đặt giá.");
+        setAlert({
+          type: "error",
+          message: "Có lỗi xảy ra khi đặt giá.",
+        });
+        setTimeout(() => setAlert(null), 1500);
       }
     } catch (error) {
       // Lỗi mạng, lỗi parse JSON, hoặc các lỗi không mong muốn khác
       console.error("Lỗi khi gửi yêu cầu đặt giá:", error);
-      alert("Lỗi hệ thống khi đặt giá. Vui lòng thử lại.");
+      setAlert({
+        type: "error",
+        message: "Lỗi hệ thống khi đặt giá. Vui lòng thử lại.",
+      });
+      setTimeout(() => setAlert(null), 1500);
     } finally {
       setIsLoadingBid(false); // Kết thúc trạng thái loading dù thành công hay thất bại
     }
@@ -337,12 +369,20 @@ export default function Digital() {
         user.id
       );
       if (res.status === "OK") {
-        alert("mua thành công");
+        setAlert({
+          type: "success",
+          message: "Mua thành công",
+        });
+        setTimeout(() => setAlert(null), 1500);
         window.location.reload();
       }
     } catch (error) {
       console.error("Lỗi mua sản phẩm:", error);
-      alert("Có lỗi xảy ra mua sản phẩm");
+      setAlert({
+        type: "error",
+        message: "Có lỗi xảy ra mua sản phẩm",
+      });
+      setTimeout(() => setAlert(null), 1500);
     }
   };
 
@@ -352,42 +392,68 @@ export default function Digital() {
       const userAccessToken = user.access_token; // Lấy access_token của người dùng đã đăng nhập
 
       if (!productId) {
-        alert("Không tìm thấy ID sản phẩm.");
+        setAlert({
+          type: "error",
+          message: "Không tìm thấy ID sản phẩm.",
+        });
+        setTimeout(() => setAlert(null), 1500);
         return;
       }
       if (!userAccessToken) {
-        alert("Bạn chưa đăng nhập.");
+        setAlert({
+          type: "error",
+          message: "Bạn chưa đăng nhập.",
+        });
+        setTimeout(() => setAlert(null), 1500);
         // Hoặc chuyển hướng đến trang đăng nhập
         return;
       }
 
       const res = await UserService.addcart(productId, userAccessToken);
       if (res.status === "OK") {
-        alert("Thêm thành công");
+        setAlert({
+          type: "success",
+          message: "Thêm thành công.",
+        });
+        setTimeout(() => setAlert(null), 1500);
         navigate("/cartpage");
       } else {
-        alert(res.message || "Có lỗi xảy ra khi thêm sản phẩm");
+        setAlert({
+          type: "error",
+          message: "Có lỗi xảy ra khi thêm sản phẩm.",
+        });
+        setTimeout(() => setAlert(null), 1500);
       }
     } catch (error) {
       console.error("Lỗi thêm sản phẩm:", error); //
-      alert("Có lỗi xảy ra thêm sản phẩm");
+      setAlert({
+        type: "error",
+        message: "Có lỗi xảy ra thêm sản phẩm.",
+      });
+      setTimeout(() => setAlert(null), 1500);
     }
   };
   // console.log("user.id:", user.id);
   // console.log("user.access_token:", user.access_token);
 
-
   const submitReport = async () => {
     try {
       const data = {
-      senderId: user.id,
-      "title": "Báo cáo sản phẩm",
-      message: reason,
-      productId: productitem._id
-      }
-      const res = await NotificationService.createNotify(data, user.access_token)
-      if(res.status === 'OK') {
-        showToast("success", "Thành công", res?.message || "Báo cáo thành công!");
+        senderId: user.id,
+        title: "Báo cáo sản phẩm",
+        message: reason,
+        productId: productitem._id,
+      };
+      const res = await NotificationService.createNotify(
+        data,
+        user.access_token
+      );
+      if (res.status === "OK") {
+        showToast(
+          "success",
+          "Thành công",
+          res?.message || "Báo cáo thành công!"
+        );
       } else {
         showToast("error", "Thất bại", res?.message || "Gửi báo cáo thất bại.");
       }
@@ -395,10 +461,22 @@ export default function Digital() {
       console.error("Lỗi gửi báo cáo:", error);
       showToast("error", "Lỗi hệ thống", "Không thể gửi báo cáo lúc này.");
     }
-  }
+  };
 
   return (
     <div className={cx("page-container")}>
+      {/* Thông báo */}
+      {alert && (
+        <div
+          className={cx("alert", {
+            success: alert.type === "success",
+            error: alert.type === "error",
+          })}
+        >
+          {alert.message}
+        </div>
+      )}
+
       {toast && (
         <ToastMessage
           type={toast.type}
@@ -498,15 +576,29 @@ export default function Digital() {
                 </div>
               </div>
               <div className={cx("seller-actions")}>
-                <button className={cx("btn-outline")} onClick={() => setShowForm(true)}>Report</button>
+                <button
+                  className={cx("btn-outline")}
+                  onClick={() => setShowForm(true)}
+                >
+                  Report
+                </button>
               </div>
               {showForm && (
-                <div className={cx('report-form')}>
-                  <select onChange={(e) => setReason(e.target.value)} defaultValue="Sản phẩm có vấn đề">
-                    <option value="" disabled>Chọn lý do</option>
-                    <option value="Thông tin không đúng">Thông tin không đúng</option>
+                <div className={cx("report-form")}>
+                  <select
+                    onChange={(e) => setReason(e.target.value)}
+                    defaultValue="Sản phẩm có vấn đề"
+                  >
+                    <option value="" disabled>
+                      Chọn lý do
+                    </option>
+                    <option value="Thông tin không đúng">
+                      Thông tin không đúng
+                    </option>
                     <option value="Lừa đảo">Lừa đảo</option>
-                    <option value="Vi phạm chính sách">Vi phạm chính sách</option>
+                    <option value="Vi phạm chính sách">
+                      Vi phạm chính sách
+                    </option>
                   </select>
                   <button onClick={submitReport}>Gửi</button>
                 </div>

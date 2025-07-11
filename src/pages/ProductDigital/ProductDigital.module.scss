@@ -2,32 +2,59 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+
+  @media (max-width: 1200px) {
+    padding: 15px; // Giảm padding trên màn hình nhỏ hơn
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px; // Giảm padding hơn nữa trên thiết bị di động
+  }
 }
 
 .main-content {
   .layout-container {
     display: flex;
     gap: 20px;
+
+    @media (max-width: 992px) {
+      flex-direction: column; // Xếp chồng các panel trên màn hình tablet trở xuống
+      gap: 15px;
+    }
   }
 }
 
 .left-panel {
   width: 60%;
 
+  @media (max-width: 992px) {
+    width: 100%; // Chiếm toàn bộ chiều rộng trên màn hình tablet trở xuống
+  }
+
   .main-image {
     width: 350px;
     height: 400px;
     object-fit: cover;
     border-radius: 4px;
+
+    @media (max-width: 576px) {
+      width: 100%; // Ảnh chính chiếm toàn bộ chiều rộng trên di động
+      height: 300px; // Giảm chiều cao ảnh chính
+    }
+    @media (max-width: 400px) {
+      height: 250px;
+    }
   }
 
   .thumbnail-container {
     display: flex;
     gap: 10px;
     margin-top: 10px;
+    overflow-x: auto; // Thêm scroll ngang cho thumbnails nếu quá nhiều
+    padding-bottom: 5px; // Thêm padding để thanh scroll không che mất ảnh
 
     .thumbnail {
-      width: 60px;
+      min-width: 60px; // Đảm bảo thumbnail không bị co lại quá mức
       height: 60px;
       object-fit: cover;
       border: 2px solid transparent;
@@ -44,6 +71,13 @@
   .product-title {
     font-size: 24px;
     margin: 15px 0 5px;
+
+    @media (max-width: 768px) {
+      font-size: 20px; // Giảm kích thước tiêu đề
+    }
+    @media (max-width: 480px) {
+      font-size: 18px;
+    }
   }
 
   .product-detail {
@@ -52,33 +86,50 @@
     span {
       font-weight: normal;
     }
+    @media (max-width: 768px) {
+      font-size: 1.8rem; // Giảm kích thước chi tiết
+    }
+    @media (max-width: 480px) {
+      font-size: 1.6rem;
+    }
   }
 
   .product-price {
     font-size: 20px;
     color: #e60023;
     font-weight: bold;
+
+    @media (max-width: 768px) {
+      font-size: 18px; // Giảm kích thước giá
+    }
+    @media (max-width: 480px) {
+      font-size: 16px;
+    }
   }
 
   .product-status {
     display: flex;
+    flex-wrap: wrap; // Cho phép các nhãn xuống dòng
     gap: 10px;
     margin: 10px 0;
 
-    .status-label {
+    .status-label,
+    .category-label {
       background: #e0f7fa;
       color: #00796b;
       padding: 4px 8px;
       border-radius: 4px;
       font-size: 14px;
+
+      @media (max-width: 480px) {
+        font-size: 12px; // Giảm kích thước nhãn
+        padding: 3px 6px;
+      }
     }
 
     .category-label {
       background: #f1f8e9;
       color: #33691e;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 14px;
     }
   }
 
@@ -103,19 +154,22 @@
       color: #fff;
     }
     &:disabled {
-      background-color: #cccccc; // Màu nền xám cho nút
-      color: #666666; // Màu chữ xám
-      cursor: not-allowed; // Con trỏ chuột hiển thị không cho phép
-      border: 1px solid #999999; // Viền xám
-      opacity: 0.7; // Giảm độ mờ để thể hiện rõ hơn là disabled
+      background-color: #cccccc;
+      color: #666666;
+      cursor: not-allowed;
+      border: 1px solid #999999;
+      opacity: 0.7;
 
       &:hover {
-        background-color: #cccccc; // Giữ nguyên màu xám khi hover
-        color: #666666; // Giữ nguyên màu chữ xám khi hover
-        // Loại bỏ hoặc ghi đè các hiệu ứng hover khác nếu có
-        transform: none; // Đảm bảo không có hiệu ứng transform
-        box-shadow: none; // Đảm bảo không có box-shadow
+        background-color: #cccccc;
+        color: #666666;
+        transform: none;
+        box-shadow: none;
       }
+    }
+    @media (max-width: 480px) {
+      padding: 10px;
+      font-size: 14px;
     }
   }
 
@@ -125,13 +179,20 @@
     .section-title {
       font-size: 2.5rem;
       margin-bottom: 15px;
+
+      @media (max-width: 768px) {
+        font-size: 2.2rem;
+      }
+      @media (max-width: 480px) {
+        font-size: 2rem;
+      }
     }
 
     .related-grid {
       display: flex;
       overflow-x: auto;
       gap: 20px;
-      padding: 20px 20px 10px 20px; // thêm padding top & left nhiều hơn
+      padding: 20px 20px 10px 20px;
       scroll-snap-type: x mandatory;
       scroll-padding-left: 10px;
       // Chỉ định phần thanh cuộn chính của phần tử
@@ -145,9 +206,22 @@
       }
 
       > div {
-        flex: 0 0 calc(50% - 25px);
+        flex: 0 0 calc(50% - 25px); // 2 item per row on larger screens
         scroll-snap-align: start;
         min-width: calc(50% - 25px);
+
+        @media (max-width: 768px) {
+          flex: 0 0 calc(60% - 15px); // 1.5 item per row on tablets
+          min-width: calc(60% - 15px);
+        }
+        @media (max-width: 576px) {
+          flex: 0 0 calc(80% - 10px); // 1.25 item per row on smaller tablets
+          min-width: calc(80% - 10px);
+        }
+        @media (max-width: 480px) {
+          flex: 0 0 calc(100% - 10px); // 1 item per row on mobile
+          min-width: calc(100% - 10px);
+        }
       }
     }
 
@@ -167,11 +241,19 @@
       .related-name {
         margin: 10px 0 5px;
         font-size: 2rem;
+
+        @media (max-width: 576px) {
+          font-size: 1.8rem;
+        }
       }
 
       .related-price {
         font-size: 1.6rem;
         color: #333;
+
+        @media (max-width: 576px) {
+          font-size: 1.4rem;
+        }
       }
     }
   }
@@ -182,6 +264,11 @@
     background-color: #fff;
     font-size: 25px;
     cursor: pointer;
+
+    @media (max-width: 480px) {
+      font-size: 20px;
+      margin-left: 15px;
+    }
   }
 }
 
@@ -191,17 +278,33 @@
   flex-direction: column;
   gap: 20px;
 
+  @media (max-width: 992px) {
+    flex: unset; // Bỏ flex-grow trên màn hình nhỏ hơn để không chiếm quá nhiều không gian
+    width: 100%;
+  }
+
   section {
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     padding: 15px;
+
+    @media (max-width: 480px) {
+      padding: 10px;
+    }
   }
 
   .seller-info {
     .section-title {
       font-size: 2.5rem;
       margin-bottom: 10px;
+
+      @media (max-width: 768px) {
+        font-size: 2.2rem;
+      }
+      @media (max-width: 480px) {
+        font-size: 2rem;
+      }
     }
 
     .seller-details {
@@ -221,6 +324,10 @@
         .seller-name {
           font-weight: bold;
           font-size: 2rem;
+
+          @media (max-width: 576px) {
+            font-size: 1.8rem;
+          }
         }
       }
     }
@@ -228,6 +335,7 @@
     .seller-actions {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap; // Cho phép các nút xuống dòng
 
       .btn-outline {
         background: transparent;
@@ -244,6 +352,12 @@
           background: red;
           color: #fff;
         }
+
+        @media (max-width: 480px) {
+          padding: 10px;
+          font-size: 14px;
+          flex: 1 1 auto; // Cho phép nút co giãn trên di động
+        }
       }
     }
   }
@@ -252,6 +366,13 @@
     .section-title {
       font-size: 2.5rem;
       margin-bottom: 10px;
+
+      @media (max-width: 768px) {
+        font-size: 2.2rem;
+      }
+      @media (max-width: 480px) {
+        font-size: 2rem;
+      }
     }
 
     .time {
@@ -272,29 +393,38 @@
 
       @keyframes bling {
         0% {
-          transform: scale(1); /* Kích thước ban đầu */
-          color: red; /* Giữ lại nếu bạn vẫn muốn nhấp nháy màu cùng lúc */
+          transform: scale(1);
+          color: red;
         }
         50% {
-          transform: scale(1.05); /* Lớn hơn một chút (ví dụ 5%) */
-          color: white; /* Giữ lại nếu bạn vẫn muốn nhấp nháy màu cùng lúc */
+          transform: scale(1.05);
+          color: white;
         }
         100% {
-          transform: scale(1); /* Trở về kích thước ban đầu */
-          color: red; /* Giữ lại nếu bạn vẫn muốn nhấp nháy màu cùng lúc */
+          transform: scale(1);
+          color: red;
         }
+      }
+
+      @media (max-width: 576px) {
+        font-size: 18px;
       }
     }
 
     .current-price {
       font-size: 2rem;
       margin-bottom: 10px;
+
+      @media (max-width: 576px) {
+        font-size: 1.8rem;
+      }
     }
 
     .bid-input {
       display: flex;
       gap: 10px;
       margin-bottom: 15px;
+      flex-wrap: wrap; // Cho phép input và button xuống dòng
 
       .bid-field {
         flex: 1;
@@ -303,10 +433,15 @@
         border-radius: 4px;
         font-size: 16px;
         &:disabled {
-          background-color: #e0e0e0; // Màu nền xám nhạt
-          color: #888; // Màu chữ xám
-          cursor: not-allowed; // Con trỏ chuột hiển thị không cho phép
-          border: 1px solid #ccc; // Viền xám
+          background-color: #e0e0e0;
+          color: #888;
+          cursor: not-allowed;
+          border: 1px solid #ccc;
+        }
+        @media (max-width: 480px) {
+          padding: 12px;
+          font-size: 14px;
+          flex: 1 1 100%; // Chiếm toàn bộ chiều rộng trên di động
         }
       }
 
@@ -326,19 +461,23 @@
           color: #fff;
         }
         &:disabled {
-          background-color: #cccccc; // Màu nền xám cho nút
-          color: #666666; // Màu chữ xám
-          cursor: not-allowed; // Con trỏ chuột hiển thị không cho phép
-          border: 1px solid #999999; // Viền xám
-          opacity: 0.7; // Giảm độ mờ để thể hiện rõ hơn là disabled
+          background-color: #cccccc;
+          color: #666666;
+          cursor: not-allowed;
+          border: 1px solid #999999;
+          opacity: 0.7;
 
           &:hover {
-            background-color: #cccccc; // Giữ nguyên màu xám khi hover
-            color: #666666; // Giữ nguyên màu chữ xám khi hover
-            // Loại bỏ hoặc ghi đè các hiệu ứng hover khác nếu có
-            transform: none; // Đảm bảo không có hiệu ứng transform
-            box-shadow: none; // Đảm bảo không có box-shadow
+            background-color: #cccccc;
+            color: #666666;
+            transform: none;
+            box-shadow: none;
           }
+        }
+        @media (max-width: 480px) {
+          padding: 10px;
+          font-size: 14px;
+          flex: 1 1 100%; // Chiếm toàn bộ chiều rộng trên di động
         }
       }
     }
@@ -353,14 +492,62 @@
         padding: 10px;
         border: 1px solid #e0e0e0;
         text-align: left;
+        font-size: 1.8rem; // Giảm kích thước chữ trong bảng
+
+        @media (max-width: 576px) {
+          font-size: 1.6rem;
+          padding: 8px;
+        }
+        @media (max-width: 400px) {
+          font-size: 1.4rem;
+          padding: 6px;
+        }
+      }
+      th {
+        @media (max-width: 480px) {
+          display: none; // Ẩn tiêu đề cột trên màn hình nhỏ nhất để tiết kiệm không gian
+        }
+      }
+      tr {
+        @media (max-width: 480px) {
+          display: block; // Làm cho hàng hoạt động như một khối để các ô có thể xuống dòng
+          margin-bottom: 10px;
+          border: 1px solid #e0e0e0;
+          border-radius: 4px;
+          padding: 5px;
+        }
+      }
+      td {
+        @media (max-width: 480px) {
+          display: block; // Làm cho ô hoạt động như một khối
+          text-align: right;
+          padding-left: 50%; // Tạo không gian cho "label" giả
+          position: relative;
+          &::before {
+            content: attr(data-label); // Sử dụng data-label để hiển thị tiêu đề
+            position: absolute;
+            left: 10px;
+            width: calc(50% - 20px);
+            padding-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            text-align: left;
+          }
+          &:first-child::before {
+            content: "Người đấu giá:";
+          }
+          &:nth-child(2)::before {
+            content: "Giá đặt:";
+          }
+        }
       }
     }
   }
 }
 
-
-// report 
-
+// report
 .report-form {
   background-color: #fff;
   padding: 20px;
@@ -371,6 +558,12 @@
   gap: 12px;
   max-width: 400px;
   border: 1px solid #ddd;
+  flex-wrap: wrap; // Cho phép các phần tử trong form xuống dòng
+
+  @media (max-width: 576px) {
+    max-width: 100%; // Chiếm toàn bộ chiều rộng có sẵn
+    padding: 15px;
+  }
 }
 
 .report-form select {
@@ -383,6 +576,11 @@
   transition: border-color 0.2s;
   flex: 1;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    flex: 1 1 100%; // Chiếm toàn bộ chiều rộng trên di động
+    font-size: 12px;
+  }
 }
 
 .report-form select:focus {
@@ -401,8 +599,40 @@
   cursor: pointer;
   transition: background-color 0.2s;
   align-self: flex-end;
+
+  @media (max-width: 576px) {
+    flex: 1 1 100%; // Chiếm toàn bộ chiều rộng trên di động
+    padding: 10px;
+    font-size: 14px;
+  }
 }
 
 .report-form button:hover {
   background-color: #149aa1;
+}
+
+.alert {
+  top: 32px; // cách đỉnh một chút cho đẹp
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+  margin: 0 auto;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  box-shadow: 0 2px 8px #0001;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+.alert.success {
+  background: #e6ffed;
+  color: #1a7f37;
+  border: 1px solid #b7eb8f;
+}
+.alert.error {
+  background: #fff1f0;
+  color: #d4380d;
+  border: 1px solid #ffa39e;
 }

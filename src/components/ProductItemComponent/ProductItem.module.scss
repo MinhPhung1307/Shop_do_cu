@@ -8,6 +8,11 @@
   box-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
   margin-bottom: 16px;
   transition: box-shadow 0.3s, transform 0.3s;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
 }
 
 .Product-Item:hover {
@@ -21,6 +26,14 @@
   object-fit: cover;
   border-radius: 4px;
   margin-right: 24px;
+
+  @media (max-width: 992px) {
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 576px) {
+    width: 100px;
+  }
 }
 
 .Product-Info {
@@ -29,11 +42,28 @@
   align-items: center;
   justify-content: space-evenly;
   gap: 32px;
+  width: 100%; // Đảm bảo nó chiếm toàn bộ chiều rộng khi xếp chồng
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
 
   .Info-Name {
     max-width: 26rem;
     font-size: 2.5rem;
     font-weight: bold;
+    word-break: break-word; // Ngăn chặn tên dài bị tràn
+
+    @media (max-width: 992px) {
+      max-width: unset;
+      font-size: 2.2rem;
+    }
+    @media (max-width: 576px) {
+      font-size: 1.8rem;
+    }
   }
 
   .Info-Price {
@@ -43,22 +73,40 @@
     font-size: 2rem;
     color: var(--primary-color);
     font-weight: bold;
+
+    @media (max-width: 992px) {
+      max-width: unset;
+      font-size: 1.8rem;
+      padding: 0.8rem 1.5rem;
+    }
+    @media (max-width: 576px) {
+      font-size: 1.6rem;
+    }
   }
 
   .Info-Status {
     display: flex;
     align-items: center;
+    justify-content: center; // Căn giữa văn bản trạng thái khi xếp chồng
 
     .Label {
       font-size: 2rem;
       font-weight: bold;
       margin-right: 6px;
       color: #000;
+
+      @media (max-width: 576px) {
+        font-size: 1.6rem;
+      }
     }
 
     .Status-Text {
       color: #777;
       font-size: 2rem;
+
+      @media (max-width: 576px) {
+        font-size: 1.6rem;
+      }
     }
   }
 }
@@ -71,6 +119,18 @@
   font-size: 1.8rem;
   cursor: pointer;
   white-space: nowrap;
+  width: auto; // Cho phép nút điều chỉnh chiều rộng của nó
+
+  @media (max-width: 992px) {
+    width: 80%; // Làm cho nút rộng hơn trên màn hình nhỏ hơn
+    padding: 1.2rem 2rem;
+    font-size: 1.6rem;
+  }
+  @media (max-width: 576px) {
+    width: 100%;
+    font-size: 1.4rem;
+    padding: 1rem 1.5rem;
+  }
 }
 
 /* màu & viền cho từng trạng thái */
