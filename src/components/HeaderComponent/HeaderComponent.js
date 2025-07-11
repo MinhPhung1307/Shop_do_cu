@@ -386,12 +386,12 @@ const HeaderComponent = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className={cx("header-2__nav-item")}>
+                  <Link to="/order" className={cx("header-2__nav-item")}>
                     Danh sách đặt hàng
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className={cx("header-2__nav-item")}>
+                  <Link to="/push-product" className={cx("header-2__nav-item")}>
                     Đăng sản phẩm
                   </Link>
                 </li>

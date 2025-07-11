@@ -204,12 +204,92 @@ h2.heading {
   flex: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  h2.heading {
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+  }
   .formGrid {
     flex-direction: column;
   }
-  .imageColumn,
-  .infoColumn {
-    max-width: 100%;
+
+  .formColumn {
+    width: 100% !important;
+  }
+
+  .uploadArea {
+    font-size: 17px;
+    padding: 12px;
+    margin-left: 5px;
+  }
+
+  .previewItem {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  h2.heading {
+    width: auto;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .navTabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .navButton {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .field label {
+    font-size: 14px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    width: auto;
+    font-size: 20px;
+    text-align: center;
+  }
+  .form {
+    padding: 10px;
+  }
+
+  .uploadArea {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .previewList {
+    gap: 6px;
+  }
+
+  .previewItem {
+    font-size: 12px;
+  }
+
+  .submitButton {
+    font-size: 14px;
+    padding: 10px;
   }
 }
