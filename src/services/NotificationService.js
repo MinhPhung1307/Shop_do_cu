@@ -56,3 +56,16 @@ export const createNotify = async (data, accessToken) => {
     throw error.response ? error.response.data : error.message;
   }
 };
+
+// gọi api yêu cầu xóa thông báo
+export const deleteNotify = async (id, access_token) => {
+  const res = await axios.delete(
+    `${process.env.REACT_APP_API_URL}/notifications/delete/${id}`,
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return res.data;
+};

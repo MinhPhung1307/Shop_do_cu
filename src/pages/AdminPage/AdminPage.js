@@ -10,6 +10,7 @@ import PendingManagementPage from './PendingManagementPage/PendingManagementPage
 import PostManagementPage from './PostManagementPage/PostManagementPage';
 import CategoryManagementPage from './CategoryManager/CategoryManagementPage';
 import ToastMessage from '../../components/Message/Message';
+import NotifyPage from './NotifyPage/NotifyPage';
 
 const cx = classNames.bind(styles);
 const AdminPage = () => {
@@ -86,6 +87,10 @@ const AdminPage = () => {
 
           {activeSection === "categories" && (
             <CategoryManagementPage setToast={showToast}/>
+          )}
+
+          {activeSection === "notify" && (
+            <NotifyPage setToast={showToast}/>
           )}
         </div>
       </div>
