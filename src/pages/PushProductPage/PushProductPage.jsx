@@ -112,6 +112,23 @@ export default function PushProductPage() {
   };
   const products = useSelector((state) => state.product.products);
   console.log("danh sách sản phẩm", products);
+  const handleCancelOrder = async (id) => {
+    try {
+      const res = await ProductService.deleteProduct(id, user.access_token);
+      console.log("Kết quả xoá:", res);
+      if (res?.status === "OK" || res?.statusCode === 200) {
+        setAlert({ type: "success", message: "Xóa sản phẩm thành công" });
+        const newProductList = products.filter((item) => item._id !== id);
+        dispatch(setProducts(newProductList));
+      } else {
+        setAlert({ type: "error", message: "Xóa thất bại!" });
+      }
+    } catch (error) {
+      console.error("Lỗi xoá sản phẩm:", error);
+      setAlert({ type: "error", message: "Đã xảy ra lỗi" });
+    }
+  };
+
   return (
     <div className={cx("container")}>
       {/* Thông báo */}
@@ -185,7 +202,7 @@ export default function PushProductPage() {
               </div>
 
               {/* Cột phải - Thông tin sản phẩm */}
-                {/* Các trường input */}
+              {/* Các trường input */}
               <div className={cx("formColumn", "infoColumn")}>
                 <div className={cx("field")}>
                   <label>Tên sản phẩm</label>
@@ -277,6 +294,7 @@ export default function PushProductPage() {
                         NAME={item.name}
                         PRICE={item.price}
                         STATUS={item.status}
+                        onCancel={() => handleCancelOrder(item._id)}
                       />
                     ) : null
                   )
