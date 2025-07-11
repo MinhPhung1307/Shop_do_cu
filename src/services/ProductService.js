@@ -117,3 +117,10 @@ export const getAuctionProducts = async () => {
   );
   return res.data;
 };
+
+export const getUser = async (id) => {
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/user/public/${id}`
+  );
+  return res.data;
+};

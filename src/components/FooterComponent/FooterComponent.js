@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./FooterComponent.module.scss";
 import classNames from "classnames/bind";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -45,7 +46,7 @@ const FooterComponent = () => {
           <h4>Liên kết nhanh</h4>
           <ul>
             <li>
-              <a href="/">Trang chủ</a>
+              <Link to="/">Trang chủ</Link>
             </li>
             <li>
               <a href="/orders">Danh sách đặt hàng</a>

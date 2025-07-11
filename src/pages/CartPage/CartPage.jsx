@@ -298,8 +298,7 @@ const CartPage = () => {
           <span className={cx("actionBarSummary")}>
             Tổng cộng ({selectedItems.length} sản phẩm):{" "}
             <span className={cx("actionBarTotal")}>
-              {Number(totalPrice).toLocaleString("vi-VN")}
-              VNĐ
+              {Number(totalPrice).toLocaleString("vi-VN")} VNĐ
             </span>
           </span>
 

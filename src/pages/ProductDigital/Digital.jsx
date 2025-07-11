@@ -47,13 +47,9 @@ export default function Digital() {
     const fetchSeller = async () => {
       try {
         // gọi API
-        const res = await fetch(
-          `http://localhost:3001/api/user/public/${productitem._iduser}`
-        );
-        const result = await res.json();
-
-        if (result.status === "OK") {
-          setSeller(result.data);
+        const res = await ProductService.getUser(productitem._iduser)
+        if (res.status === "OK") {
+          setSeller(res.data);
         } else {
         }
       } catch (err) {}
@@ -554,9 +550,9 @@ export default function Digital() {
               <div className={cx("seller-details")}>
                 <Image
                     src={
-                      user?.isAdmin
-                        ? imagesAdmin.avatar
-                        : user?.avatar || images.avatar
+                      seller?.avatar
+                        ? seller?.avatar
+                        : images.avatar 
                     }
                     className={cx("seller-avatar")}
                     alt={user.name}
@@ -564,6 +560,7 @@ export default function Digital() {
                   />
                 <div className={cx("seller-text")}>
                   <p className={cx("seller-name")}>{seller?.name}</p>
+                  <p className={cx("seller-name")}>{seller?.phone}</p>
                 </div>
               </div>
               <div className={cx("seller-actions")}>
