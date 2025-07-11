@@ -18,6 +18,13 @@
 .header-1 {
   padding: 0 10%;
   height: 74px;
+  .User-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
 }
 
 .logo {
@@ -70,15 +77,35 @@
   margin-left: 4px;
 }
 
-.User-login {
-  min-width: 224px;
+.user-notification-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px; // Khoảng cách giữa user và chuông thông báo
 }
 
 .user-wrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 8px; // Khoảng cách giữa avatar và tên user
+}
+
+.notification-bell {
+  position: relative;
+  font-size: 20px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
 }
 
 .user-avatar {
@@ -100,7 +127,7 @@
   color: white;
 }
 
-.controll, 
+.controll,
 .header-2_icon {
   font-size: 24px;
   padding: 0 12px;
@@ -111,7 +138,6 @@
 .header-2_icon-cart {
   cursor: pointer;
 }
-
 
 .title {
   width: 60%;
@@ -362,5 +388,72 @@
 
   .search-wrapper {
     width: 100%;
+  }
+}
+
+/* HeaderComponent.module.scss */
+
+.notification-bell {
+  position: relative;
+  margin-right: 20px; // Điều chỉnh khoảng cách nếu cần
+  cursor: pointer;
+  color: var(--primary-color); // Hoặc màu sắc bạn muốn
+  font-size: 24px;
+
+  .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #dfb726;
+    color: black;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 1;
+    min-width: 20px; // Đảm bảo nó tròn ngay cả với một chữ số
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.notification-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  width: 100%; // Đảm bảo chiếm toàn bộ chiều rộng của menu item
+  box-sizing: border-box; // Đảm bảo padding không làm tăng chiều rộng
+
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  &.unread {
+    background-color: #e6f7ff; // Màu xanh nhạt cho chưa đọc
+    font-weight: bold;
+  }
+
+  h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    color: #000;
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #000;
+    line-height: 1.4;
+  }
+  .notification-time {
+    font-size: 12px;
+    color: #000;
+    margin-top: 5px;
+    display: block;
+    text-align: right;
   }
 }
