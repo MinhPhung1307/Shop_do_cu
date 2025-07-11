@@ -10,19 +10,26 @@
 
 .title{
     display: flex;
+    align-items: center;
+    padding: 10px;
 }
 
-.title img[alt="Noi_that"]
-{
-    width: 54px;
-    height: 54px;
-    margin: 10px;
+.title img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
+
+.title h2 {
+    font-size: 24px; // Kích thước chữ mặc định cho màn hình lớn
+    color: #333;
+}
+
 
 .list__products--item{
     margin: 10px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
 }
 
@@ -34,6 +41,67 @@
 .product-row {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; // hoặc center nếu muốn căn giữa
-  gap: 24px; // khoảng cách giữa các sản phẩm
+  justify-content: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Máy tính bảng và điện thoại lớn hơn */
+@media (min-width: 740px) and (max-width: 1023px) {
+    .title img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .title h2 {
+        font-size: 22px; // Giảm kích thước chữ cho tablet
+    }
+
+    .product-row {
+        gap: 16px;
+        justify-content: center;
+    }
+
+    /* Điều chỉnh kích thước CardComponent cho máy tính bảng */
+    .list__products--item :global(.ProductCard) { /* Sử dụng :global() để nhắm mục tiêu styled component */
+        max-width: 220px; // Giảm kích thước tối đa của card
+        width: 100%;
+    }
+    .list__products--item :global(.ProductName) {
+        font-size: 18px; // Giảm kích thước chữ tên sản phẩm
+    }
+    .list__products--item :global(.ProductPrice),
+    .list__products--item :global(.CountdownText) {
+        font-size: 18px; // Giảm kích thước chữ giá và đếm ngược
+    }
+}
+
+/* Di động */
+@media (max-width: 739px) {
+    .title img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .title h2 {
+        font-size: 18px; // Giảm kích thước chữ tiêu đề cho mobile
+    }
+
+    .list__products {
+        margin: 5px;
+    }
+
+    .list__products--item {
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; // Giảm khoảng cách giữa các sản phẩm
+    }
+
+    .product-row {
+        display: grid;
+        grid-template-columns: repeat(2,1fr); // Sử dụng grid để hiển thị sản phẩm
+        gap: 5px;
+    }
+    
 }

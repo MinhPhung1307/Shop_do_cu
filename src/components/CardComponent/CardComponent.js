@@ -17,49 +17,80 @@ const bling = keyframes`
 `;
 
 const ProductCard = styled.div`
-  width: 250px;
+  max-width: 250px;
+  width: 100%;
+  flex-shrink: 1;
+  flex-grow: 1;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 5px;
   text-align: center;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 10px 0;
+  margin: 10px;
 
   &:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     transform: translateY(-6px) scale(1.03);
     cursor: pointer;
   }
+
+  /* Tablet */
+  @media (max-width: 1024px) {
+    max-width: 45%;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
 `;
 
 const ProductImage = styled.img`
-  max-width: 230px;
+  max-width: 100%;
   height: 200px;
   object-fit: cover;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    height: 120px;
+  }
 `;
+
 
 const ProductName = styled.h3`
   font-size: 20px;
   margin: 10px 0;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    font-weight: normal;
+  }
 `;
 
 const ProductPrice = styled.p`
   font-size: 20px;
   font-weight: light;
   color: var(--primary-color);
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const CountdownText = styled.p`
   font-size: 20px;
   color: ${(props) => props.color || "black"};
-  // Áp dụng animation có điều kiện: chỉ khi màu là đỏ
   ${(props) =>
     props.color === "red" &&
     css`
       animation: ${bling} 1.5s infinite alternate ease-in-out;
     `}
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
+
 
 const CardComponent = ({ product, onClick }) => {
   // Destructure các thuộc tính của sản phẩm để dễ dàng truy cập
