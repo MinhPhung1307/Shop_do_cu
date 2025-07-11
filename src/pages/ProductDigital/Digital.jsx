@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import * as ProductService from "../../services/ProductService";
 import * as UserService from "../../services/UserService";
+import * as NotificationService from "../../services/NotificationService";
+import ToastMessage from "../../components/Message/Message";
 const cx = classNames.bind(styles);
 
 export default function Digital() {
@@ -15,6 +17,17 @@ export default function Digital() {
 
   const products = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user);
+
+  // report
+  const [showForm, setShowForm] = useState(false);
+  const [reason, setReason] = useState('Sản phẩm có vấn đề');
+
+  // thong bao
+  const [toast, setToast] = useState(null);
+  const showToast = (type, title, message, duration = 3000) => {
+    setToast({ type, title, message, duration });
+  };
+
   // Tìm sản phẩm theo id
   const productitem = useMemo(() => {
     return products.find((item) => item._id === id);
@@ -51,8 +64,8 @@ export default function Digital() {
     fetchSeller();
   }, [productitem]); // chỉ cần theo dõi productitem
 
-  console.log("User ID:", productitem?._iduser);
-  console.log("seller:", seller?.name);
+  // console.log("User ID:", productitem?._iduser);
+  // console.log("seller:", seller?.name);
 
   const thumbnails =
     productitem?.images?.map(
@@ -360,11 +373,41 @@ export default function Digital() {
       alert("Có lỗi xảy ra thêm sản phẩm");
     }
   };
-  console.log("user.id:", user.id);
-  console.log("user.access_token:", user.access_token);
+  // console.log("user.id:", user.id);
+  // console.log("user.access_token:", user.access_token);
+
+
+  const submitReport = async () => {
+    try {
+      const data = {
+      senderId: user.id,
+      "title": "Báo cáo sản phẩm",
+      message: reason,
+      productId: productitem._id
+      }
+      const res = await NotificationService.createNotify(data, user.access_token)
+      if(res.status === 'OK') {
+        showToast("success", "Thành công", res?.message || "Báo cáo thành công!");
+      } else {
+        showToast("error", "Thất bại", res?.message || "Gửi báo cáo thất bại.");
+      }
+    } catch (error) {
+      console.error("Lỗi gửi báo cáo:", error);
+      showToast("error", "Lỗi hệ thống", "Không thể gửi báo cáo lúc này.");
+    }
+  }
 
   return (
     <div className={cx("page-container")}>
+      {toast && (
+        <ToastMessage
+          type={toast.type}
+          title={toast.title}
+          message={toast.message}
+          duration={toast.duration}
+          onClose={() => setToast(null)}
+        />
+      )}
       <main className={cx("main-content")}>
         <div className={cx("layout-container")}>
           {/* Left panel */}
@@ -455,8 +498,19 @@ export default function Digital() {
                 </div>
               </div>
               <div className={cx("seller-actions")}>
-                <button className={cx("btn-outline")}>Report</button>
+                <button className={cx("btn-outline")} onClick={() => setShowForm(true)}>Report</button>
               </div>
+              {showForm && (
+                <div className={cx('report-form')}>
+                  <select onChange={(e) => setReason(e.target.value)} defaultValue="Sản phẩm có vấn đề">
+                    <option value="" disabled>Chọn lý do</option>
+                    <option value="Thông tin không đúng">Thông tin không đúng</option>
+                    <option value="Lừa đảo">Lừa đảo</option>
+                    <option value="Vi phạm chính sách">Vi phạm chính sách</option>
+                  </select>
+                  <button onClick={submitReport}>Gửi</button>
+                </div>
+              )}
             </section>
             <section className={cx("auction-section")}>
               <h3 className={cx("section-title")}>Đấu giá</h3>

@@ -15,7 +15,7 @@
   align-items: center;
   cursor: default;
 
-  .avatar-wrapper{
+  .avatar-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -162,4 +162,28 @@ input {
   right: 16px;
   bottom: 20%;
   cursor: pointer;
+}
+
+/* tablet */
+@media (max-width: 1023px) {
+  .form-footer {
+    button {
+      width: 100%;
+    }
+  }
+}
+
+/* mobile */
+@media (max-width: 739px) {
+  .profile-header {
+    .info h2 {
+      font-size: 2.6rem;
+    }
+    .avatar-wrapper {
+
+      .avatar-change {
+        padding: 4px 4px;
+      }
+    }
+  }
 }
