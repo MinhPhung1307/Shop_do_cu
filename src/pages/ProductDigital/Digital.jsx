@@ -8,8 +8,11 @@ import * as ProductService from "../../services/ProductService";
 import * as UserService from "../../services/UserService";
 import * as NotificationService from "../../services/NotificationService";
 import ToastMessage from "../../components/Message/Message";
-const cx = classNames.bind(styles);
+import Image from "../../components/Image/Image";
+import imagesAdmin from "../../assets/images/admin";
+import images from "../../assets/images";
 
+const cx = classNames.bind(styles);
 export default function Digital() {
   const navigate = useNavigate();
   const params = useParams();
@@ -551,14 +554,16 @@ export default function Digital() {
             <section className={cx("seller-info")}>
               <h2 className={cx("section-title")}>Thông tin người bán</h2>
               <div className={cx("seller-details")}>
-                <img
-                  src={
-                    seller?.avatar ||
-                    "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/118441977edc639baf728fd892d500b3~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=7319bc57&x-expires=1750863600&x-signature=8hxF5yn865Du7TTQZzXT0Vvj4AE%3D&t=4d5b0474&ps=13740610&shp=30310797&shcp=c1333099&idc=my"
-                  }
-                  alt="Avatar"
-                  className={cx("seller-avatar")}
-                />
+                <Image
+                    src={
+                      user?.isAdmin
+                        ? imagesAdmin.avatar
+                        : user?.avatar || images.avatar
+                    }
+                    className={cx("seller-avatar")}
+                    alt={user.name}
+                    fallback={images.avatar}
+                  />
                 <div className={cx("seller-text")}>
                   <p className={cx("seller-name")}>{seller?.name}</p>
                 </div>
@@ -566,7 +571,7 @@ export default function Digital() {
               <div className={cx("seller-actions")}>
                 <button
                   className={cx("btn-outline")}
-                  onClick={() => setShowForm(true)}
+                  onClick={() => setShowForm(!showForm)}
                 >
                   Report
                 </button>
