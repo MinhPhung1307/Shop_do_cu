@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import ProductItem from "../../components/ProductItemComponent/ProductItem";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import styles from "./OrderPage.module.scss";
+import classNames from "classnames/bind";
 
+const cx = classNames.bind(styles);
 const OrderPage = () => {
   const [products, setProducts] = useState([]);
   const [boughtProducts, setBoughtProducts] = useState([]);
@@ -33,7 +36,7 @@ const OrderPage = () => {
   const handleCancelOrder = (productId) => {
     axios
       .put(`http://localhost:3001/api/product/cancel-bid/${productId}`, {
-        userId: user.id,
+        userId: user.id, // dùng _id nếu backend lưu như vậy
       })
       .then(() => {
         // Cập nhật lại danh sách sản phẩm
@@ -57,7 +60,7 @@ const OrderPage = () => {
     .filter(Boolean);
 
   return (
-    <div>
+    <div className={cx("list__products")}>
       {userProducts.map((item) => (
         <ProductItem
           key={item._id}

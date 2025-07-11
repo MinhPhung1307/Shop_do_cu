@@ -1,0 +1,9 @@
+html,
+body {
+  height: 100%;
+}
+
+.list__products {
+  min-height: calc(100vh - 74px - 50px - 300px);
+  padding: 20px 0;
+}
