@@ -148,18 +148,20 @@ const HeaderComponent = () => {
       ? notifications.map((notif) => ({
           // Thay vì chỉ truyền string, bây giờ truyền nguyên một React node
           title: (
-            <div
-              className={cx("notification-item", { unread: !notif.read })}
-              onClick={() => {
-                handleMarkNotificationAsRead(notif._id);
-                if (notif.productId) navigate(`/digital/${notif.productId}`);
-              }}
-            >
-              <h4 className={cx("notification-title")}>{notif.title}</h4>
-              <p className={cx("notification-message")}>{notif.message}</p>
-              <span className={cx("notification-time")}>
-                {new Date(notif.createdAt).toLocaleString()}
-              </span>
+            <div className={cx("notification-wrapper")}>
+              <div
+                className={cx("notification-item", { unread: !notif.read })}
+                onClick={() => {
+                  handleMarkNotificationAsRead(notif._id);
+                  if (notif.productId) navigate(`/digital/${notif.productId}`);
+                }}
+              >
+                <h4 className={cx("notification-title")}>{notif.title}</h4>
+                <p className={cx("notification-message")}>{notif.message}</p>
+                <span className={cx("notification-time")}>
+                  {new Date(notif.createdAt).toLocaleString()}
+                </span>
+              </div>
             </div>
           ),
           // callback vẫn cần để Menu biết có thể click
@@ -305,6 +307,7 @@ const HeaderComponent = () => {
             <Menu
               items={NOTIFICATION_MENU_ITEMS}
               onChange={handleMarkNotificationAsRead}
+              className={cx("notification-menu-list")}
             >
               <div className={cx("notification-bell")}>
                 <i className="fa-solid fa-bell"></i>
@@ -336,17 +339,20 @@ const HeaderComponent = () => {
           </a>
         </div>
 
-        {!isMobile && 
+        {!isMobile && (
           <label htmlFor="header-2__nav-input" className={cx("controll")}>
             <div className={cx("navigation", "title-item")}>Phân loại</div>
           </label>
-        }
+        )}
 
-        {isMobile && 
-          <label htmlFor="header-2__nav-input" className={cx("controll", "icon-bars")}>
+        {isMobile && (
+          <label
+            htmlFor="header-2__nav-input"
+            className={cx("controll", "icon-bars")}
+          >
             <i class="fa-solid fa-bars"></i>
           </label>
-        }
+        )}
 
         <a onClick={() => navigate("/cartpage")} className={cx("title-item")}>
           <div className={cx("header-2_icon")}>
