@@ -70,13 +70,33 @@
   color: #fff;
 }
 
+/* tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+  .search {
+    width: 300px;
+    height: 36px;
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 0;
+    width: 40px;
+  }
+}
+
 /* mobile */
 @media (max-width: 739px) {
   .search-wrapper {
     margin-left: 12px;
   }
   .search {
-    width: 280px;
+    width: 246px;
     height: 36px;
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 0;
+    width: 40px;
   }
 }
