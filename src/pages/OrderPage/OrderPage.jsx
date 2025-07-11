@@ -33,7 +33,7 @@ const OrderPage = () => {
   const handleCancelOrder = (productId) => {
     axios
       .put(`http://localhost:3001/api/product/cancel-bid/${productId}`, {
-        userId: user.id, // dùng _id nếu backend lưu như vậy
+        userId: user.id,
       })
       .then(() => {
         // Cập nhật lại danh sách sản phẩm
