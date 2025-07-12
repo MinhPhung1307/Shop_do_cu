@@ -58,15 +58,19 @@ export default function UserProfile() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData((prev) => ({
-        ...prev,
-        image: imageUrl,
-      }));
-      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({
+          ...prev,
+          image: reader.result, // base64 string
+        }));
+        console.log(formData.avatar)
+        setSelectedFile(file);
+      };
+      reader.readAsDataURL(file);
     }
   };
-
+  
   const handleUpdateUser = async () => {
     const res = await UserService.updateUser(user.id, formData, user.access_token);
     handleGetDetailsUser(user?.id, user?.access_token);
@@ -104,14 +108,12 @@ export default function UserProfile() {
 
       <div className={cx("profile-header")}>
         <div className={cx("avatar-wrapper")}>
-          <Image className={cx("avatar")} 
-            src={
-              user?.isAdmin
+          <img
+            className={cx("avatar")}
+            src={user?.isAdmin
                 ? imagesAdmin.avatar
-                : user?.avatar || images.avatar
-            } 
+                : formData?.image || images.avatar}
             alt={user.name}
-            fallback={images.avatar}
           />
           <div className={cx("avatar-change")} onClick={() => fileInputRef.current?.click?.()}>Chọn ảnh</div>
           <input

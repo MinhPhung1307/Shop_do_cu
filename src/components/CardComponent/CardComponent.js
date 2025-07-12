@@ -215,7 +215,7 @@ const CardComponent = ({ product, onClick }) => {
   // Chuẩn bị URL hình ảnh, an toàn hơn với optional chaining và kiểm tra mảng rỗng
   const productImageUrl =
     images && images.length > 0
-      ? `http://localhost:3001/${images[0].replace(/\\/g, "/")}`
+      ? `https://shop-do-cu-be-ttkw.onrender.com/${images[0].replace(/\\/g, "/")}`
       : "";
 
   // Render UI của Product Card
