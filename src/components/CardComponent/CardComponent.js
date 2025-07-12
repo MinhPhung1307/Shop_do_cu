@@ -56,7 +56,6 @@ const ProductImage = styled.img`
   }
 `;
 
-
 const ProductName = styled.h3`
   font-size: 20px;
   margin: 10px 0;
@@ -90,7 +89,6 @@ const CountdownText = styled.p`
     font-size: 12px;
   }
 `;
-
 
 const CardComponent = ({ product, onClick }) => {
   // Destructure các thuộc tính của sản phẩm để dễ dàng truy cập
