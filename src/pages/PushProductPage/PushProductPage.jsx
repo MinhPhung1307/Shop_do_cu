@@ -121,7 +121,7 @@ export default function PushProductPage() {
         setAlert({ type: "error", message: "Xóa thất bại!" });
       }
     } catch (error) {
-      console.error("Lỗi xoá sản phẩm:", error);
+      console.error("Lỗi xoá sản phẩm:", id);
       setAlert({ type: "error", message: "Đã xảy ra lỗi" });
     }
   };
@@ -278,23 +278,18 @@ export default function PushProductPage() {
           <div className={cx("section__content")}>
             <div>
               {products && products.length > 0 ? (
-                [...products]
-                  .reverse()
-                  .map((item) =>
-                    String(item._iduser) === String(id) ? (
-                      <ProductItem
-                        key={item._id}
-                        IMG={`http://localhost:3001/${item.images[0].replace(
-                          /\\/g,
-                          "/"
-                        )}`}
-                        NAME={item.name}
-                        PRICE={item.price}
-                        STATUS={item.status}
-                        onCancel={() => handleCancelOrder(item._id)}
-                      />
-                    ) : null
-                  )
+                [...products].reverse().map((item) =>
+                  String(item._iduser) === String(id) ? (
+                    // Trong phần render sản phẩm
+                    <ProductItem
+                      IMG={item.images[0]} // Có thể là full URL hoặc public_id
+                      NAME={item.name}
+                      PRICE={item.price}
+                      STATUS={item.status}
+                      onCancel={() => handleCancelOrder(item._id)}
+                    />
+                  ) : null
+                )
               ) : (
                 <div>Chưa có sản phẩm nào.</div>
               )}
