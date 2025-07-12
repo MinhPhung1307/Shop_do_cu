@@ -13,33 +13,10 @@ const STATUS_MAP = {
 const ProductItem = ({ IMG, NAME, PRICE, STATUS, onCancel }) => {
   const { show, label, btnClass } = STATUS_MAP[STATUS] || {};
 
-  // Hàm xử lý URL ảnh từ Cloudinary
-  const getImageUrl = (url) => {
-    console.log("Original image URL:", url);
-    if (!url) return;
-
-    // Nếu URL đã là full URL Cloudinary
-    if (url.startsWith("http")) return url;
-
-    // Nếu URL là path từ Cloudinary (trường hợp lưu không đầy đủ)
-    return `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${url}`;
-  };
-
   return (
     <div className={cx("Product-Item")}>
-      {/* 1. Ảnh với xử lý URL linh hoạt */}
-      <div className={cx("Product-Image-Container")}>
-        <img
-          src={getImageUrl(IMG)}
-          alt={NAME}
-          onError={(e) => {
-            e.target.src = "/default-image.jpg";
-            e.target.onerror = null; // Ngăn chặn lỗi lặp vô hạn
-          }}
-          className={cx("Product-Image")}
-          loading="lazy" // Tối ưu tải ảnh
-        />
-      </div>
+      {/* 1. Ảnh */}
+      <img src={IMG} alt={NAME} className={cx("Product-Image")} />
 
       {/* 2. Thông tin: tên, giá, trạng thái */}
       <div className={cx("Product-Info")}>
@@ -55,11 +32,7 @@ const ProductItem = ({ IMG, NAME, PRICE, STATUS, onCancel }) => {
 
       {/* 3. Button hành động */}
       {label && (
-        <button
-          className={cx("Product-Button", btnClass)}
-          onClick={onCancel}
-          aria-label={label}
-        >
+        <button className={cx("Product-Button", btnClass)} onClick={onCancel}>
           {label}
         </button>
       )}

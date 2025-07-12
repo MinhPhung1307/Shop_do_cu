@@ -210,33 +210,16 @@ const CardComponent = ({ product, onClick }) => {
   }, [effectiveAuctionEndTime, countdownColor]); // Dependency array: useEffect này sẽ chạy lại khi effectiveAuctionEndTime hoặc countdownColor thay đổi.
   // effectiveAuctionEndTime thay đổi khi product.auctionEndTime thay đổi từ parent.
 
-  // Hàm xử lý URL ảnh từ Cloudinary
-  const getImageUrl = (image) => {
-    if (!image) return "/default-product.jpg";
-
-    // Nếu image là object (Cloudinary)
-    if (typeof image === "object" && image.url) {
-      return image.url.startsWith("http")
-        ? image.url
-        : `https://res.cloudinary.com/dpym64zg9/image/upload/${image.url}`;
-    }
-
-    // Nếu image là string
-    if (typeof image === "string") {
-      return image.startsWith("http")
-        ? image
-        : `https://res.cloudinary.com/dpym64zg9/image/upload/${image}`;
-    }
-
-    return "/default-product.jpg";
-  };
-
-  // Sử dụng:
+  // Chuẩn bị URL hình ảnh, an toàn hơn với optional chaining và kiểm tra mảng rỗng
+  const productImageUrl =
+    images && images.length > 0
+      ? `http://localhost:3001/${images[0].replace(/\\/g, "/")}`
+      : "";
 
   // Render UI của Product Card
   return (
     <ProductCard onClick={onClick}>
-      <ProductImage src={getImageUrl(images?.[0])} />;
+      <ProductImage src={productImageUrl} alt={name} />{" "}
       {/* Sử dụng name từ product */}
       <ProductName>{name}</ProductName> {/* Sử dụng name từ product */}
       <ProductPrice>
