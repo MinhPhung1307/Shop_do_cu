@@ -64,13 +64,12 @@ export default function UserProfile() {
           ...prev,
           image: reader.result, // base64 string
         }));
-        console.log(formData.avatar)
         setSelectedFile(file);
       };
       reader.readAsDataURL(file);
     }
   };
-  
+
   const handleUpdateUser = async () => {
     const res = await UserService.updateUser(user.id, formData, user.access_token);
     handleGetDetailsUser(user?.id, user?.access_token);
